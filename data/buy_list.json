@@ -1,157 +1,183 @@
 [
 {
 "group": "Aircraft",
-"name": "MN5008 KV340 lift motor",
-"qty": 4,
-"unit": 89.99,
-"line": 359.96,
-"duty": 149.38,
-"store": "UnmannedRC",
-"link": "https://unmannedrc.com/products/mn5008-antigravity-type-6-12s-uav-motor",
-"note": "[V] 11-10; HTS 8501.31.40 4 % + 25 % + 12.5 %"
-},
-{
-"group": "Aircraft",
-"name": "P18x6.1 prop pair",
-"qty": 2,
-"unit": 82.9,
-"line": 165.8,
-"duty": 62.18,
-"store": "UnmannedRC",
-"link": "https://unmannedrc.com/products/polish-p18-6-1-prop-2pcs-pair",
-"note": "[V] 11-10; 8807.10.00"
-},
-{
-"group": "Aircraft",
-"name": "AT3520 KV550 pusher motor",
-"qty": 1,
-"unit": 79.99,
-"line": 79.99,
-"duty": 33.2,
-"store": "UnmannedRC",
-"link": "https://unmannedrc.com/products/at3520-long-shaft-fixed-wing-uav-motor-kv550-kv720-kv850",
-"note": "[V]"
-},
-{
-"group": "Aircraft",
-"name": "ALPHA 40A 6S ESC (US stock)",
-"qty": 5,
-"unit": 92,
-"line": 460,
-"duty": 0,
-"store": "United UAV",
-"link": "https://store.uniteduav.com/products/alpha-40a-6s",
-"note": "[V] 11-10; US → no duty"
-},
-{
-"group": "Aircraft",
-"name": "Pusher prop APC 12x6E",
-"qty": 1,
-"unit": 12,
-"line": 12,
-"duty": 0,
-"store": "APC",
-"link": "https://www.apcprop.com/product/12x6e/",
-"note": "[A]"
-},
-{
-"group": "Aircraft",
-"name": "KST X10 V2 servo",
-"qty": 4,
-"unit": 45,
-"line": 180,
-"duty": 0,
-"store": "Boomerang RC Jets",
-"link": "https://www.boomerangrcjets.com/products/kst-x10-v2-wing-servo",
-"note": "[V] 11-10"
-},
-{
-"group": "Aircraft",
-"name": "Servo regulator ≥ 5 A (Castle CC BEC 2.0)",
-"qty": 1,
-"unit": 39.99,
-"line": 39.99,
-"duty": 0.0,
-"store": "Key City Hobby",
-"link": "https://keycityhobby.com/products/castle-010-0154-00",
-"note": "[V] out of stock 11-10"
-},
-{
-"group": "Aircraft",
-"name": "Ruko R111S Remote ID",
-"qty": 1,
-"unit": 39.99,
-"line": 39.99,
-"duty": 0.0,
-"store": "Ruko",
-"link": "https://www.ruko.net/products/ruko-r111-remote-id-module",
-"note": "[V]"
-},
-{
-"group": "Aircraft",
-"name": "Pixhawk 6C (plastic) + PM07 bundle",
-"qty": 1,
-"unit": 242.99,
-"line": 242.99,
-"duty": 60.75,
-"store": "Holybro",
-"link": "https://holybro.com/products/pixhawk-6c",
-"note": "[V] Holybro 11-19; ships from China: duty rate [A]"
-},
-{
-"group": "Aircraft",
-"name": "Holybro M10 GPS",
-"qty": 1,
-"unit": 43.99,
-"line": 43.99,
-"duty": 11.0,
-"store": "Holybro M10 GPS",
-"link": "https://holybro.com/products/m10-gps",
-"note": "[V] Holybro 11-19; duty [A]"
-},
-{
-"group": "Aircraft",
-"name": "Holybro MS5525DSO airspeed + PT40",
-"qty": 1,
-"unit": 59.99,
-"line": 59.99,
-"duty": 15.0,
-"store": "Holybro",
-"link": "https://holybro.com/products/digital-air-speed-sensor-standard",
-"note": "[V] Holybro 11-19; duty [A]"
-},
-{
-"group": "Aircraft",
-"name": "Holybro SiK V3 915 MHz pair",
-"qty": 1,
-"unit": 58.99,
-"line": 58.99,
-"duty": 14.75,
-"store": "Holybro",
-"link": "https://holybro.com/products/sik-telemetry-radio-v3",
-"note": "[V] Holybro 11-19; duty [A]"
-},
-{
-"group": "Aircraft",
-"name": "RadioMaster RP2 V2 receiver",
-"qty": 1,
-"unit": 24.99,
-"line": 24.99,
-"duty": 0.0,
-"store": "RaceDayQuads",
-"link": "https://www.racedayquads.com/products/radiomaster-rp2-2-4ghz-elrs-nano-receiver-ceramic-antenna",
-"note": "[V] RaceDayQuads 11-19"
-},
-{
-"group": "Aircraft",
-"name": "Molicel P50B cells",
+"name": "Battery: 6S6P pack of Molicel P50B cells",
 "qty": 36,
 "unit": 8.99,
 "line": 323.64,
 "duty": 0.0,
 "store": "Liion Wholesale",
 "link": "https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor",
-"note": "[V] 10-31; qty = Battery_Options"
+"note": "Sheet 04, Battery_Options and Mission_Energy",
+"id": "battery"
+},
+{
+"group": "Aircraft",
+"name": "Servo regulator, 5–6 V, at least 5 A",
+"qty": 1,
+"unit": 39.99,
+"line": 39.99,
+"duty": 0.0,
+"store": "Key City Hobby",
+"link": "https://keycityhobby.com/products/castle-010-0154-00",
+"note": "Electronics sheet",
+"id": "servo_reg"
+},
+{
+"group": "Aircraft",
+"name": "Lift motor: T-Motor MN5008 KV340",
+"qty": 4,
+"unit": 89.99,
+"line": 359.96,
+"duty": 149.38,
+"store": "UnmannedRC",
+"link": "https://unmannedrc.com/products/mn5008-antigravity-type-6-12s-uav-motor",
+"note": "store.tmotor.com MN5008 test table (read 30 Oct); sheet 04 Lift_Hover",
+"id": "motor_lift"
+},
+{
+"group": "Aircraft",
+"name": "Lift propeller: T-Motor P18x6.1 (pair)",
+"qty": 2,
+"unit": 82.9,
+"line": 165.8,
+"duty": 62.18,
+"store": "UnmannedRC",
+"link": "https://unmannedrc.com/products/polish-p18-6-1-prop-2pcs-pair",
+"note": "T-Motor test table",
+"id": "prop_lift"
+},
+{
+"group": "Aircraft",
+"name": "Speed controller: T-Motor ALPHA 40A 6S",
+"qty": 4,
+"unit": 92,
+"line": 368,
+"duty": 0,
+"store": "United UAV",
+"link": "https://store.uniteduav.com/products/alpha-40a-6s",
+"note": "Electronics sheet; T-Motor table",
+"id": "esc_lift"
+},
+{
+"group": "Aircraft",
+"name": "Pusher motor: T-Motor AT3520 KV550",
+"qty": 1,
+"unit": 79.99,
+"line": 79.99,
+"duty": 33.2,
+"store": "UnmannedRC",
+"link": "https://unmannedrc.com/products/at3520-long-shaft-fixed-wing-uav-motor-kv550-kv720-kv850",
+"note": "store.tmotor.com AT3520 test table (read 17 Nov); sheet 04 Pusher",
+"id": "motor_pusher"
+},
+{
+"group": "Aircraft",
+"name": "Pusher propeller: APC 12x6E",
+"qty": 1,
+"unit": 12,
+"line": 12,
+"duty": 0,
+"store": "APC",
+"link": "https://www.apcprop.com/product/12x6e/",
+"note": "CAD; Pusher sheet",
+"id": "prop_pusher"
+},
+{
+"group": "Aircraft",
+"name": "Pusher speed controller: ALPHA 40A 6S",
+"qty": 1,
+"unit": 92,
+"line": 92,
+"duty": 0,
+"store": "United UAV",
+"link": "https://store.uniteduav.com/products/alpha-40a-6s",
+"note": "AT3520 table",
+"id": "esc_pusher"
+},
+{
+"group": "Aircraft",
+"name": "Flight controller: Holybro Pixhawk 6C (plastic case), bought with the PM07",
+"qty": 1,
+"unit": 242.99,
+"line": 242.99,
+"duty": 60.75,
+"store": "Holybro",
+"link": "https://holybro.com/products/pixhawk-6c",
+"note": "Holybro store, read 19 Nov",
+"id": "pixhawk"
+},
+{
+"group": "Aircraft",
+"name": "GPS and compass: Holybro M10",
+"qty": 1,
+"unit": 43.99,
+"line": 43.99,
+"duty": 11.0,
+"store": "Holybro M10 GPS",
+"link": "https://holybro.com/products/m10-gps",
+"note": "Holybro store, read 19 Nov",
+"id": "gnss"
+},
+{
+"group": "Aircraft",
+"name": "Airspeed sensor: Holybro MS5525DSO with PT40 pitot tube",
+"qty": 1,
+"unit": 59.99,
+"line": 59.99,
+"duty": 15.0,
+"store": "Holybro",
+"link": "https://holybro.com/products/digital-air-speed-sensor-standard",
+"note": "Holybro store, read 19 Nov",
+"id": "airspeed"
+},
+{
+"group": "Aircraft",
+"name": "Telemetry radios: Holybro SiK V3 915 MHz (pair)",
+"qty": 1,
+"unit": 58.99,
+"line": 58.99,
+"duty": 14.75,
+"store": "Holybro",
+"link": "https://holybro.com/products/sik-telemetry-radio-v3",
+"note": "Holybro store, read 19 Nov",
+"id": "telemetry"
+},
+{
+"group": "Aircraft",
+"name": "RC receiver: RadioMaster RP2 V2 (ExpressLRS)",
+"qty": 1,
+"unit": 24.99,
+"line": 24.99,
+"duty": 0.0,
+"store": "RaceDayQuads",
+"link": "https://www.racedayquads.com/products/radiomaster-rp2-2-4ghz-elrs-nano-receiver-ceramic-antenna",
+"note": "RaceDayQuads page, read 19 Nov",
+"id": "rc_rx"
+},
+{
+"group": "Aircraft",
+"name": "Remote ID: Ruko R111S",
+"qty": 1,
+"unit": 39.99,
+"line": 39.99,
+"duty": 0.0,
+"store": "Ruko",
+"link": "https://www.ruko.net/products/ruko-r111-remote-id-module",
+"note": "FAA declarations list (read 31 Oct)",
+"id": "remote_id"
+},
+{
+"group": "Aircraft",
+"name": "Servo: KST X10 V2",
+"qty": 4,
+"unit": 45,
+"line": 180,
+"duty": 0,
+"store": "Boomerang RC Jets",
+"link": "https://www.boomerangrcjets.com/products/kst-x10-v2-wing-servo",
+"note": "Structure_Stability sheet (servo check)",
+"id": "servos"
 },
 {
 "group": "Aircraft",
@@ -162,7 +188,8 @@
 "duty": 0.0,
 "store": "any",
 "link": "",
-"note": "[A]; spot welder needed (club or lab?)"
+"note": "[A]; spot welder needed (club or lab?)",
+"id": "pack_bms"
 },
 {
 "group": "Aircraft",
@@ -173,7 +200,8 @@
 "duty": 73.88,
 "store": "HaoZhong",
 "link": "https://carbonfibertubes.net",
-"note": "[V 10-30 cart]; 6815.13.00"
+"note": "[V 10-30 cart]; 6815.13.00",
+"id": "tubes_main"
 },
 {
 "group": "Aircraft",
@@ -184,7 +212,8 @@
 "duty": 7.37,
 "store": "HaoZhong",
 "link": "https://carbonfibertubes.net",
-"note": "[V 11-02]"
+"note": "[V 11-02]",
+"id": "tubes_extra"
 },
 {
 "group": "Aircraft",
@@ -195,7 +224,8 @@
 "duty": 4.12,
 "store": "HaoZhong",
 "link": "https://carbonfibertubes.net/products/carbon-fiber-solid-rod-diameter-1-20mm-x-length-500mm",
-"note": "[V 11-02]"
+"note": "[V 11-02]",
+"id": "rods_3mm"
 },
 {
 "group": "Aircraft",
@@ -206,7 +236,8 @@
 "duty": 24.38,
 "store": "HaoZhong",
 "link": "https://carbonfibertubes.net/products/3k-carbon-fiber-plate-200x300mm-100-pure-carbon-board-carbon-fiber-material-for-rc-uav-toys",
-"note": "[A] 2 mm 200x300 = $31.90 [V]"
+"note": "[A] 2 mm 200x300 = $31.90 [V]",
+"id": "carbon_plates"
 },
 {
 "group": "Aircraft",
@@ -217,7 +248,8 @@
 "duty": 0.0,
 "store": "RaceDayQuads",
 "link": "https://www.racedayquads.com/products/lumenier-silicone-wire-6-roll-build-kit-power-pack",
-"note": "[V]"
+"note": "[V]",
+"id": "wire_pack"
 },
 {
 "group": "Aircraft",
@@ -228,7 +260,8 @@
 "duty": 0.0,
 "store": "RaceDayQuads",
 "link": "https://www.racedayquads.com/products/amass-xt90h-connector-1pc-choose-version",
-"note": "[V]"
+"note": "[V]",
+"id": "xt90"
 },
 {
 "group": "Aircraft",
@@ -239,7 +272,8 @@
 "duty": 0.0,
 "store": "ReadyMadeRC",
 "link": "https://www.readymaderc.com/collections/airplanes/electronics/servo-extensions",
-"note": "[S]"
+"note": "[S]",
+"id": "servo_ext"
 },
 {
 "group": "Aircraft",
@@ -250,7 +284,8 @@
 "duty": 0.0,
 "store": "RaceDayQuads",
 "link": "",
-"note": "[V 10-30, mini_wiring]"
+"note": "[V 10-30, mini_wiring]",
+"id": "bullets"
 },
 {
 "group": "Aircraft",
@@ -261,7 +296,8 @@
 "duty": 0.0,
 "store": "RaceDayQuads",
 "link": "",
-"note": "[V 10-30]"
+"note": "[V 10-30]",
+"id": "heat_shrink"
 },
 {
 "group": "Aircraft",
@@ -272,7 +308,8 @@
 "duty": 0.0,
 "store": "any hobby store",
 "link": "",
-"note": "[A] see Connectors_Wiring"
+"note": "[A] see Connectors_Wiring",
+"id": "xt60"
 },
 {
 "group": "Aircraft",
@@ -283,7 +320,8 @@
 "duty": 0.0,
 "store": "any hobby store",
 "link": "",
-"note": "[A]"
+"note": "[A]",
+"id": "xt30"
 },
 {
 "group": "Aircraft",
@@ -294,7 +332,8 @@
 "duty": 0.0,
 "store": "any hobby store",
 "link": "",
-"note": "[A]"
+"note": "[A]",
+"id": "balance_lead"
 },
 {
 "group": "Aircraft",
@@ -305,7 +344,8 @@
 "duty": 0.0,
 "store": "iNsightFPV",
 "link": "",
-"note": "[S]"
+"note": "[S]",
+"id": "jst_gh"
 },
 {
 "group": "Aircraft",
@@ -316,7 +356,8 @@
 "duty": 0.0,
 "store": "any",
 "link": "",
-"note": "[A]"
+"note": "[A]",
+"id": "solder"
 },
 {
 "group": "Aircraft",
@@ -325,9 +366,10 @@
 "unit": 37.5,
 "line": 0.0,
 "duty": 0.0,
-"store": "colorFabb US (OWNED)",
+"store": "colorFabb US",
 "link": "https://colorfabb.us/lw-asa-naturel-1-75-650",
-"note": "[V]; user says already owned → set Qty 0"
+"note": "[V]; user says already owned → set Qty 0; already ours (order: have it)",
+"id": "lw_asa"
 },
 {
 "group": "Aircraft",
@@ -338,7 +380,8 @@
 "duty": 0.0,
 "store": "HartSmart",
 "link": "https://hartsmartproducts.com/products/bambu-petg-cf",
-"note": "[V] 11-10"
+"note": "[V] 11-10",
+"id": "petg_cf"
 },
 {
 "group": "Aircraft",
@@ -349,7 +392,8 @@
 "duty": 0.0,
 "store": "any",
 "link": "",
-"note": "[A] club leftovers first"
+"note": "[A] club leftovers first",
+"id": "small_spools"
 },
 {
 "group": "Aircraft",
@@ -360,7 +404,8 @@
 "duty": 0.0,
 "store": "CNC Kitchen",
 "link": "",
-"note": "[V 10-24]"
+"note": "[V 10-24]",
+"id": "m5_inserts"
 },
 {
 "group": "Aircraft",
@@ -371,7 +416,8 @@
 "duty": 0.0,
 "store": "hardware store",
 "link": "",
-"note": "[A] check club/lab stock"
+"note": "[A] check club/lab stock",
+"id": "hardware"
 },
 {
 "group": "Aircraft",
@@ -382,7 +428,8 @@
 "duty": 0.0,
 "store": "Prusa",
 "link": "https://www.prusa3d.com/product/prusa-nozzle-obxidian-4/",
-"note": "[V]; only if no hardened nozzle"
+"note": "[V]; only if no hardened nozzle",
+"id": "nozzle"
 },
 {
 "group": "Shipping and fees",

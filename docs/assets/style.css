@@ -256,3 +256,21 @@ table.buy td .small{color:var(--quiet);font-size:12px}
 :has(> .loginpop){position:relative}
 .loginpop{position:absolute;left:0;top:calc(100% + 4px);z-index:30;margin:0}
 td.num .loginpop{left:auto;right:0}
+/* order board (drone page, under the 3D drone) */
+#order .ototals{display:flex;flex-wrap:wrap;gap:6px 26px;margin:4px 0 10px;font-size:14px}
+#order .ototals .big{font:700 22px/1.1 "Archivo";margin-right:4px}
+table.board tbody.grp tr.grp th{padding-top:16px;font:700 15px "Archivo";text-align:left}
+table.board .gcount{float:right;font:500 12px "Archivo";color:var(--quiet)}
+table.board td.st{white-space:nowrap;width:1%}
+table.board td.st .when{display:block;font-size:11px;color:var(--quiet);margin-top:2px}
+table.board td.pname{cursor:pointer}
+table.board tr[data-id]:hover td.pname{text-decoration:underline;text-underline-offset:3px}
+table.board tr.addrow td{padding:2px 8px 10px}
+table.board .addpart{font-size:13px;opacity:.85}
+table.board td.rm{width:1%}
+table.board .outpart{font-size:12px;color:var(--red)}
+table.board tr.removing{opacity:.45}
+table.board tr.newpart form.addform input{flex:1 1 110px}
+table.board tr.newpart form.addform input[name=name]{flex:2 1 220px}
+.ostate[data-order]{cursor:pointer}
+@media (max-width:640px){table.board td:nth-child(4),table.board th:nth-child(4),table.board td:nth-child(6),table.board th:nth-child(6){display:none}}

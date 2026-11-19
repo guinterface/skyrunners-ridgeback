@@ -128,10 +128,14 @@ function start() {
   document.getElementById('forget').onclick = () => { store.set('rb-token', null); store.set('rb-pass', null); try { sessionStorage.removeItem('rb-token'); } catch { } token = null; pass = null; stop(); };
   window.RB?.rerender?.();
   inputsMode(true); showUndo(true); decorate(document.body);
-  if (pending) { const el = document.querySelector(pending); pending = null; const t = el && target(el); if (t) { el.scrollIntoView({ block: 'center' }); openEditor(t); } }
+  if (pending) {
+    const el = document.querySelector(pending); pending = null;
+    if (el?.matches('.addpart')) { el.scrollIntoView({ block: 'center' }); addPartForm(el); }
+    else { const t = el && target(el); if (t) { el.scrollIntoView({ block: 'center' }); openEditor(t); } }
+  }
 }
 function stop() {
-  editing = false; fullFor = null; document.querySelectorAll('form.qedit').forEach(q => q.cancel()); document.querySelectorAll('.qhint, .addbtn, .loginpop').forEach(b => b.remove());
+  editing = false; fullFor = null; document.querySelectorAll('form.qedit').forEach(q => q.cancel()); document.querySelectorAll('.qhint, .addbtn, .loginpop, .outpart, tr.newpart').forEach(b => b.remove());
   btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Edit';
   document.body.classList.remove('editing'); bar.hidden = true;
   window.RB?.rerender?.();
@@ -250,6 +254,7 @@ function decorate(root) {
     root.insertAdjacentHTML('afterbegin', '<p class="qhint">Click ✎ or double-click a value to change it. <button type="button" class="plainbtn" data-full>Edit all fields at once</button></p>');
     root.querySelector('[data-full]').onclick = () => { fullFor = window.RB.current().id; window.RB.rerender(); };
   }
+  if (editing) root.querySelectorAll('table.board tr[data-id] td.rm').forEach(td => { if (!td.firstChild) td.innerHTML = '<button type="button" class="plainbtn outpart" title="Remove this part">remove</button>'; });
   root.querySelectorAll(EDITABLE).forEach(e => { if (!e.closest('form') && !e.querySelector(':scope > .pen')) e.insertAdjacentHTML('beforeend', PEN); });
   if (editing) root.querySelectorAll('[data-add]').forEach(p => {
     if (p.querySelector('.addbtn')) return;
@@ -276,10 +281,13 @@ function target(el) {
   return { kind: 'field', el: f, p, k: f.dataset.f };
 }
 document.addEventListener('click', e => {
+  if (e.target.closest('.loginpop')) return;               // the prompt's own buttons
+  const chipEl = e.target.closest('.ostate[data-order]');
   if (!editing) {
-    const b = e.target.closest('.pen'); if (!b) return;
+    const b = e.target.closest('.pen') || (chipEl && (chipEl.querySelector('.pen') || chipEl)); if (!b) return;
     e.preventDefault(); e.stopPropagation(); loginPrompt(b); return;
   }
+  if (chipEl && !e.target.closest('form')) { e.preventDefault(); e.stopPropagation(); const t = target(chipEl); if (t) openEditor(t); return; }
   const b = e.target.closest('.pen'), a = e.target.closest('[data-buy] a, [data-ref] a');
   if (!b && !a) return;
   e.preventDefault(); e.stopPropagation();                 // while editing, a click on a shop or paper link edits it instead of opening it
@@ -372,25 +380,94 @@ async function savePart(p, raw) {
   if (!sha) { say('Nothing changed.', 'ok'); return false; }
   p.raw = raw; follow(sha, raw.name); return true;
 }
-// ---------- orders (data/orders.toml): what we have ordered and what has arrived
+// ---------- orders: stored on each part in data/parts.toml (order, order_date, order_by)
 const OSTATE = { 'to order': 'To order', ordered: 'Ordered', arrived: 'Arrived', 'have it': 'Have it' };
-async function saveOrder(key, st) {
-  if (!/^[a-z0-9_]+$/.test(key)) throw new Error('bad item id');
-  const by = String(editor || '').replace(/[^\w .,'-]/g, '').slice(0, 40), date = new Date().toISOString().slice(0, 10);
-  const line = st === 'to order' ? '' : `${key} = { state = "${st}", date = "${date}", by = "${by}" }`;
-  const sha = await saveFile('data/orders.toml', t => {
-    const re = new RegExp(`^${key} = .*\n?`, 'm');
-    if (re.test(t)) return t.replace(re, line ? line + '\n' : '');
-    return line ? t.replace(/\n*$/, '\n') + line + '\n' : t;
-  }, `Mark ${key} ${st}`);
-  if (!sha) { say('Nothing changed.', 'ok'); return false; }
-  follow(sha, `${key.replace(/_/g, ' ')}: ${OSTATE[st].toLowerCase()}`); return true;
+let PJ = null;                                              // parts.json, for pages without the 3D drone (buy list)
+async function partById(id) {
+  const p = window.RB?.part?.(id); if (p) return p;
+  if (!PJ) PJ = Object.fromEntries((await (await fetch('assets/parts.json', { cache: 'no-store' })).json()).parts.map(q => [q.id, q]));
+  return PJ[id];
 }
+async function saveOrder(id, st) {
+  const p = await partById(id); if (!p) throw new Error('part not found: ' + id);
+  const raw = structuredClone(p.raw);
+  delete raw.order; delete raw.order_date; delete raw.order_by;
+  if (st !== 'to order') { raw.order = st; raw.order_date = new Date().toISOString().slice(0, 10); raw.order_by = String(editor || '').replace(/[^\w .,'-]/g, '').slice(0, 40); }
+  const sha = await saveFile('data/parts.toml', t => replacePart(t, raw), `Mark ${id} ${st}`);
+  if (!sha) { say('Nothing changed.', 'ok'); return false; }
+  p.raw = raw; follow(sha, `${p.name}: ${OSTATE[st].toLowerCase()}`); return true;
+}
+// ---------- add and take out parts (order board on the drone page)
+const slug = s => s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40) || 'part';
+function addPartForm(btn) {
+  const sys = btn.dataset.sys, tr = btn.closest('tr');
+  if (tr.previousElementSibling?.classList.contains('newpart')) return tr.previousElementSibling.querySelector('input').focus();
+  tr.insertAdjacentHTML('beforebegin', `<tr class="newpart"><td colspan="7"><form class="qedit multi addform">
+    <input name="name" placeholder="Part name, e.g. Spare ESC" aria-label="Part name" required>
+    <input name="qty" placeholder="Qty" aria-label="Quantity" value="1" inputmode="decimal" size="4">
+    <input name="price" placeholder="Price each, $" aria-label="Price each in US dollars" inputmode="decimal" size="8">
+    <input name="mass" placeholder="Mass each, g" aria-label="Mass each in grams" inputmode="decimal" size="8">
+    <input name="store" placeholder="Shop" aria-label="Shop name">
+    <input name="link" placeholder="https://… shop link" aria-label="Shop link">
+    <input name="status" placeholder="buy" value="buy" list="statusIdeas" aria-label="How we get it (buy, print, build)" size="8">
+    <span class="qbtns"><button type="submit" class="ok">Add part</button> <button type="button" class="plainbtn no">Cancel</button></span><span class="err" hidden></span></form></td></tr>`);
+  if (!document.getElementById('statusIdeas')) document.body.insertAdjacentHTML('beforeend', '<datalist id="statusIdeas"><option value="buy"><option value="print"><option value="build"><option value="print + buy tubes"><option value="reuse (we own it)"><option value="borrow"></datalist>');
+  const row = tr.previousElementSibling, form = row.querySelector('form'), err = form.querySelector('.err');
+  form.querySelector('[name=name]').focus();
+  form.querySelector('.no').onclick = () => row.remove();
+  form.addEventListener('keydown', e => { if (e.key === 'Escape') row.remove(); });
+  form.addEventListener('click', e => e.stopPropagation());
+  form.onsubmit = async e => {
+    e.preventDefault(); err.hidden = true;
+    const v = n => form.elements[n].value.trim(), num = n => Number(v(n).replace(/[$,]/g, '') || 0);
+    const fail = m => { err.textContent = m; err.hidden = false; };
+    if (!v('name')) return fail('The part needs a name.');
+    for (const n of ['qty', 'price', 'mass']) if (!Number.isFinite(num(n)) || num(n) < 0) return fail(`${n === 'qty' ? 'Quantity' : n === 'price' ? 'Price' : 'Mass'} must be a number.`);
+    if (v('link') && !/^https:\/\/\S+$/.test(v('link'))) return fail('The shop link must start with https://');
+    const raw = { id: '', name: v('name'), system: sys, qty: num('qty'), status: v('status') || 'buy', price: num('price'), mass: num('mass') };
+    if (v('link')) raw.buy = [{ store: v('store') || new URL(v('link')).hostname.replace(/^www\./, ''), link: v('link'), price: num('price') ? `$${num('price').toFixed(2)}` : '' }];
+    else { raw.buy = []; if (v('store')) raw.where = v('store'); }
+    Object.assign(raw, { job: '', why: '', source: `added on the website by ${String(editor || 'someone').replace(/[^\w .,'-]/g, '')}, ${new Date().toISOString().slice(0, 10)}`, connects: [], nodes: [] });
+    form.querySelectorAll('button').forEach(b => { b.disabled = true; }); form.querySelector('.ok').textContent = 'Adding…';
+    try {
+      const sha = await saveFile('data/parts.toml', t => {
+        const ids = new Set([...t.matchAll(/^id = "([^"]+)"/gm)].map(m => m[1]));
+        let id = slug(raw.name), k = 2; while (ids.has(id)) id = `${slug(raw.name)}_${k++}`;
+        raw.id = id;
+        return t.replace(/\n*$/, '\n\n') + partBlock(raw);
+      }, `Add ${slug(raw.name)}`);
+      row.innerHTML = `<td colspan="7">${esc(raw.name)} <span class="saving">added, updating the site…</span></td>`;
+      if (sha) follow(sha, raw.name);
+    } catch (x) { form.querySelectorAll('button').forEach(b => { b.disabled = false; }); form.querySelector('.ok').textContent = 'Add part'; fail('Could not save: ' + x.message.slice(0, 160)); }
+  };
+}
+async function takeOutPart(id, tr) {
+  const p = await partById(id);
+  if (!p || !confirm(`Remove “${p.name}” from the parts list?\n\nThe sheets, cost, mass and buy list update on the next rebuild. You can undo it under Files → Recent edits.`)) return;
+  tr.classList.add('removing');
+  try {
+    const sha = await saveFile('data/parts.toml', t => {
+      const blocks = t.split(/^(?=\[\[part\]\]\s*$)/m);
+      const i = blocks.findIndex(b => new RegExp(`^id = "${id}"\\s*$`, 'm').test(b));
+      if (i < 0) throw new Error('part not found in data/parts.toml');
+      blocks.splice(i, 1); return blocks.join('').replace(/\n{3,}/g, '\n\n');
+    }, `Remove ${id}`);
+    tr.querySelector('.pname').insertAdjacentHTML('beforeend', ' <span class="saving">removed, updating the site…</span>');
+    if (sha) follow(sha, `${p.name} (removed)`);
+  } catch (x) { tr.classList.remove('removing'); say('Could not remove: ' + esc(x.message.slice(0, 160)), 'bad'); }
+}
+document.addEventListener('click', e => {
+  const add = e.target.closest('.addpart'), out = e.target.closest('.outpart');
+  if (!add && !out) return;
+  e.preventDefault(); e.stopPropagation();
+  if (!editing) return loginPrompt(add || out);
+  if (add) addPartForm(add); else takeOutPart(out.closest('tr').dataset.id, out.closest('tr'));
+}, true);
 // buy page: show only some states
 document.querySelectorAll('.ofilter [data-show]').forEach(b => b.addEventListener('click', () => {
   const v = b.dataset.show;
   document.querySelectorAll('.ofilter [data-show]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-  document.querySelectorAll('table.buy tbody tr').forEach(tr => {
+  document.querySelectorAll('table.buy tbody tr, table.board tbody tr').forEach(tr => {
     const s = tr.querySelector('[data-order]')?.dataset.state.replace(' ', '-') || null;
     tr.hidden = v !== 'all' && !(s === v || (v === 'arrived' && s === 'have-it'));
   });
@@ -406,13 +483,15 @@ function selOf(f) {
 }
 function loginPrompt(pen) {
   document.querySelectorAll('.loginpop').forEach(x => x.remove());
-  const f = pen.closest(EDITABLE); if (!f) return;
-  pen.insertAdjacentHTML('afterend', '<span class="loginpop" role="status">Log in to edit. <button type="button" class="go">Log in</button> <button type="button" class="plainbtn no">Not now</button></span>');
-  const pop = pen.nextElementSibling;
+  const f = pen.closest(EDITABLE), btnSel = pen.matches('.addpart') ? `.addpart[data-sys="${CSS.escape(pen.dataset.sys)}"]` : null;
+  if (!f && !btnSel) return;
+  const anchor = f && f !== pen ? f : pen;                 // put the prompt beside the value, not inside it
+  anchor.insertAdjacentHTML('afterend', '<span class="loginpop" role="status">Log in to edit. <button type="button" class="go">Log in</button> <button type="button" class="plainbtn no">Not now</button></span>');
+  const pop = anchor.nextElementSibling;
   pop.addEventListener('click', e => e.stopPropagation());
   pop.querySelector('.no').onclick = () => pop.remove();
   pop.querySelector('.go').onclick = () => {
-    pending = selOf(f); pop.remove(); login();
+    pending = btnSel || selOf(f); pop.remove(); login();
     if (!editing) { bar.scrollIntoView({ block: 'center', behavior: 'smooth' }); setTimeout(() => document.getElementById('edName')?.focus({ preventScroll: true }), 400); }
   };
   pop.querySelector('.go').focus();

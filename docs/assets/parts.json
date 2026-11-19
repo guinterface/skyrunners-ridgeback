@@ -34,10 +34,13 @@
    "nodes": [
     "battery_6S6P_P50B"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 25,
+   "editLine": 28,
    "raw": {
     "id": "battery",
     "name": "Battery: 6S6P pack of Molicel P50B cells",
@@ -74,8 +77,9 @@
     ]
    },
    "order": {
-    "key": "molicel_p50b_cells",
+    "key": "battery",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    },
@@ -143,10 +147,13 @@
    "nodes": [
     "power_module_PM07"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 45,
+   "editLine": 48,
    "raw": {
     "id": "pm07",
     "order_with": "pixhawk",
@@ -195,8 +202,9 @@
     ]
    },
    "order": {
-    "key": "pixhawk_6c_plastic_pm07_bundle",
+    "key": "pm07",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    },
@@ -242,10 +250,13 @@
    "nodes": [
     "servo_regulator_PLACEHOLDER"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 65,
+   "editLine": 68,
    "raw": {
     "id": "servo_reg",
     "name": "Servo regulator, 5\u20136 V, at least 5 A",
@@ -280,8 +291,9 @@
     ]
    },
    "order": {
-    "key": "servo_regulator_5_a_castle_cc_bec_2_0",
+    "key": "servo_reg",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -293,6 +305,8 @@
    "qty": 4,
    "status": "buy",
    "price": 89.99,
+   "china": 1,
+   "duty": 0.415,
    "mass": 135,
    "size": "\u00d8 55.6 \u00d7 31 mm (T-Motor drawing)",
    "buy": [
@@ -332,10 +346,11 @@
     "motor_MN5008_2",
     "motor_MN5008_3"
    ],
+   "where": "",
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 83,
+   "editLine": 86,
    "raw": {
     "id": "motor_lift",
     "name": "Lift motor: T-Motor MN5008 KV340",
@@ -343,6 +358,8 @@
     "qty": 4,
     "status": "buy",
     "price": 89.99,
+    "china": 1,
+    "duty": 0.415,
     "mass": 135,
     "size": "\u00d8 55.6 \u00d7 31 mm (T-Motor drawing)",
     "buy": [
@@ -384,8 +401,9 @@
     ]
    },
    "order": {
-    "key": "mn5008_kv340_lift_motor",
+    "key": "motor_lift",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    },
@@ -410,6 +428,8 @@
    "qty": 2,
    "status": "buy",
    "price": 82.9,
+   "china": 1,
+   "duty": 0.375,
    "mass": 63,
    "size": "18 inch = 457 mm tip to tip",
    "buy": [
@@ -435,10 +455,11 @@
     "prop_P18_2",
     "prop_P18_3"
    ],
+   "where": "",
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 104,
+   "editLine": 109,
    "raw": {
     "id": "prop_lift",
     "name": "Lift propeller: T-Motor P18x6.1 (pair)",
@@ -446,6 +467,8 @@
     "qty": 2,
     "status": "buy",
     "price": 82.9,
+    "china": 1,
+    "duty": 0.375,
     "mass": 63,
     "size": "18 inch = 457 mm tip to tip",
     "buy": [
@@ -473,8 +496,9 @@
     ]
    },
    "order": {
-    "key": "p18x6_1_prop_pair",
+    "key": "prop_lift",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    },
@@ -533,10 +557,13 @@
     "esc_alpha40_2",
     "esc_alpha40_3"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 123,
+   "editLine": 130,
    "raw": {
     "id": "esc_lift",
     "name": "Speed controller: T-Motor ALPHA 40A 6S",
@@ -584,8 +611,9 @@
     ]
    },
    "order": {
-    "key": "alpha_40a_6s_esc_us_stock",
+    "key": "esc_lift",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    },
@@ -610,6 +638,8 @@
    "qty": 1,
    "status": "buy",
    "price": 79.99,
+   "china": 1,
+   "duty": 0.415,
    "mass": 218,
    "size": "\u00d8 42 \u00d7 52 mm with the long shaft",
    "buy": [
@@ -641,10 +671,11 @@
    "nodes": [
     "motor_pusher_AT3520"
    ],
+   "where": "",
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 143,
+   "editLine": 150,
    "raw": {
     "id": "motor_pusher",
     "name": "Pusher motor: T-Motor AT3520 KV550",
@@ -652,6 +683,8 @@
     "qty": 1,
     "status": "buy",
     "price": 79.99,
+    "china": 1,
+    "duty": 0.415,
     "mass": 218,
     "size": "\u00d8 42 \u00d7 52 mm with the long shaft",
     "buy": [
@@ -685,8 +718,9 @@
     ]
    },
    "order": {
-    "key": "at3520_kv550_pusher_motor",
+    "key": "motor_pusher",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    },
@@ -733,10 +767,13 @@
    "nodes": [
     "prop_pusher_12x6E"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 163,
+   "editLine": 172,
    "raw": {
     "id": "prop_pusher",
     "name": "Pusher propeller: APC 12x6E",
@@ -768,8 +805,9 @@
     ]
    },
    "order": {
-    "key": "pusher_prop_apc_12x6e",
+    "key": "prop_pusher",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -811,10 +849,13 @@
    "nodes": [
     "esc_pusher_alpha40"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 182,
+   "editLine": 191,
    "raw": {
     "id": "esc_pusher",
     "name": "Pusher speed controller: ALPHA 40A 6S",
@@ -854,8 +895,9 @@
     ]
    },
    "order": {
-    "key": "alpha_40a_6s_esc_us_stock",
+    "key": "esc_pusher",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -867,6 +909,8 @@
    "qty": 1,
    "status": "buy",
    "price": 242.99,
+   "china": 1,
+   "duty": 0.25,
    "mass": 34.6,
    "size": "84.8 \u00d7 44 \u00d7 12.4 mm (Holybro)",
    "buy": [
@@ -917,10 +961,11 @@
    "nodes": [
     "pixhawk_6C"
    ],
+   "where": "",
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 201,
+   "editLine": 210,
    "raw": {
     "id": "pixhawk",
     "name": "Flight controller: Holybro Pixhawk 6C (plastic case), bought with the PM07",
@@ -928,6 +973,8 @@
     "qty": 1,
     "status": "buy",
     "price": 242.99,
+    "china": 1,
+    "duty": 0.25,
     "mass": 34.6,
     "size": "84.8 \u00d7 44 \u00d7 12.4 mm (Holybro)",
     "buy": [
@@ -980,8 +1027,9 @@
     ]
    },
    "order": {
-    "key": "pixhawk_6c_plastic_pm07_bundle",
+    "key": "pixhawk",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -993,6 +1041,8 @@
    "qty": 1,
    "status": "buy",
    "price": 43.99,
+   "china": 1,
+   "duty": 0.25,
    "mass": 32,
    "size": "\u00d8 50 \u00d7 15 mm",
    "buy": [
@@ -1015,10 +1065,11 @@
    "nodes": [
     "gnss_M9N"
    ],
+   "where": "",
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 220,
+   "editLine": 231,
    "raw": {
     "id": "gnss",
     "name": "GPS and compass: Holybro M10",
@@ -1026,6 +1077,8 @@
     "qty": 1,
     "status": "buy",
     "price": 43.99,
+    "china": 1,
+    "duty": 0.25,
     "mass": 32,
     "size": "\u00d8 50 \u00d7 15 mm",
     "buy": [
@@ -1050,8 +1103,9 @@
     ]
    },
    "order": {
-    "key": "holybro_m10_gps",
+    "key": "gnss",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -1063,6 +1117,8 @@
    "qty": 1,
    "status": "buy",
    "price": 59.99,
+   "china": 1,
+   "duty": 0.25,
    "mass": 17.4,
    "buy": [
     [
@@ -1084,10 +1140,11 @@
    "nodes": [
     "airspeed_sensor"
    ],
+   "where": "",
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 239,
+   "editLine": 252,
    "raw": {
     "id": "airspeed",
     "name": "Airspeed sensor: Holybro MS5525DSO with PT40 pitot tube",
@@ -1095,6 +1152,8 @@
     "qty": 1,
     "status": "buy",
     "price": 59.99,
+    "china": 1,
+    "duty": 0.25,
     "mass": 17.4,
     "buy": [
      {
@@ -1118,8 +1177,9 @@
     ]
    },
    "order": {
-    "key": "holybro_ms5525dso_airspeed_pt40",
+    "key": "airspeed",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -1131,6 +1191,8 @@
    "qty": 1,
    "status": "buy",
    "price": 58.99,
+   "china": 1,
+   "duty": 0.25,
    "mass": 23.5,
    "buy": [
     [
@@ -1157,10 +1219,11 @@
    "nodes": [
     "telemetry_radio"
    ],
+   "where": "",
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 257,
+   "editLine": 272,
    "raw": {
     "id": "telemetry",
     "name": "Telemetry radios: Holybro SiK V3 915 MHz (pair)",
@@ -1168,6 +1231,8 @@
     "qty": 1,
     "status": "buy",
     "price": 58.99,
+    "china": 1,
+    "duty": 0.25,
     "mass": 23.5,
     "buy": [
      {
@@ -1196,8 +1261,9 @@
     ]
    },
    "order": {
-    "key": "holybro_sik_v3_915_mhz_pair",
+    "key": "telemetry",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -1230,10 +1296,13 @@
    "nodes": [
     "rc_receiver"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 276,
+   "editLine": 293,
    "raw": {
     "id": "rc_rx",
     "name": "RC receiver: RadioMaster RP2 V2 (ExpressLRS)",
@@ -1264,8 +1333,9 @@
     ]
    },
    "order": {
-    "key": "radiomaster_rp2_v2_receiver",
+    "key": "rc_rx",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -1294,10 +1364,13 @@
    "nodes": [
     "remote_id_ruko_R111S"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 294,
+   "editLine": 311,
    "raw": {
     "id": "remote_id",
     "name": "Remote ID: Ruko R111S",
@@ -1324,8 +1397,9 @@
     ]
    },
    "order": {
-    "key": "ruko_r111s_remote_id",
+    "key": "remote_id",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -1371,10 +1445,13 @@
     "servo_ruddervator_R",
     "servo_ruddervator_L"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Control surfaces",
    "color": "#4e7a3a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 313,
+   "editLine": 330,
    "raw": {
     "id": "servos",
     "name": "Servo: KST X10 V2",
@@ -1418,8 +1495,9 @@
     ]
    },
    "order": {
-    "key": "kst_x10_v2_servo",
+    "key": "servos",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    },
@@ -1462,10 +1540,13 @@
     "airframe:wing",
     "tube_spar_*"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 333,
+   "editLine": 350,
    "raw": {
     "id": "wing",
     "name": "Wing: printed LW-ASA on carbon spars",
@@ -1497,8 +1578,9 @@
     ]
    },
    "order": {
-    "key": "haozhong_1_m_carbon_tubes_13_booms_spars_rods_legs",
+    "key": "wing",
     "state": "to order",
+    "label": "To make",
     "date": "",
     "by": ""
    },
@@ -1550,10 +1632,13 @@
     "tube_boom_*",
     "rod_leg_*"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 351,
+   "editLine": 368,
    "raw": {
     "id": "booms",
     "name": "Booms: 30 mm carbon tubes with nacelles",
@@ -1590,8 +1675,9 @@
     ]
    },
    "order": {
-    "key": "haozhong_1_m_carbon_tubes_13_booms_spars_rods_legs",
+    "key": "booms",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -1623,10 +1709,13 @@
     "airframe:fuselage",
     "airframe:shell"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 369,
+   "editLine": 386,
    "raw": {
     "id": "fuselage",
     "name": "Fuselage: printed shell",
@@ -1654,6 +1743,13 @@
      "airframe:fuselage",
      "airframe:shell"
     ]
+   },
+   "order": {
+    "key": "fuselage",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
    }
   },
   {
@@ -1684,10 +1780,13 @@
     "tube_tail_spar_*",
     "rod_rear_*"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 385,
+   "editLine": 402,
    "raw": {
     "id": "tail",
     "name": "Arch tail",
@@ -1716,6 +1815,13 @@
      "tube_tail_spar_*",
      "rod_rear_*"
     ]
+   },
+   "order": {
+    "key": "tail",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
    }
   },
   {
@@ -1788,10 +1894,13 @@
    "nodes": [
     "payload_computer"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 401,
+   "editLine": 418,
    "raw": {
     "id": "payload_computer",
     "name": "Payload computer: Raspberry Pi 5 (4 GB) with active cooler",
@@ -1864,8 +1973,9 @@
     ]
    },
    "order": {
-    "key": "payload_computer_raspberry_pi_5_4_gb_with_active_cooler",
+    "key": "payload_computer",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -1919,10 +2029,13 @@
    "nodes": [
     "payload_power"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 426,
+   "editLine": 443,
    "raw": {
     "id": "payload_power",
     "name": "Payload regulator: Pololu D36V50F5, 5 V 5.5 A",
@@ -1974,8 +2087,9 @@
     ]
    },
    "order": {
-    "key": "payload_regulator_pololu_d36v50f5_5_v_5_5_a",
+    "key": "payload_power",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -2051,10 +2165,13 @@
    "nodes": [
     "thermal_cam"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 450,
+   "editLine": 467,
    "raw": {
     "id": "thermal_cam",
     "name": "Thermal camera: FLIR Lepton 3.5 on a PureThermal 3 board",
@@ -2128,8 +2245,9 @@
     ]
    },
    "order": {
-    "key": "thermal_camera_flir_lepton_3_5_on_a_purethermal_3_board",
+    "key": "thermal_cam",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -2185,10 +2303,13 @@
    "nodes": [
     "rgb_cam"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 480,
+   "editLine": 497,
    "raw": {
     "id": "rgb_cam",
     "name": "Colour camera: Raspberry Pi Global Shutter Camera, 6 mm lens (lens not priced)",
@@ -2242,8 +2363,9 @@
     ]
    },
    "order": {
-    "key": "colour_camera_raspberry_pi_global_shutter_camera_6_mm_lens_l",
+    "key": "rgb_cam",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -2324,10 +2446,13 @@
    "nodes": [
     "spot_sensor"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 506,
+   "editLine": 523,
    "raw": {
     "id": "spot_sensor",
     "name": "1610 nm spot sensor (built by us): two InGaAs photodiodes behind 1610 nm filters",
@@ -2406,8 +2531,9 @@
     ]
    },
    "order": {
-    "key": "1610_nm_spot_sensor_built_by_us_two_ingaas_photodiodes_behin",
+    "key": "spot_sensor",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -2463,10 +2589,13 @@
    "nodes": [
     "air_sensor"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 537,
+   "editLine": 554,
    "raw": {
     "id": "air_sensor",
     "name": "Air temperature and humidity: Sensirion SHT45",
@@ -2520,8 +2649,9 @@
     ]
    },
    "order": {
-    "key": "air_temperature_and_humidity_sensirion_sht45",
+    "key": "air_sensor",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -2582,10 +2712,13 @@
    "nodes": [
     "nir_channel"
    ],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 563,
+   "editLine": 580,
    "raw": {
     "id": "nir_channel",
     "name": "Near-infrared reference channel (850 nm) for the spot sensor",
@@ -2644,8 +2777,9 @@
     ]
    },
    "order": {
-    "key": "near_infrared_reference_channel_850_nm_for_the_spot_sensor",
+    "key": "nir_channel",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -2681,10 +2815,13 @@
     ]
    ],
    "nodes": [],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Ground equipment",
    "color": "#9a6b16",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 590,
+   "editLine": 607,
    "raw": {
     "id": "rc_tx",
     "name": "RC transmitter: RadioMaster Pocket (ExpressLRS), with two 18650 cells",
@@ -2718,8 +2855,9 @@
     "nodes": []
    },
    "order": {
-    "key": "rc_transmitter_radiomaster_pocket_expresslrs_with_two_18650_",
+    "key": "rc_tx",
     "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -2750,10 +2888,13 @@
     ]
    ],
    "nodes": [],
+   "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Ground equipment",
    "color": "#9a6b16",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 609,
+   "editLine": 626,
    "raw": {
     "id": "charger",
     "name": "Battery charger: HOTA H6 Pro (200 W on wall power)",
@@ -2782,8 +2923,1094 @@
     "nodes": []
    },
    "order": {
-    "key": "battery_charger_hota_h6_pro_200_w_on_wall_power",
+    "key": "charger",
     "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "pack_bms",
+   "name": "Pack BMS, nickel strip, wrap",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 50.0,
+   "mass": 0,
+   "buy": [],
+   "where": "any",
+   "job": "Turns the 36 cells into one 6S6P pack: BMS board, nickel strip between cells, insulation and wrap.",
+   "why": "",
+   "source": "[A]; spot welder needed (club or lab?)",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 647,
+   "raw": {
+    "id": "pack_bms",
+    "name": "Pack BMS, nickel strip, wrap",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 50.0,
+    "mass": 0,
+    "buy": [],
+    "where": "any",
+    "job": "Turns the 36 cells into one 6S6P pack: BMS board, nickel strip between cells, insulation and wrap.",
+    "why": "",
+    "source": "[A]; spot welder needed (club or lab?)",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "pack_bms",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "tubes_main",
+   "name": "HaoZhong 1 m carbon tubes (13: booms, spars, rods, legs)",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 197.01,
+   "mass": 0,
+   "china": 1,
+   "duty": 0.375,
+   "buy": [
+    [
+     "HaoZhong",
+     "https://carbonfibertubes.net",
+     "$197.01"
+    ]
+   ],
+   "job": "Carbon tubes for the booms, wing spars, tail rods and landing legs, cut to length by us.",
+   "why": "",
+   "source": "[V 10-30 cart]; 6815.13.00",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 663,
+   "raw": {
+    "id": "tubes_main",
+    "name": "HaoZhong 1 m carbon tubes (13: booms, spars, rods, legs)",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 197.01,
+    "mass": 0,
+    "china": 1,
+    "duty": 0.375,
+    "buy": [
+     {
+      "store": "HaoZhong",
+      "link": "https://carbonfibertubes.net",
+      "price": "$197.01"
+     }
+    ],
+    "job": "Carbon tubes for the booms, wing spars, tail rods and landing legs, cut to length by us.",
+    "why": "",
+    "source": "[V 10-30 cart]; 6815.13.00",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "tubes_main",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "tubes_extra",
+   "name": "HaoZhong 2 more 6/4 tubes",
+   "system": "materials",
+   "qty": 2,
+   "status": "buy",
+   "price": 9.82,
+   "mass": 0,
+   "china": 1,
+   "duty": 0.375,
+   "buy": [
+    [
+     "HaoZhong",
+     "https://carbonfibertubes.net",
+     "$9.82"
+    ]
+   ],
+   "job": "Two more 6/4 mm tubes for the tail rods.",
+   "why": "",
+   "source": "[V 11-02]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 682,
+   "raw": {
+    "id": "tubes_extra",
+    "name": "HaoZhong 2 more 6/4 tubes",
+    "system": "materials",
+    "qty": 2,
+    "status": "buy",
+    "price": 9.82,
+    "mass": 0,
+    "china": 1,
+    "duty": 0.375,
+    "buy": [
+     {
+      "store": "HaoZhong",
+      "link": "https://carbonfibertubes.net",
+      "price": "$9.82"
+     }
+    ],
+    "job": "Two more 6/4 mm tubes for the tail rods.",
+    "why": "",
+    "source": "[V 11-02]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "tubes_extra",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "rods_3mm",
+   "name": "HaoZhong 3 mm solid rod 500 mm, 5-pack",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 11.0,
+   "mass": 0,
+   "china": 1,
+   "duty": 0.375,
+   "buy": [
+    [
+     "HaoZhong",
+     "https://carbonfibertubes.net/products/carbon-fiber-solid-rod-diameter-1-20mm-x-length-500mm",
+     "$11.00"
+    ]
+   ],
+   "job": "Solid 3 mm rods for hinge pins and pushrods.",
+   "why": "",
+   "source": "[V 11-02]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 701,
+   "raw": {
+    "id": "rods_3mm",
+    "name": "HaoZhong 3 mm solid rod 500 mm, 5-pack",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 11.0,
+    "mass": 0,
+    "china": 1,
+    "duty": 0.375,
+    "buy": [
+     {
+      "store": "HaoZhong",
+      "link": "https://carbonfibertubes.net/products/carbon-fiber-solid-rod-diameter-1-20mm-x-length-500mm",
+      "price": "$11.00"
+     }
+    ],
+    "job": "Solid 3 mm rods for hinge pins and pushrods.",
+    "why": "",
+    "source": "[V 11-02]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "rods_3mm",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "carbon_plates",
+   "name": "Carbon plates 3 mm 100x300 + 1.5 mm 200x300",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 65.0,
+   "mass": 0,
+   "china": 1,
+   "duty": 0.375,
+   "buy": [
+    [
+     "HaoZhong",
+     "https://carbonfibertubes.net/products/3k-carbon-fiber-plate-200x300mm-100-pure-carbon-board-carbon-fiber-material-for-rc-uav-toys",
+     "$65.00"
+    ]
+   ],
+   "job": "Motor mounts and the battery tray, cut from carbon plate.",
+   "why": "",
+   "source": "[A] 2 mm 200x300 = $31.90 [V]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 720,
+   "raw": {
+    "id": "carbon_plates",
+    "name": "Carbon plates 3 mm 100x300 + 1.5 mm 200x300",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 65.0,
+    "mass": 0,
+    "china": 1,
+    "duty": 0.375,
+    "buy": [
+     {
+      "store": "HaoZhong",
+      "link": "https://carbonfibertubes.net/products/3k-carbon-fiber-plate-200x300mm-100-pure-carbon-board-carbon-fiber-material-for-rc-uav-toys",
+      "price": "$65.00"
+     }
+    ],
+    "job": "Motor mounts and the battery tray, cut from carbon plate.",
+    "why": "",
+    "source": "[A] 2 mm 200x300 = $31.90 [V]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "carbon_plates",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "wire_pack",
+   "name": "Wire Power Pack (Lumenier)",
+   "system": "materials",
+   "qty": 2,
+   "status": "buy",
+   "price": 21.99,
+   "mass": 0,
+   "buy": [
+    [
+     "RaceDayQuads",
+     "https://www.racedayquads.com/products/lumenier-silicone-wire-6-roll-build-kit-power-pack",
+     "$21.99"
+    ]
+   ],
+   "job": "Silicone power wire for the battery, ESC and servo feeds.",
+   "why": "",
+   "source": "[V]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 739,
+   "raw": {
+    "id": "wire_pack",
+    "name": "Wire Power Pack (Lumenier)",
+    "system": "materials",
+    "qty": 2,
+    "status": "buy",
+    "price": 21.99,
+    "mass": 0,
+    "buy": [
+     {
+      "store": "RaceDayQuads",
+      "link": "https://www.racedayquads.com/products/lumenier-silicone-wire-6-roll-build-kit-power-pack",
+      "price": "$21.99"
+     }
+    ],
+    "job": "Silicone power wire for the battery, ESC and servo feeds.",
+    "why": "",
+    "source": "[V]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "wire_pack",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "xt90",
+   "name": "Amass XT90H",
+   "system": "materials",
+   "qty": 4,
+   "status": "buy",
+   "price": 1.49,
+   "mass": 0,
+   "buy": [
+    [
+     "RaceDayQuads",
+     "https://www.racedayquads.com/products/amass-xt90h-connector-1pc-choose-version",
+     "$1.49"
+    ]
+   ],
+   "job": "Battery connector (anti-spark).",
+   "why": "",
+   "source": "[V]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 756,
+   "raw": {
+    "id": "xt90",
+    "name": "Amass XT90H",
+    "system": "materials",
+    "qty": 4,
+    "status": "buy",
+    "price": 1.49,
+    "mass": 0,
+    "buy": [
+     {
+      "store": "RaceDayQuads",
+      "link": "https://www.racedayquads.com/products/amass-xt90h-connector-1pc-choose-version",
+      "price": "$1.49"
+     }
+    ],
+    "job": "Battery connector (anti-spark).",
+    "why": "",
+    "source": "[V]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "xt90",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "servo_ext",
+   "name": "Servo extension 60 cm",
+   "system": "materials",
+   "qty": 16,
+   "status": "buy",
+   "price": 1.59,
+   "mass": 0,
+   "buy": [
+    [
+     "ReadyMadeRC",
+     "https://www.readymaderc.com/collections/airplanes/electronics/servo-extensions",
+     "$1.59"
+    ]
+   ],
+   "job": "Extensions from the servos and wing to the fuselage.",
+   "why": "",
+   "source": "[S]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 773,
+   "raw": {
+    "id": "servo_ext",
+    "name": "Servo extension 60 cm",
+    "system": "materials",
+    "qty": 16,
+    "status": "buy",
+    "price": 1.59,
+    "mass": 0,
+    "buy": [
+     {
+      "store": "ReadyMadeRC",
+      "link": "https://www.readymaderc.com/collections/airplanes/electronics/servo-extensions",
+      "price": "$1.59"
+     }
+    ],
+    "job": "Extensions from the servos and wing to the fuselage.",
+    "why": "",
+    "source": "[S]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "servo_ext",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "bullets",
+   "name": "3.5 mm bullet 3-packs",
+   "system": "materials",
+   "qty": 10,
+   "status": "buy",
+   "price": 1.99,
+   "mass": 0,
+   "buy": [],
+   "where": "RaceDayQuads",
+   "job": "Motor-to-ESC connectors.",
+   "why": "",
+   "source": "[V 10-30, mini_wiring]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 790,
+   "raw": {
+    "id": "bullets",
+    "name": "3.5 mm bullet 3-packs",
+    "system": "materials",
+    "qty": 10,
+    "status": "buy",
+    "price": 1.99,
+    "mass": 0,
+    "buy": [],
+    "where": "RaceDayQuads",
+    "job": "Motor-to-ESC connectors.",
+    "why": "",
+    "source": "[V 10-30, mini_wiring]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "bullets",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "heat_shrink",
+   "name": "Heat shrink 530 pc",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 9.99,
+   "mass": 0,
+   "buy": [],
+   "where": "RaceDayQuads",
+   "job": "Insulation on every solder joint.",
+   "why": "",
+   "source": "[V 10-30]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 806,
+   "raw": {
+    "id": "heat_shrink",
+    "name": "Heat shrink 530 pc",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 9.99,
+    "mass": 0,
+    "buy": [],
+    "where": "RaceDayQuads",
+    "job": "Insulation on every solder joint.",
+    "why": "",
+    "source": "[V 10-30]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "heat_shrink",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "xt60",
+   "name": "XT60 pairs, 5-pack (removable-wing ESC feeds)",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 9.0,
+   "mass": 0,
+   "buy": [],
+   "where": "any hobby store",
+   "job": "ESC power feeds where the wing comes off.",
+   "why": "",
+   "source": "[A] see Connectors_Wiring",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 822,
+   "raw": {
+    "id": "xt60",
+    "name": "XT60 pairs, 5-pack (removable-wing ESC feeds)",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 9.0,
+    "mass": 0,
+    "buy": [],
+    "where": "any hobby store",
+    "job": "ESC power feeds where the wing comes off.",
+    "why": "",
+    "source": "[A] see Connectors_Wiring",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "xt60",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "xt30",
+   "name": "XT30 pairs, 5-pack (servo regulator, Jetson regulator)",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 7.0,
+   "mass": 0,
+   "buy": [],
+   "where": "any hobby store",
+   "job": "Small power plugs for the servo regulator and the payload regulator.",
+   "why": "",
+   "source": "[A]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 838,
+   "raw": {
+    "id": "xt30",
+    "name": "XT30 pairs, 5-pack (servo regulator, Jetson regulator)",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 7.0,
+    "mass": 0,
+    "buy": [],
+    "where": "any hobby store",
+    "job": "Small power plugs for the servo regulator and the payload regulator.",
+    "why": "",
+    "source": "[A]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "xt30",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "balance_lead",
+   "name": "JST-XH 7-pin balance lead",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 3.0,
+   "mass": 0,
+   "buy": [],
+   "where": "any hobby store",
+   "job": "Lead from the pack to the charger's balance port.",
+   "why": "",
+   "source": "[A]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 854,
+   "raw": {
+    "id": "balance_lead",
+    "name": "JST-XH 7-pin balance lead",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 3.0,
+    "mass": 0,
+    "buy": [],
+    "where": "any hobby store",
+    "job": "Lead from the pack to the charger's balance port.",
+    "why": "",
+    "source": "[A]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "balance_lead",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "jst_gh",
+   "name": "JST-GH cable set",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 16.99,
+   "mass": 0,
+   "buy": [],
+   "where": "iNsightFPV",
+   "job": "Signal cables between the flight controller and its sensors.",
+   "why": "",
+   "source": "[S]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 870,
+   "raw": {
+    "id": "jst_gh",
+    "name": "JST-GH cable set",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 16.99,
+    "mass": 0,
+    "buy": [],
+    "where": "iNsightFPV",
+    "job": "Signal cables between the flight controller and its sensors.",
+    "why": "",
+    "source": "[S]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "jst_gh",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "solder",
+   "name": "Solder, ties, sleeve",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 15.0,
+   "mass": 0,
+   "buy": [],
+   "where": "any",
+   "job": "Solder, cable ties and braided sleeve for the harness.",
+   "why": "",
+   "source": "[A]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 886,
+   "raw": {
+    "id": "solder",
+    "name": "Solder, ties, sleeve",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 15.0,
+    "mass": 0,
+    "buy": [],
+    "where": "any",
+    "job": "Solder, cable ties and braided sleeve for the harness.",
+    "why": "",
+    "source": "[A]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "solder",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "lw_asa",
+   "name": "LW-ASA 650 g",
+   "system": "materials",
+   "qty": 4,
+   "status": "buy",
+   "price": 37.5,
+   "mass": 0,
+   "buy": [
+    [
+     "colorFabb US (OWNED)",
+     "https://colorfabb.us/lw-asa-naturel-1-75-650",
+     "$37.50"
+    ]
+   ],
+   "job": "Lightweight foaming ASA for the printed wing and fuselage skins.",
+   "why": "",
+   "source": "[V]; user says already owned \u2192 set Qty 0",
+   "connects": [],
+   "nodes": [],
+   "order": {
+    "key": "lw_asa",
+    "state": "have it",
+    "label": "Have it",
+    "date": "",
+    "by": ""
+   },
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 902,
+   "raw": {
+    "id": "lw_asa",
+    "name": "LW-ASA 650 g",
+    "system": "materials",
+    "qty": 4,
+    "status": "buy",
+    "price": 37.5,
+    "mass": 0,
+    "buy": [
+     {
+      "store": "colorFabb US (OWNED)",
+      "link": "https://colorfabb.us/lw-asa-naturel-1-75-650",
+      "price": "$37.50"
+     }
+    ],
+    "job": "Lightweight foaming ASA for the printed wing and fuselage skins.",
+    "why": "",
+    "source": "[V]; user says already owned \u2192 set Qty 0",
+    "connects": [],
+    "nodes": [],
+    "order": "have it"
+   }
+  },
+  {
+   "id": "petg_cf",
+   "name": "Bambu PETG-CF 1 kg",
+   "system": "materials",
+   "qty": 2,
+   "status": "buy",
+   "price": 31.99,
+   "mass": 0,
+   "buy": [
+    [
+     "HartSmart",
+     "https://hartsmartproducts.com/products/bambu-petg-cf",
+     "$31.99"
+    ]
+   ],
+   "job": "Carbon-filled PETG for the stiff printed parts (ribs, pylons, mounts).",
+   "why": "",
+   "source": "[V] 11-10",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 920,
+   "raw": {
+    "id": "petg_cf",
+    "name": "Bambu PETG-CF 1 kg",
+    "system": "materials",
+    "qty": 2,
+    "status": "buy",
+    "price": 31.99,
+    "mass": 0,
+    "buy": [
+     {
+      "store": "HartSmart",
+      "link": "https://hartsmartproducts.com/products/bambu-petg-cf",
+      "price": "$31.99"
+     }
+    ],
+    "job": "Carbon-filled PETG for the stiff printed parts (ribs, pylons, mounts).",
+    "why": "",
+    "source": "[V] 11-10",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "petg_cf",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "small_spools",
+   "name": "ASA, TPU, PETG small spools",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 83.0,
+   "mass": 0,
+   "buy": [],
+   "where": "any",
+   "job": "ASA for small mounts, TPU for feet and grommets, PETG for jigs.",
+   "why": "",
+   "source": "[A] club leftovers first",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 937,
+   "raw": {
+    "id": "small_spools",
+    "name": "ASA, TPU, PETG small spools",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 83.0,
+    "mass": 0,
+    "buy": [],
+    "where": "any",
+    "job": "ASA for small mounts, TPU for feet and grommets, PETG for jigs.",
+    "why": "",
+    "source": "[A] club leftovers first",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "small_spools",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "m5_inserts",
+   "name": "M5 heat-set inserts, 50",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 11.5,
+   "mass": 0,
+   "buy": [],
+   "where": "CNC Kitchen",
+   "job": "Heat-set inserts where the booms and wing bolt on.",
+   "why": "",
+   "source": "[V 10-24]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 953,
+   "raw": {
+    "id": "m5_inserts",
+    "name": "M5 heat-set inserts, 50",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 11.5,
+    "mass": 0,
+    "buy": [],
+    "where": "CNC Kitchen",
+    "job": "Heat-set inserts where the booms and wing bolt on.",
+    "why": "",
+    "source": "[V 10-24]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "m5_inserts",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "hardware",
+   "name": "Hardware (inserts, bolts, magnets, hinges, epoxy)",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 120.0,
+   "mass": 0,
+   "buy": [],
+   "where": "hardware store",
+   "job": "Inserts, bolts, magnets, hinges and epoxy for assembly.",
+   "why": "",
+   "source": "[A] check club/lab stock",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 969,
+   "raw": {
+    "id": "hardware",
+    "name": "Hardware (inserts, bolts, magnets, hinges, epoxy)",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 120.0,
+    "mass": 0,
+    "buy": [],
+    "where": "hardware store",
+    "job": "Inserts, bolts, magnets, hinges and epoxy for assembly.",
+    "why": "",
+    "source": "[A] check club/lab stock",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "hardware",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   }
+  },
+  {
+   "id": "nozzle",
+   "name": "Prusa ObXidian 0.4 nozzle (only if needed)",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 52.9,
+   "mass": 0,
+   "buy": [
+    [
+     "Prusa",
+     "https://www.prusa3d.com/product/prusa-nozzle-obxidian-4/",
+     "$52.90"
+    ]
+   ],
+   "job": "Hardened nozzle for printing carbon-filled filament, only if the club printer lacks one.",
+   "why": "",
+   "source": "[V]; only if no hardened nozzle",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 985,
+   "raw": {
+    "id": "nozzle",
+    "name": "Prusa ObXidian 0.4 nozzle (only if needed)",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 52.9,
+    "mass": 0,
+    "buy": [
+     {
+      "store": "Prusa",
+      "link": "https://www.prusa3d.com/product/prusa-nozzle-obxidian-4/",
+      "price": "$52.90"
+     }
+    ],
+    "job": "Hardened nozzle for printing carbon-filled filament, only if the club printer lacks one.",
+    "why": "",
+    "source": "[V]; only if no hardened nozzle",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "nozzle",
+    "state": "to order",
+    "label": "To order",
     "date": "",
     "by": ""
    }
@@ -2821,6 +4048,10 @@
   "ground": {
    "name": "Ground equipment",
    "color": "#9a6b16"
+  },
+  "materials": {
+   "name": "Materials, wiring and hardware",
+   "color": "#7d7466"
   }
  }
 }

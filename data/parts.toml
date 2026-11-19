@@ -9,6 +9,8 @@
 # - nodes = names of the part in the 3D model (only change if the CAD changes).
 # - size = real dimensions from the maker. box = where the part sits in the CAD [x aft, y right, z up] and its size, mm.
 # - power_w = electrical power it draws in flight (sensors and payload computer only; summed into the energy budget).
+# - china = 1 and duty = rate: shipped from China, import duty added to the cost. where = shop name when there is no link.
+# - order = "ordered" | "arrived" | "have it" (with order_date, order_by): set from the website; missing = still to order.
 # - tier (sensors only): minimum = needed for the first mission flights; add = worth adding; later = not yet.
 # Design numbers that are not parts (speeds, densities, rules...) are in data/inputs.toml.
 
@@ -21,6 +23,7 @@ surfaces = { name = "Control surfaces", color = "#4e7a3a" }
 airframe = { name = "Airframe", color = "#b9bcb4" }
 payload = { name = "Mission sensors", color = "#1f7a72" }
 ground = { name = "Ground equipment", color = "#9a6b16" }
+materials = { name = "Materials, wiring and hardware", color = "#7d7466" }
 
 [[part]]
 id = "battery"
@@ -44,7 +47,7 @@ nodes = ["battery_6S6P_P50B"]
 
 [[part]]
 id = "pm07"
-order_with = "pixhawk"   # comes in the same box; its order status follows the Pixhawk
+order_with = "pixhawk"
 name = "Power module: Holybro PM07"
 system = "power"
 qty = 1
@@ -87,6 +90,8 @@ system = "lift"
 qty = 4
 status = "buy"
 price = 89.99
+china = 1
+duty = 0.415
 mass = 135
 size = "Ø 55.6 × 31 mm (T-Motor drawing)"
 buy = [
@@ -108,6 +113,8 @@ system = "lift"
 qty = 2
 status = "buy"
 price = 82.9
+china = 1
+duty = 0.375
 mass = 63
 size = "18 inch = 457 mm tip to tip"
 buy = [
@@ -147,6 +154,8 @@ system = "cruise"
 qty = 1
 status = "buy"
 price = 79.99
+china = 1
+duty = 0.415
 mass = 218
 size = "Ø 42 × 52 mm with the long shaft"
 buy = [
@@ -205,6 +214,8 @@ system = "control"
 qty = 1
 status = "buy"
 price = 242.99
+china = 1
+duty = 0.25
 mass = 34.6
 size = "84.8 × 44 × 12.4 mm (Holybro)"
 buy = [
@@ -224,6 +235,8 @@ system = "control"
 qty = 1
 status = "buy"
 price = 43.99
+china = 1
+duty = 0.25
 mass = 32
 size = "Ø 50 × 15 mm"
 buy = [
@@ -243,6 +256,8 @@ system = "control"
 qty = 1
 status = "buy"
 price = 59.99
+china = 1
+duty = 0.25
 mass = 17.4
 buy = [
   { store = "Holybro (MS5525DSO / PT40)", link = "https://holybro.com/products/digital-air-speed-sensor-standard", price = "$59.99" },
@@ -261,6 +276,8 @@ system = "control"
 qty = 1
 status = "buy"
 price = 58.99
+china = 1
+duty = 0.25
 mass = 23.5
 buy = [
   { store = "Holybro (pair: one on the drone, one on the laptop)", link = "https://holybro.com/products/sik-telemetry-radio-v3", price = "$58.99" },
@@ -622,4 +639,362 @@ why = "Takes wall power directly (200 W, no separate power supply) and balances 
 instead = "ToolKitRC M7AC ($91.49): only 100 W on wall power, about 7 hours a charge. HOTA D6 Pro ($149.99): two channels, same 200 W from the wall."
 source = "WREKD product page, read 19 Nov"
 connects = [["battery", "XT90 to XT60 charge lead and the 6S balance lead"]]
+nodes = []
+
+
+# ---------- materials, wiring and hardware (not drawn in 3D; their mass is part of the CAD airframe)
+
+[[part]]
+id = "pack_bms"
+name = "Pack BMS, nickel strip, wrap"
+system = "materials"
+qty = 1
+status = "buy"
+price = 50.0
+mass = 0
+buy = []
+where = "any"
+job = "Turns the 36 cells into one 6S6P pack: BMS board, nickel strip between cells, insulation and wrap."
+why = ""
+source = "[A]; spot welder needed (club or lab?)"
+connects = []
+nodes = []
+
+[[part]]
+id = "tubes_main"
+name = "HaoZhong 1 m carbon tubes (13: booms, spars, rods, legs)"
+system = "materials"
+qty = 1
+status = "buy"
+price = 197.01
+mass = 0
+china = 1
+duty = 0.375
+buy = [
+  { store = "HaoZhong", link = "https://carbonfibertubes.net", price = "$197.01" },
+]
+job = "Carbon tubes for the booms, wing spars, tail rods and landing legs, cut to length by us."
+why = ""
+source = "[V 10-30 cart]; 6815.13.00"
+connects = []
+nodes = []
+
+[[part]]
+id = "tubes_extra"
+name = "HaoZhong 2 more 6/4 tubes"
+system = "materials"
+qty = 2
+status = "buy"
+price = 9.82
+mass = 0
+china = 1
+duty = 0.375
+buy = [
+  { store = "HaoZhong", link = "https://carbonfibertubes.net", price = "$9.82" },
+]
+job = "Two more 6/4 mm tubes for the tail rods."
+why = ""
+source = "[V 11-02]"
+connects = []
+nodes = []
+
+[[part]]
+id = "rods_3mm"
+name = "HaoZhong 3 mm solid rod 500 mm, 5-pack"
+system = "materials"
+qty = 1
+status = "buy"
+price = 11.0
+mass = 0
+china = 1
+duty = 0.375
+buy = [
+  { store = "HaoZhong", link = "https://carbonfibertubes.net/products/carbon-fiber-solid-rod-diameter-1-20mm-x-length-500mm", price = "$11.00" },
+]
+job = "Solid 3 mm rods for hinge pins and pushrods."
+why = ""
+source = "[V 11-02]"
+connects = []
+nodes = []
+
+[[part]]
+id = "carbon_plates"
+name = "Carbon plates 3 mm 100x300 + 1.5 mm 200x300"
+system = "materials"
+qty = 1
+status = "buy"
+price = 65.0
+mass = 0
+china = 1
+duty = 0.375
+buy = [
+  { store = "HaoZhong", link = "https://carbonfibertubes.net/products/3k-carbon-fiber-plate-200x300mm-100-pure-carbon-board-carbon-fiber-material-for-rc-uav-toys", price = "$65.00" },
+]
+job = "Motor mounts and the battery tray, cut from carbon plate."
+why = ""
+source = "[A] 2 mm 200x300 = $31.90 [V]"
+connects = []
+nodes = []
+
+[[part]]
+id = "wire_pack"
+name = "Wire Power Pack (Lumenier)"
+system = "materials"
+qty = 2
+status = "buy"
+price = 21.99
+mass = 0
+buy = [
+  { store = "RaceDayQuads", link = "https://www.racedayquads.com/products/lumenier-silicone-wire-6-roll-build-kit-power-pack", price = "$21.99" },
+]
+job = "Silicone power wire for the battery, ESC and servo feeds."
+why = ""
+source = "[V]"
+connects = []
+nodes = []
+
+[[part]]
+id = "xt90"
+name = "Amass XT90H"
+system = "materials"
+qty = 4
+status = "buy"
+price = 1.49
+mass = 0
+buy = [
+  { store = "RaceDayQuads", link = "https://www.racedayquads.com/products/amass-xt90h-connector-1pc-choose-version", price = "$1.49" },
+]
+job = "Battery connector (anti-spark)."
+why = ""
+source = "[V]"
+connects = []
+nodes = []
+
+[[part]]
+id = "servo_ext"
+name = "Servo extension 60 cm"
+system = "materials"
+qty = 16
+status = "buy"
+price = 1.59
+mass = 0
+buy = [
+  { store = "ReadyMadeRC", link = "https://www.readymaderc.com/collections/airplanes/electronics/servo-extensions", price = "$1.59" },
+]
+job = "Extensions from the servos and wing to the fuselage."
+why = ""
+source = "[S]"
+connects = []
+nodes = []
+
+[[part]]
+id = "bullets"
+name = "3.5 mm bullet 3-packs"
+system = "materials"
+qty = 10
+status = "buy"
+price = 1.99
+mass = 0
+buy = []
+where = "RaceDayQuads"
+job = "Motor-to-ESC connectors."
+why = ""
+source = "[V 10-30, mini_wiring]"
+connects = []
+nodes = []
+
+[[part]]
+id = "heat_shrink"
+name = "Heat shrink 530 pc"
+system = "materials"
+qty = 1
+status = "buy"
+price = 9.99
+mass = 0
+buy = []
+where = "RaceDayQuads"
+job = "Insulation on every solder joint."
+why = ""
+source = "[V 10-30]"
+connects = []
+nodes = []
+
+[[part]]
+id = "xt60"
+name = "XT60 pairs, 5-pack (removable-wing ESC feeds)"
+system = "materials"
+qty = 1
+status = "buy"
+price = 9.0
+mass = 0
+buy = []
+where = "any hobby store"
+job = "ESC power feeds where the wing comes off."
+why = ""
+source = "[A] see Connectors_Wiring"
+connects = []
+nodes = []
+
+[[part]]
+id = "xt30"
+name = "XT30 pairs, 5-pack (servo regulator, Jetson regulator)"
+system = "materials"
+qty = 1
+status = "buy"
+price = 7.0
+mass = 0
+buy = []
+where = "any hobby store"
+job = "Small power plugs for the servo regulator and the payload regulator."
+why = ""
+source = "[A]"
+connects = []
+nodes = []
+
+[[part]]
+id = "balance_lead"
+name = "JST-XH 7-pin balance lead"
+system = "materials"
+qty = 1
+status = "buy"
+price = 3.0
+mass = 0
+buy = []
+where = "any hobby store"
+job = "Lead from the pack to the charger's balance port."
+why = ""
+source = "[A]"
+connects = []
+nodes = []
+
+[[part]]
+id = "jst_gh"
+name = "JST-GH cable set"
+system = "materials"
+qty = 1
+status = "buy"
+price = 16.99
+mass = 0
+buy = []
+where = "iNsightFPV"
+job = "Signal cables between the flight controller and its sensors."
+why = ""
+source = "[S]"
+connects = []
+nodes = []
+
+[[part]]
+id = "solder"
+name = "Solder, ties, sleeve"
+system = "materials"
+qty = 1
+status = "buy"
+price = 15.0
+mass = 0
+buy = []
+where = "any"
+job = "Solder, cable ties and braided sleeve for the harness."
+why = ""
+source = "[A]"
+connects = []
+nodes = []
+
+[[part]]
+id = "lw_asa"
+name = "LW-ASA 650 g"
+system = "materials"
+qty = 4
+status = "buy"
+price = 37.5
+mass = 0
+buy = [
+  { store = "colorFabb US (OWNED)", link = "https://colorfabb.us/lw-asa-naturel-1-75-650", price = "$37.50" },
+]
+job = "Lightweight foaming ASA for the printed wing and fuselage skins."
+why = ""
+source = "[V]; user says already owned → set Qty 0"
+connects = []
+nodes = []
+order = "have it"
+
+[[part]]
+id = "petg_cf"
+name = "Bambu PETG-CF 1 kg"
+system = "materials"
+qty = 2
+status = "buy"
+price = 31.99
+mass = 0
+buy = [
+  { store = "HartSmart", link = "https://hartsmartproducts.com/products/bambu-petg-cf", price = "$31.99" },
+]
+job = "Carbon-filled PETG for the stiff printed parts (ribs, pylons, mounts)."
+why = ""
+source = "[V] 11-10"
+connects = []
+nodes = []
+
+[[part]]
+id = "small_spools"
+name = "ASA, TPU, PETG small spools"
+system = "materials"
+qty = 1
+status = "buy"
+price = 83.0
+mass = 0
+buy = []
+where = "any"
+job = "ASA for small mounts, TPU for feet and grommets, PETG for jigs."
+why = ""
+source = "[A] club leftovers first"
+connects = []
+nodes = []
+
+[[part]]
+id = "m5_inserts"
+name = "M5 heat-set inserts, 50"
+system = "materials"
+qty = 1
+status = "buy"
+price = 11.5
+mass = 0
+buy = []
+where = "CNC Kitchen"
+job = "Heat-set inserts where the booms and wing bolt on."
+why = ""
+source = "[V 10-24]"
+connects = []
+nodes = []
+
+[[part]]
+id = "hardware"
+name = "Hardware (inserts, bolts, magnets, hinges, epoxy)"
+system = "materials"
+qty = 1
+status = "buy"
+price = 120.0
+mass = 0
+buy = []
+where = "hardware store"
+job = "Inserts, bolts, magnets, hinges and epoxy for assembly."
+why = ""
+source = "[A] check club/lab stock"
+connects = []
+nodes = []
+
+[[part]]
+id = "nozzle"
+name = "Prusa ObXidian 0.4 nozzle (only if needed)"
+system = "materials"
+qty = 1
+status = "buy"
+price = 52.9
+mass = 0
+buy = [
+  { store = "Prusa", link = "https://www.prusa3d.com/product/prusa-nozzle-obxidian-4/", price = "$52.90" },
+]
+job = "Hardened nozzle for printing carbon-filled filament, only if the club printer lacks one."
+why = ""
+source = "[V]; only if no hardened nozzle"
+connects = []
 nodes = []

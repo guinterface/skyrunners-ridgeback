@@ -27,11 +27,14 @@ import sys as _sys, tomllib as _toml
 _sys.path.insert(0, str(HERE.parent / "tools"))
 from parts import PARTS as _PARTS
 PP = {p["id"]: p for p in _PARTS}
-def part_price(pid): return PP[pid]["price"]                          # unit price, US$
-def part_url(pid): return PP[pid]["buy"][0][1] if PP[pid]["buy"] else ""   # first shop link
-def part_mass(pid): return PP[pid]["mass"]                           # mass each, g
-def part_qty(pid): return PP[pid]["qty"]
-def part_store(pid): return PP[pid]["buy"][0][0].split(" (")[0] if PP[pid]["buy"] else ""
+_NONE = dict(price=0, buy=[], mass=0, qty=0, where="", name="")      # a part removed on the website counts as zero
+def _pp(pid): return PP.get(pid, _NONE)
+def part_price(pid): return _pp(pid)["price"]                         # unit price, US$
+def part_url(pid): return _pp(pid)["buy"][0][1] if _pp(pid)["buy"] else ""   # first shop link
+def part_mass(pid): return _pp(pid)["mass"]                          # mass each, g
+def part_qty(pid): return _pp(pid)["qty"]
+def buy_qty(p): return 0 if p.get("order") == "have it" else p["qty"]   # already ours: nothing to buy
+def part_store(pid): return _pp(pid)["buy"][0][0].split(" (")[0] if _pp(pid)["buy"] else _pp(pid).get("where", "")
 
 # Typed design inputs can be changed in data/inputs.toml without touching this file.
 _INF = HERE.parent / "data/inputs.toml"
@@ -401,7 +404,10 @@ section(ws, "Totals")
 header(ws, PARAM_COLS)
 p(ws, "m_cad_g", "Aircraft mass from the CAD (no payload)", "m_e", f"=SUM(G{r0}:G{r1})", "g", "Σ g total (parts list above)", "[C]", "CAD assembly says 8,478 g with the 6S6P pack", fmt="#,##0")
 p(ws, "m_pay_g", "Payload included", "m_p", f"=SUM(G{p0r}:G{p1r})", "g", "Σ payload rows with Include = 1", "[C]", "", fmt="#,##0")
-p(ws, "m_to_g", "Takeoff mass", "m", "={m_cad_g}+{m_pay_g}", "g", "m = m_e + m_p", "[C]", "", fmt="#,##0", key_result=True)
+_added = [p_ for p_ in _PARTS if p_["system"] in ("power", "lift", "cruise", "control", "surfaces", "airframe") and not p_["nodes"] and not p_.get("box")]
+p(ws, "m_add_g", "Parts added on the website, not in the CAD yet", "m_a", round(sum(p_["mass"] * p_["qty"] for p_ in _added), 1), "g",
+  "Σ mass × qty: " + (", ".join(p_["name"] for p_ in _added) or "none"), "[A]", "add them to the CAD to place them", fmt="#,##0")
+p(ws, "m_to_g", "Takeoff mass", "m", "={m_cad_g}+{m_pay_g}+{m_add_g}", "g", "m = m_e + m_p + m_a", "[C]", "", fmt="#,##0", key_result=True)
 p(ws, "m_to", "Takeoff mass", "m", "={m_to_g}/1000", "kg", "", "[C]", "", fmt="0.000", key_result=True)
 p(ws, "m_nobat_g", "Takeoff mass without the battery", "m - m_bat", "={m_to_g}-{bat_pack_g}", "g", "used by Battery_Options", "[C]", "", fmt="#,##0")
 p(ws, "cg_x", "CG x", "x_cg", f"=(SUM(K{r0}:K{r1})+SUM(K{p0r}:K{p1r}))/{{m_to_g}}", "mm", "x_cg = Σ(m x) / Σ m", "[C]", "target 94 mm; move the battery to trim", fmt="0.0", key_result=True)
@@ -886,48 +892,17 @@ ws = sheet("BOM_Cost", [40, 6, 10, 11, 16, 9, 9, 11, 46, 40, 18])
 title(ws, "Bill of materials and cost (aircraft for first flights; sensors separate)",
       "Duty applies to China-origin goods (HTS 2026 Rev 22, read 10-30: normal + Section 301 25 % + 12.5 %). Tariffs change: 25 % on drone parts from 2027-02-09 [S].")
 header(ws, ["Item", "Qty", "Unit $", "Line $", "Store", "China? 1/0", "Duty rate", "Duty $", "Buy", "Source [tag] / note", "On the website"])
-BOM = [
-    ("MN5008 KV340 lift motor", part_qty("motor_lift"), part_price("motor_lift"), part_store("motor_lift"), 1, 0.415, part_url("motor_lift"), "[V] 11-10; HTS 8501.31.40 4 % + 25 % + 12.5 %"),
-    ("P18x6.1 prop pair", part_qty("prop_lift"), part_price("prop_lift"), part_store("prop_lift"), 1, 0.375, part_url("prop_lift"), "[V] 11-10; 8807.10.00"),
-    ("AT3520 KV550 pusher motor", part_qty("motor_pusher"), part_price("motor_pusher"), part_store("motor_pusher"), 1, 0.415, part_url("motor_pusher"), "[V]"),
-    ("ALPHA 40A 6S ESC (US stock)", part_qty("esc_lift") + part_qty("esc_pusher"), part_price("esc_lift"), part_store("esc_lift"), 0, 0, part_url("esc_lift"), "[V] 11-10; US → no duty"),
-    ("Pusher prop APC 12x6E", part_qty("prop_pusher"), part_price("prop_pusher"), part_store("prop_pusher"), 0, 0, part_url("prop_pusher"), "[A]"),
-    ("KST X10 V2 servo", part_qty("servos"), part_price("servos"), part_store("servos"), 0, 0, part_url("servos"), "[V] 11-10"),
-    ("Servo regulator ≥ 5 A (Castle CC BEC 2.0)", part_qty("servo_reg"), part_price("servo_reg"), part_store("servo_reg"), 0, 0, part_url("servo_reg"), "[V] out of stock 11-10"),
-    ("Ruko R111S Remote ID", part_qty("remote_id"), part_price("remote_id"), part_store("remote_id"), 0, 0, part_url("remote_id"), "[V]"),
-    ("Pixhawk 6C (plastic) + PM07 bundle", part_qty("pixhawk"), part_price("pixhawk"), part_store("pixhawk"), 1, 0.25, part_url("pixhawk"), "[V] Holybro 11-19; ships from China: duty rate [A]"),
-    ("Holybro M10 GPS", part_qty("gnss"), part_price("gnss"), part_store("gnss"), 1, 0.25, part_url("gnss"), "[V] Holybro 11-19; duty [A]"),
-    ("Holybro MS5525DSO airspeed + PT40", part_qty("airspeed"), part_price("airspeed"), part_store("airspeed"), 1, 0.25, part_url("airspeed"), "[V] Holybro 11-19; duty [A]"),
-    ("Holybro SiK V3 915 MHz pair", part_qty("telemetry"), part_price("telemetry"), part_store("telemetry"), 1, 0.25, part_url("telemetry"), "[V] Holybro 11-19; duty [A]"),
-    ("RadioMaster RP2 V2 receiver", part_qty("rc_rx"), part_price("rc_rx"), part_store("rc_rx"), 0, 0, part_url("rc_rx"), "[V] RaceDayQuads 11-19"),
-    ("Molicel P50B cells", "={bat_S}*{bat_P}", part_price("battery"), part_store("battery"), 0, 0, part_url("battery"), "[V] 10-31; qty = Battery_Options"),
-    ("Pack BMS, nickel strip, wrap", 1, 50.00, "any", 0, 0, "", "[A]; spot welder needed (club or lab?)"),
-    ("HaoZhong 1 m carbon tubes (13: booms, spars, rods, legs)", 1, 197.01, "HaoZhong", 1, 0.375, "https://carbonfibertubes.net", "[V 10-30 cart]; 6815.13.00"),
-    ("HaoZhong 2 more 6/4 tubes", 2, 9.82, "HaoZhong", 1, 0.375, "https://carbonfibertubes.net", "[V 11-02]"),
-    ("HaoZhong 3 mm solid rod 500 mm, 5-pack", 1, 11.00, "HaoZhong", 1, 0.375, "https://carbonfibertubes.net/products/carbon-fiber-solid-rod-diameter-1-20mm-x-length-500mm", "[V 11-02]"),
-    ("Carbon plates 3 mm 100x300 + 1.5 mm 200x300", 1, 65.00, "HaoZhong", 1, 0.375, "https://carbonfibertubes.net/products/3k-carbon-fiber-plate-200x300mm-100-pure-carbon-board-carbon-fiber-material-for-rc-uav-toys", "[A] 2 mm 200x300 = $31.90 [V]"),
-    ("Wire Power Pack (Lumenier)", 2, 21.99, "RaceDayQuads", 0, 0, "https://www.racedayquads.com/products/lumenier-silicone-wire-6-roll-build-kit-power-pack", "[V]"),
-    ("Amass XT90H", 4, 1.49, "RaceDayQuads", 0, 0, "https://www.racedayquads.com/products/amass-xt90h-connector-1pc-choose-version", "[V]"),
-    ("Servo extension 60 cm", 16, 1.59, "ReadyMadeRC", 0, 0, "https://www.readymaderc.com/collections/airplanes/electronics/servo-extensions", "[S]"),
-    ("3.5 mm bullet 3-packs", 10, 1.99, "RaceDayQuads", 0, 0, "", "[V 10-30, mini_wiring]"),
-    ("Heat shrink 530 pc", 1, 9.99, "RaceDayQuads", 0, 0, "", "[V 10-30]"),
-    ("XT60 pairs, 5-pack (removable-wing ESC feeds)", 1, 9.00, "any hobby store", 0, 0, "", "[A] see Connectors_Wiring"),
-    ("XT30 pairs, 5-pack (servo regulator, Jetson regulator)", 1, 7.00, "any hobby store", 0, 0, "", "[A]"),
-    ("JST-XH 7-pin balance lead", 1, 3.00, "any hobby store", 0, 0, "", "[A]"),
-    ("JST-GH cable set", 1, 16.99, "iNsightFPV", 0, 0, "", "[S]"),
-    ("Solder, ties, sleeve", 1, 15.00, "any", 0, 0, "", "[A]"),
-    ("LW-ASA 650 g", 4, 37.50, "colorFabb US (OWNED)", 0, 0, "https://colorfabb.us/lw-asa-naturel-1-75-650", "[V]; user says already owned → set Qty 0"),
-    ("Bambu PETG-CF 1 kg", 2, 31.99, "HartSmart", 0, 0, "https://hartsmartproducts.com/products/bambu-petg-cf", "[V] 11-10"),
-    ("ASA, TPU, PETG small spools", 1, 83.00, "any", 0, 0, "", "[A] club leftovers first"),
-    ("M5 heat-set inserts, 50", 1, 11.50, "CNC Kitchen", 0, 0, "", "[V 10-24]"),
-    ("Hardware (inserts, bolts, magnets, hinges, epoxy)", 1, 120.00, "hardware store", 0, 0, "", "[A] check club/lab stock"),
-    ("Prusa ObXidian 0.4 nozzle (only if needed)", 1, 52.90, "Prusa", 0, 0, "https://www.prusa3d.com/product/prusa-nozzle-obxidian-4/", "[V]; only if no hardened nozzle"),
-]
+# Every aircraft part with a price, straight from data/parts.toml (add or remove a part there or on the website).
+FLY = ("power", "lift", "cruise", "control", "surfaces", "airframe", "materials")
+BOM = []
+for pp_ in sorted((p_ for p_ in _PARTS if p_["system"] in FLY and p_["price"] > 0), key=lambda p_: FLY.index(p_["system"])):
+    qty = "={bat_S}*{bat_P}" if pp_["id"] == "battery" else (0 if pp_.get("order") == "have it" else pp_["qty"])
+    BOM.append((pp_["name"], qty, pp_["price"], part_store(pp_["id"]), pp_["china"], pp_["duty"], part_url(pp_["id"]),
+                pp_["source"] + ("; already ours (order: have it)" if pp_.get("order") == "have it" else ""), pp_["id"]))
 BUY = []   # everything to buy, for the website's buy list (data/buy_list.json)
 c0 = ws._r
-for name, qty, usd, store, china, rate, link, src in BOM:
+for name, qty, usd, store, china, rate, link, src, pid_ in BOM:
     r = ws._r
-    if name.startswith("LW-ASA"): qty = 0
     put(ws, r, 1, name); put(ws, r, 2, qty, fill=(CALC if str(qty).startswith("=") else INP), fmt="0"); put(ws, r, 3, usd, fill=INP, fmt="$#,##0.00")
     put(ws, r, 4, f"=B{r}*C{r}", fill=CALC, fmt="$#,##0.00"); put(ws, r, 5, store); put(ws, r, 6, china, fill=INP, fmt="0"); put(ws, r, 7, rate, fill=INP, fmt="0.0%")
     put(ws, r, 8, f"=D{r}*F{r}*G{r}", fill=CALC, fmt="$#,##0.00")
@@ -935,7 +910,7 @@ for name, qty, usd, store, china, rate, link, src in BOM:
     if link: c.hyperlink = link; c.font = Font(color="1155CC", underline="single")
     put(ws, r, 10, src); part_link(ws, r, 11, name); ws._r += 1
     qn = part_qty("battery") if str(qty).startswith("=") else qty
-    BUY.append(dict(group="Aircraft", name=name, qty=qn, unit=usd, line=qn * usd, duty=round(qn * usd * china * rate, 2), store=store, link=link, note=src))
+    BUY.append(dict(group="Aircraft", name=name, qty=qn, unit=usd, line=qn * usd, duty=round(qn * usd * china * rate, 2), store=store, link=link, note=src, id=pid_))
 c1 = ws._r - 1
 section(ws, "Shipping and fees")
 s0 = ws._r
@@ -962,12 +937,12 @@ header(ws, ["Item", "Qty", "Unit $", "Line $", "Store", "", "", "", "Buy", "Why 
 g0 = ws._r
 for gp_ in [p_ for p_ in _PARTS if p_["system"] == "ground"]:
     r = ws._r
-    put(ws, r, 1, gp_["name"]); put(ws, r, 2, gp_["qty"], fill=INP, fmt="0"); put(ws, r, 3, gp_["price"], fill=INP, fmt="$#,##0.00")
+    put(ws, r, 1, gp_["name"]); put(ws, r, 2, buy_qty(gp_), fill=INP, fmt="0"); put(ws, r, 3, gp_["price"], fill=INP, fmt="$#,##0.00")
     put(ws, r, 4, f"=B{r}*C{r}", fill=CALC, fmt="$#,##0.00"); put(ws, r, 5, gp_["buy"][0][0] if gp_["buy"] else "")
     c = put(ws, r, 9, gp_["buy"][0][1] if gp_["buy"] else "")
     if gp_["buy"]: c.hyperlink = gp_["buy"][0][1]; c.font = Font(color="1155CC", underline="single")
     put(ws, r, 10, gp_["job"]); part_link(ws, r, 11, gp_["name"]); ws._r += 1
-    BUY.append(dict(group="Ground equipment", name=gp_["name"], qty=gp_["qty"], unit=gp_["price"], line=gp_["qty"] * gp_["price"], duty=0, store=gp_["buy"][0][0] if gp_["buy"] else "", link=gp_["buy"][0][1] if gp_["buy"] else "", note=gp_["source"], id=gp_["id"]))
+    BUY.append(dict(group="Ground equipment", name=gp_["name"], qty=buy_qty(gp_), unit=gp_["price"], line=buy_qty(gp_) * gp_["price"], duty=0, store=gp_["buy"][0][0] if gp_["buy"] else "", link=gp_["buy"][0][1] if gp_["buy"] else "", note=gp_["source"], id=gp_["id"]))
 g1 = ws._r - 1
 header(ws, PARAM_COLS)
 p(ws, "cost_ground", "Ground equipment", "", f"=SUM(D{g0}:D{g1})", "USD", "Σ lines", "[C]", "US stores; shipping in the row above", fmt="$#,##0", key_result=True)
@@ -977,7 +952,7 @@ m0 = ws._r
 for pp_ in PAY:
     if pp_.get("tier") != "minimum": continue
     r = ws._r
-    put(ws, r, 1, pp_["name"]); put(ws, r, 2, pp_["qty"], fill=INP, fmt="0"); put(ws, r, 3, pp_["price"], fill=INP, fmt="$#,##0.00")
+    put(ws, r, 1, pp_["name"]); put(ws, r, 2, buy_qty(pp_), fill=INP, fmt="0"); put(ws, r, 3, pp_["price"], fill=INP, fmt="$#,##0.00")
     put(ws, r, 4, f"=B{r}*C{r}", fill=CALC, fmt="$#,##0.00"); put(ws, r, 5, pp_["status"])
     c = put(ws, r, 9, part_url(pp_["id"]))
     if part_url(pp_["id"]): c.hyperlink = part_url(pp_["id"]); c.font = Font(color="1155CC", underline="single")
@@ -1071,7 +1046,7 @@ _unused = sorted(set(INPUTS) - USED_INPUTS)
 assert not _unused, f"data/inputs.toml has names the workbook does not know (typo?): {_unused}"
 json.dump(TYPED, open(HERE / "typed_inputs.json", "w"), ensure_ascii=False, indent=0)
 for pp_ in PAY:                                  # mission sensors: first-flight kit, then the options
-    BUY.append(dict(group="Mission sensors" if pp_.get("tier") == "minimum" else "Mission sensors: worth adding", name=pp_["name"], qty=pp_["qty"], unit=pp_["price"],
-                    line=pp_["qty"] * pp_["price"], duty=0, store=pp_["buy"][0][0] if pp_["buy"] else "", link=pp_["buy"][0][1] if pp_["buy"] else "", note=pp_["source"], id=pp_["id"]))
+    BUY.append(dict(group="Mission sensors" if pp_.get("tier") == "minimum" else "Mission sensors: worth adding", name=pp_["name"], qty=buy_qty(pp_), unit=pp_["price"],
+                    line=buy_qty(pp_) * pp_["price"], duty=0, store=pp_["buy"][0][0] if pp_["buy"] else "", link=pp_["buy"][0][1] if pp_["buy"] else "", note=pp_["source"], id=pp_["id"]))
 json.dump(BUY, open(HERE / "buy_list.json", "w"), ensure_ascii=False, indent=0)
 print("saved", OUTF, len(REF), "named cells")
