@@ -27,7 +27,8 @@ jobs:
           if git diff --cached --quiet; then echo "nothing changed"; exit 0; fi
           git commit -m "Rebuild sheets and site after: $(printf '%s' "$MSG" | head -n 1 | cut -c1-200)"
           # someone may have saved again meanwhile; their own run rebuilds from their change
-          for i in 1 2 3; do git push && break; git pull --rebase -X theirs; done
+          # (the build also leaves working files outside docs/ and data/: stash them so the rebase can run)
+          for i in 1 2 3 4; do git push && exit 0; sleep $((i * 3)); git pull --rebase --autostash -X theirs; done; exit 1
       - name: Publish the website
         run: gh api -X POST repos/${{ github.repository }}/pages/builds || true
         env: { GH_TOKEN: "${{ github.token }}" }
