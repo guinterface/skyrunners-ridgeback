@@ -80,5 +80,3 @@ bat_S = 6   # Cells in series; [V] parts
 reserve = 0.2   # Landing reserve kept; [A] same as the 3.35 m design
 h_climb = 120   # Winged climb height [m]; [A] to 120 m (Part 107 limit)
 roc_plan = 1.5   # Planned winged climb rate [m/s]; [A] Pusher tab: best winged climb ≈ 1.5-2 m/s
-
-# relay test, will be undone
