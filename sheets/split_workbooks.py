@@ -68,7 +68,7 @@ for name, purpose, tabs in GROUPS:
     # README
     rd = wb.create_sheet("README")
     rd.column_dimensions["A"].width = 28; rd.column_dimensions["B"].width = 110
-    rows = [("Ridgeback mini VTOL design", f"{name.replace('_', ' ')}"), ("Website", "https://stanford-skyrunners.github.io/ridgeback-design/"), ("What is in this file", purpose),
+    rows = [("Ridgeback mini VTOL design", f"{name.replace('_', ' ')}"), ("Website", "https://guinterface.github.io/skyrunners-ridgeback/"), ("What is in this file", purpose),
             ("Tabs", " | ".join(tabs) + " | Linked_inputs"),
             ("Colours", "Yellow = typed input with its source. Blue = formula (click the cell). Green = key result."),
             ("Linked_inputs tab", "Values this file needs from the other workbooks, copied from the full model with the exact source tab and cell. "
@@ -82,7 +82,7 @@ for name, purpose, tabs in GROUPS:
     w = rd.cell(row=2, column=2); w.hyperlink = w.value; w.font = Font(color="1155CC", underline="single")
     f = rd.cell(row=len(rows) + 2, column=1, value="Other sheets"); f.font = Font(bold=True)
     l = rd.cell(row=len(rows) + 2, column=2, value="All six sheets, with links: website › Sheets, code, CAD")
-    l.hyperlink = "https://stanford-skyrunners.github.io/ridgeback-design/files.html"; l.font = Font(color="1155CC", underline="single")
+    l.hyperlink = "https://guinterface.github.io/skyrunners-ridgeback/files.html"; l.font = Font(color="1155CC", underline="single")
     links = {}  # foreign ref -> local Linked_inputs cell
     li = None
     for t in tabs:

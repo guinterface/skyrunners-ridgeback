@@ -36,7 +36,7 @@
    ],
    "systemName": "Power",
    "color": "#8a5a2b",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 25,
    "raw": {
     "id": "battery",
@@ -138,7 +138,7 @@
    ],
    "systemName": "Power",
    "color": "#8a5a2b",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 45,
    "raw": {
     "id": "pm07",
@@ -230,7 +230,7 @@
    ],
    "systemName": "Power",
    "color": "#8a5a2b",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 64,
    "raw": {
     "id": "servo_reg",
@@ -314,7 +314,7 @@
    ],
    "systemName": "Lift (hover)",
    "color": "#22221f",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 82,
    "raw": {
     "id": "motor_lift",
@@ -411,7 +411,7 @@
    ],
    "systemName": "Lift (hover)",
    "color": "#22221f",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 103,
    "raw": {
     "id": "prop_lift",
@@ -503,7 +503,7 @@
    ],
    "systemName": "Lift (hover)",
    "color": "#22221f",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 122,
    "raw": {
     "id": "esc_lift",
@@ -605,7 +605,7 @@
    ],
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 142,
    "raw": {
     "id": "motor_pusher",
@@ -691,7 +691,7 @@
    ],
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 162,
    "raw": {
     "id": "prop_pusher",
@@ -763,7 +763,7 @@
    ],
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 181,
    "raw": {
     "id": "esc_pusher",
@@ -863,7 +863,7 @@
    ],
    "systemName": "Flight control",
    "color": "#2f5d8a",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 200,
    "raw": {
     "id": "pixhawk",
@@ -955,7 +955,7 @@
    ],
    "systemName": "Flight control",
    "color": "#2f5d8a",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 219,
    "raw": {
     "id": "gnss",
@@ -1018,7 +1018,7 @@
    ],
    "systemName": "Flight control",
    "color": "#2f5d8a",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 238,
    "raw": {
     "id": "airspeed",
@@ -1085,7 +1085,7 @@
    ],
    "systemName": "Flight control",
    "color": "#2f5d8a",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 256,
    "raw": {
     "id": "telemetry",
@@ -1152,7 +1152,7 @@
    ],
    "systemName": "Flight control",
    "color": "#2f5d8a",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 275,
    "raw": {
     "id": "rc_rx",
@@ -1210,7 +1210,7 @@
    ],
    "systemName": "Flight control",
    "color": "#2f5d8a",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 293,
    "raw": {
     "id": "remote_id",
@@ -1281,7 +1281,7 @@
    ],
    "systemName": "Control surfaces",
    "color": "#4e7a3a",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 312,
    "raw": {
     "id": "servos",
@@ -1366,7 +1366,7 @@
    ],
    "systemName": "Airframe",
    "color": "#b9bcb4",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 332,
    "raw": {
     "id": "wing",
@@ -1448,7 +1448,7 @@
    ],
    "systemName": "Airframe",
    "color": "#b9bcb4",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 350,
    "raw": {
     "id": "booms",
@@ -1515,7 +1515,7 @@
    ],
    "systemName": "Airframe",
    "color": "#b9bcb4",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 368,
    "raw": {
     "id": "fuselage",
@@ -1576,7 +1576,7 @@
    ],
    "systemName": "Airframe",
    "color": "#b9bcb4",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 384,
    "raw": {
     "id": "tail",
@@ -1680,7 +1680,7 @@
    ],
    "systemName": "Mission sensors",
    "color": "#1f7a72",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 400,
    "raw": {
     "id": "payload_computer",
@@ -1805,7 +1805,7 @@
    ],
    "systemName": "Mission sensors",
    "color": "#1f7a72",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 425,
    "raw": {
     "id": "payload_power",
@@ -1931,7 +1931,7 @@
    ],
    "systemName": "Mission sensors",
    "color": "#1f7a72",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 449,
    "raw": {
     "id": "thermal_cam",
@@ -2059,7 +2059,7 @@
    ],
    "systemName": "Mission sensors",
    "color": "#1f7a72",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 479,
    "raw": {
     "id": "rgb_cam",
@@ -2192,7 +2192,7 @@
    ],
    "systemName": "Mission sensors",
    "color": "#1f7a72",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 505,
    "raw": {
     "id": "spot_sensor",
@@ -2325,7 +2325,7 @@
    ],
    "systemName": "Mission sensors",
    "color": "#1f7a72",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 536,
    "raw": {
     "id": "air_sensor",
@@ -2438,7 +2438,7 @@
    ],
    "systemName": "Mission sensors",
    "color": "#1f7a72",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 562,
    "raw": {
     "id": "nir_channel",
@@ -2531,7 +2531,7 @@
    "nodes": [],
    "systemName": "Ground equipment",
    "color": "#9a6b16",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 589,
    "raw": {
     "id": "rc_tx",
@@ -2594,7 +2594,7 @@
    "nodes": [],
    "systemName": "Ground equipment",
    "color": "#9a6b16",
-   "edit": "https://github.com/Stanford-SkyRunners/ridgeback-design/edit/main/data/parts.toml",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 608,
    "raw": {
     "id": "charger",

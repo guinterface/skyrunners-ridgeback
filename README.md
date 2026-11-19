@@ -3,7 +3,7 @@
 Our own 2.24 m VTOL quadplane (SkyRunners, Stanford Student Robotics) for measuring how much water chaparral shrubs lose
 between dawn and midday, for prescribed-burn planning.
 
-Website: https://stanford-skyrunners.github.io/ridgeback-design/
+Website: https://guinterface.github.io/skyrunners-ridgeback/
 
 - **Drone**: the model in 3D. Click a part to see what it does, why we chose it, what it connects to and where to buy it.
 - **Mission and range**: how far and how long we fly, and why, with the papers and rules behind it.

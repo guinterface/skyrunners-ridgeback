@@ -7,7 +7,7 @@ to 60 an hour, and every save is a normal commit with the editor's name (the rel
 
 ## 1. A GitHub token for the relay (repo admin)
 1. GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens** → Generate new token.
-2. Resource owner: **Stanford-SkyRunners**. Repository access: **Only select repositories → ridgeback-design**.
+2. Resource owner: **guinterface** (your own account: no organization approval needed). Repository access: **Only select repositories → skyrunners-ridgeback**.
 3. Repository permissions: **Contents: Read and write**, **Actions: Read-only**, **Pages: Read-only**. Expiry: up to a year.
 4. Generate, copy the token (starts with `github_pat_`).
    The organisation may have to approve the token (Organization settings → Personal access tokens) before it works.

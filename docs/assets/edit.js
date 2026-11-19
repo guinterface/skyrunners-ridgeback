@@ -4,7 +4,7 @@
 //  - own GitHub token: for people with write access, or while no relay is set up.
 // RELAY: paste the relay's web app URL (https://script.google.com/macros/s/.../exec) between the quotes.
 const RELAY = 'https://script.google.com/macros/s/AKfycbyk8_AVZHNF-hboeR7PNGiZm2r85k1m4cnDSoK09AfEZN6TVsxQWjAzT_WjPRDIP_FAPw/exec';
-const REPO = 'Stanford-SkyRunners/ridgeback-design';
+const REPO = 'guinterface/skyrunners-ridgeback';
 const API = `https://api.github.com/repos/${REPO}`;
 const TOKEN_URL = 'https://github.com/settings/tokens/new?scopes=public_repo&description=Ridgeback%20site%20editing';
 const store = {

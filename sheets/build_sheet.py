@@ -20,7 +20,7 @@ wb.remove(wb.active)
 REF = {}            # key -> 'Tab'!$C$n
 PENDING = []        # (ws, cell, template)
 
-SITE = "https://stanford-skyrunners.github.io/ridgeback-design/"
+SITE = "https://guinterface.github.io/skyrunners-ridgeback/"
 
 # Prices, links, quantities and masses of bought parts come from data/parts.toml (one place to edit).
 import sys as _sys, tomllib as _toml

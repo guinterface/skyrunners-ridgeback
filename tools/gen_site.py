@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from parts import PARTS, SYSTEMS, PART_LINE, RAW
-GH = "https://github.com/Stanford-SkyRunners/ridgeback-design"
+GH = "https://github.com/guinterface/skyrunners-ridgeback"
 
 E = html.escape
 VALS = json.load(open(ROOT / "data/calc_values.json"))
@@ -94,7 +94,7 @@ def page(title, slug, body, extra_head="", body_class=""):
 <div id="editbar" class="editbar" hidden></div>
 <main>{body}</main>
 <footer class="collar foot"><span>Designed in CAD, not yet built or flown. Numbers from the calculation sheets, updated 17 Nov 2026.</span>
-<a href="https://github.com/Stanford-SkyRunners/ridgeback-design">Source on GitHub</a></footer></div><script type="module" src="assets/edit.js"></script></body></html>"""
+<a href="https://github.com/guinterface/skyrunners-ridgeback">Source on GitHub</a></footer></div><script type="module" src="assets/edit.js"></script></body></html>"""
 
 
 def status_row():
@@ -443,15 +443,15 @@ files_body = f"""
 <p class="small">The Google Sheets live in the team Drive; ask a lead for access. The .xlsx copies here open in Excel, Numbers or Google Sheets.</p></section>
 <section><h2>Code</h2>
 <table class="plain"><tbody>
-<tr><td><a href="https://github.com/Stanford-SkyRunners/ridgeback-design/tree/main/sheets">sheets/</a></td><td>Builds every sheet with live formulas, splits it into the six files and checks every number.</td></tr>
-<tr><td><a href="https://github.com/Stanford-SkyRunners/ridgeback-design/tree/main/analysis">analysis/</a></td><td>Sizing sweep, spar, boom, servo, wiring, filament, duty and stability scripts.</td></tr>
-<tr><td><a href="https://github.com/Stanford-SkyRunners/ridgeback-design/tree/main/cad">cad/</a></td><td>The CAD as code (build123d): every printed part, the assembly, the payload fit.</td></tr>
-<tr><td><a href="https://github.com/Stanford-SkyRunners/ridgeback-design/tree/main/tools">tools/</a></td><td>This site: the parts list, the 3D model export and the page generator.</td></tr>
+<tr><td><a href="https://github.com/guinterface/skyrunners-ridgeback/tree/main/sheets">sheets/</a></td><td>Builds every sheet with live formulas, splits it into the six files and checks every number.</td></tr>
+<tr><td><a href="https://github.com/guinterface/skyrunners-ridgeback/tree/main/analysis">analysis/</a></td><td>Sizing sweep, spar, boom, servo, wiring, filament, duty and stability scripts.</td></tr>
+<tr><td><a href="https://github.com/guinterface/skyrunners-ridgeback/tree/main/cad">cad/</a></td><td>The CAD as code (build123d): every printed part, the assembly, the payload fit.</td></tr>
+<tr><td><a href="https://github.com/guinterface/skyrunners-ridgeback/tree/main/tools">tools/</a></td><td>This site: the parts list, the 3D model export and the page generator.</td></tr>
 </tbody></table></section>
 <section><h2>CAD files</h2>
 <table class="plain"><tbody>
 <tr><td><a href="cad/Ridgeback_print_pack_STL.zip">Print pack, STL (5 MB)</a></td><td>Every printed part in print orientation, with print settings.</td></tr>
-<tr><td><a href="https://github.com/Stanford-SkyRunners/ridgeback-design/releases">STEP pack for Fusion 360 (82 MB)</a></td><td>Every part and sub-assembly, attached to the latest release.</td></tr>
+<tr><td><a href="https://github.com/guinterface/skyrunners-ridgeback/releases">STEP pack for Fusion 360 (82 MB)</a></td><td>Every part and sub-assembly, attached to the latest release.</td></tr>
 <tr><td><a href="assets/ridgeback.glb">3D model, GLB</a></td><td>The model on the drone page, viewable in any glTF viewer.</td></tr>
 </tbody></table></section>
 <section><h2>Rebuild on your own computer</h2>

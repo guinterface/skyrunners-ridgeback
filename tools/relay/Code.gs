@@ -4,7 +4,7 @@
 // commit (with the editor's name in the message) and can be undone from the GitHub history.
 // Setup: tools/relay/SETUP.md. Script properties: GITHUB_TOKEN (required), PASSCODE (team passcode; empty = anyone).
 
-const REPO = 'Stanford-SkyRunners/ridgeback-design';
+const REPO = 'guinterface/skyrunners-ridgeback';
 const ALLOWED = ['data/parts.toml', 'data/inputs.toml'];
 const MAX_BYTES = 400000;          // parts.toml is ~60 kB; refuses anything wildly larger
 const MAX_SAVES_PER_HOUR = 60;
