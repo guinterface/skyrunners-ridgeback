@@ -44,6 +44,9 @@ instead = "Samsung 50S ($6.99 a cell, $72 cheaper): voltage sag at our current n
 source = "Sheet 04, Battery_Options and Mission_Energy"
 connects = [["pm07", "XT90 connector, two 14 AWG wires per pole"]]
 nodes = ["battery_6S6P_P50B"]
+order = "ordered"
+order_date = "2026-11-19"
+order_by = "gui"
 
 [[part]]
 id = "pm07"
