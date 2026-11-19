@@ -217,8 +217,8 @@ for sk, (sname, col) in SYSTEMS.items():
         price = "owned" if p["status"].startswith("reuse") else (f"${p['price']:,.2f}" if p["price"] else "")
         buy = p["buy"][0] if p["buy"] else None
         b = f'<a href="{E(buy[1])}" target="_blank" rel="noopener">{E(buy[0].split(" (")[0])}</a>' if buy else ""
-        rows.append(f'<tr id="row-{p["id"]}" data-id="{p["id"]}" tabindex="0"><td>{E(p["name"])}</td><td class="num">{p["qty"]}</td><td>{E(p["status"])}</td>'
-                    f'<td class="num">{price}</td><td class="num">{p["mass"]:,.0f} g</td><td>{b}</td></tr>')
+        rows.append(f'<tr id="row-{p["id"]}" data-id="{p["id"]}" tabindex="0"><td>{E(p["name"])}</td><td class="num"><span data-f="qty">{p["qty"]}</span></td><td>{E(p["status"])}</td>'
+                    f'<td class="num"><span data-f="price">{price}</span></td><td class="num"><span data-f="mass">{p["mass"]:,.0f}</span> g</td><td>{b}</td></tr>')
 index_body = f"""
 <section class="lead"><h1>Inside the drone</h1>
 <p>Our own 2.24 m VTOL drone for measuring how much water chaparral shrubs lose between dawn and midday, for planning prescribed burns.
@@ -409,7 +409,7 @@ for r_ in INPUT_ROWS:
         _tr.append(f'<tr class="grp"><th colspan="4">{E(r_["group"].replace("_", " "))}</th></tr>'); _last = r_["group"]
     _tr.append(f'<tr data-key="{r_["key"]}"><td>{E(r_["label"])}</td><td class="num val">{E(r_["value"])}</td><td>{E(r_["unit"])}</td><td class="small">{E(r_["source"])}</td></tr>')
 calc_body += f"""<section id="inputs"><h2>Design numbers behind the steps</h2>
-<p>Every typed number the calculations start from. Press <b>Edit</b> at the top to change one here; saving writes it to data/inputs.toml on GitHub (a commit with your name, undoable) and recomputes every sheet and page in about two minutes.</p>
+<p>Every typed number the calculations start from. Press <b>Edit</b> at the top, then the ✎ next to a value (or double-click it); saving writes it to data/inputs.toml on GitHub (a commit with your name, undoable) and recomputes every sheet and page in about two minutes.</p>
 <p class="small">Source tags: [V] read on the maker's or store's page, [S] from a datasheet or listing not re-read, [C] calculated in the sheets, [A] our assumption until measured.</p>
 <div class="tablewrap"><table class="parts inputs"><thead><tr><th>Number</th><th class="num">Value</th><th>Unit</th><th>Where it comes from</th></tr></thead><tbody>{"".join(_tr)}</tbody></table></div></section>"""
 katex = ('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">'
@@ -429,7 +429,7 @@ files_body = f"""
 <section class="lead"><h1>Sheets, code and CAD</h1><p>Everything behind the numbers on this site. The sheets and pages are rebuilt from two plain files, so a change made there is permanent and shows up everywhere.</p></section>
 <section id="edits"><h2>Recent edits</h2><p class="small">Every change to the parts and design numbers, newest first. Each one is kept in the GitHub history; while editing with the team passcode, <b>Undo</b> puts the file back as it was before that change.</p><ol class="edits" id="editlist"><li class="quiet">Loading the history…</li></ol></section>
 <section id="edit"><h2>Change a value or a link</h2>
-<p><b>Easiest: press Edit at the top right of any page.</b> On the drone page, pick a part and its panel turns into a form (price, shop links, size, reasons, references); on the calculations page, the design numbers become editable. With the team passcode no GitHub account is needed (<a href="{GH}/blob/main/tools/relay/SETUP.md">how the passcode relay is set up</a>); until it is set up, Edit asks for a GitHub token. Or edit the files directly:</p>
+<p><b>Easiest: press Edit at the top right of any page.</b> Type your name and the team passcode (ask in the club Slack; no GitHub account needed). Then click the ✎ next to any number, text, shop link or paper (or double-click it), change it and press Save: in the part panel and parts table on the drone page, and in the design numbers on the calculations page. "Edit all fields at once" opens the whole part as a form. Each save is a commit with your name, the site updates in about two minutes, and Recent edits below has an Undo button (<a href="{GH}/blob/main/tools/relay/SETUP.md">how the passcode relay works</a>). Or edit the files directly:</p>
 <table class="plain"><thead><tr><th>To change</th><th>Edit this file</th></tr></thead><tbody>
 <tr><td>A part: price, quantity, mass, shop link, why we chose it, what it connects to</td><td><a href="{GH}/edit/main/data/parts.toml">data/parts.toml</a></td></tr>
 <tr><td>A design number: requirements, air, wing, drag, motors, battery, mission (60 typed numbers)</td><td><a href="{GH}/edit/main/data/inputs.toml">data/inputs.toml</a></td></tr>

@@ -123,14 +123,15 @@ function askToken() {
 function start() {
   editing = true; btn.setAttribute('aria-pressed', 'true'); btn.textContent = 'Done editing';
   document.body.classList.add('editing');
-  say(`<b>Editing.</b> ${document.getElementById('detail') ? 'Pick a part; its panel turns into a form.' : ''} ${document.getElementById('inputs') ? 'Change any value in the design numbers table, then press Save.' : ''}
+  say(`<b>Editing.</b> Click the ✎ next to any number, text or link (or double-click it) to change it, then press Save.
     Saving writes data/parts.toml or data/inputs.toml on GitHub with your name; the sheets and pages rebuild in about two minutes. Every save is a commit in <a href="https://github.com/${REPO}/commits/main" target="_blank" rel="noopener">the history</a>, so it can be undone. <button type="button" id="forget" class="plainbtn">${viaRelay() ? 'Sign out' : 'Forget my token'}</button>`);
   document.getElementById('forget').onclick = () => { store.set('rb-token', null); store.set('rb-pass', null); try { sessionStorage.removeItem('rb-token'); } catch { } token = null; pass = null; stop(); };
   window.RB?.rerender?.();
-  inputsMode(true); showUndo(true);
+  inputsMode(true); showUndo(true); decorate(document.body);
 }
 function stop() {
-  editing = false; btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Edit';
+  editing = false; fullFor = null; document.querySelectorAll('form.qedit').forEach(q => q.cancel()); document.querySelectorAll('.pen, .qhint, .addbtn').forEach(b => b.remove());
+  btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Edit';
   document.body.classList.remove('editing'); bar.hidden = true;
   window.RB?.rerender?.();
   inputsMode(false); showUndo(false);
@@ -171,7 +172,7 @@ const FIELDS = [['name', 'Name', 'text'], ['status', 'Status', 'text'], ['qty', 
   ['mass', 'Mass each (g)', 'num'], ['size', 'Size', 'text'], ['power_w', 'Power (W)', 'num'],
   ['job', 'What it does', 'area'], ['why', 'Why we chose it', 'area'], ['without', 'Without it (what we would lose)', 'area'], ['instead', 'Considered instead', 'area'], ['source', 'Numbers from', 'text']];
 function partForm(p, el) {
-  if (!editing) return false;
+  if (!editing || fullFor !== p.id) return false;
   const raw = structuredClone(p.raw);
   const f = FIELDS.filter(([k]) => k in raw || ['size', 'instead', 'source'].includes(k)).map(([k, label, kind]) => {
     const v = raw[k] ?? '';
@@ -190,7 +191,7 @@ function partForm(p, el) {
   form.querySelector('.addbuy').onclick = () => form.querySelector('.buys').insertAdjacentHTML('beforeend', buyRow());
   form.querySelector('.addref').onclick = () => form.querySelector('.refs').insertAdjacentHTML('beforeend', refRow());
   form.addEventListener('click', e => { if (e.target.classList.contains('rm')) e.target.closest('.buyrow').remove(); });
-  form.querySelector('.cancel').onclick = () => stop();
+  form.querySelector('.cancel').onclick = () => { fullFor = null; window.RB?.rerender?.(); };
   form.onsubmit = async e => {
     e.preventDefault();
     const err = form.querySelector('.err'); err.hidden = true;
@@ -224,41 +225,129 @@ function partForm(p, el) {
 }
 window.RB = Object.assign(window.RB || {}, { partForm, isEditing: () => editing });
 
-// ---------- design numbers (calculations page)
+// ---------- design numbers (calculations page): each value gets a pencil (see quick edits)
 function inputsMode(on) {
-  const sec = document.getElementById('inputs'); if (!sec) return;
-  sec.querySelectorAll('tr[data-key]').forEach(tr => {
-    const td = tr.querySelector('.val');
-    if (on && !td.querySelector('input')) { const v = td.textContent; td.dataset.orig = v; td.innerHTML = `<input value="${esc(v)}" size="8" aria-label="${esc(tr.cells[0].textContent)}">`; }
-    if (!on && td.querySelector('input')) td.textContent = td.dataset.orig;
-  });
-  let save = document.getElementById('saveInputs');
-  if (on && !save) {
-    sec.insertAdjacentHTML('beforeend', '<p class="actions" id="saveInputs"><button type="button">Save changed numbers to GitHub</button> <span class="err" hidden></span></p>');
-    save = document.getElementById('saveInputs');
-    save.querySelector('button').onclick = saveInputs;
-  }
-  if (!on && save) save.remove();
+  document.querySelectorAll('#inputs tr[data-key] .val').forEach(td => { if (on && td.dataset.orig == null) td.dataset.orig = td.textContent.trim(); });
 }
-async function saveInputs() {
-  const err = document.querySelector('#saveInputs .err'); err.hidden = true;
-  const changes = [];
-  for (const tr of document.querySelectorAll('#inputs tr[data-key]')) {
-    const td = tr.querySelector('.val'), inp = td.querySelector('input'); if (!inp) continue;
-    const v = inp.value.trim(); if (v === td.dataset.orig) continue;
-    const isNum = /^-?\d+(\.\d+)?([eE]-?\d+)?$/.test(v), wasNum = /^-?\d/.test(td.dataset.orig);
-    if (wasNum && !isNum) { err.textContent = `“${tr.cells[0].textContent}” must be a number.`; err.hidden = false; return; }
-    changes.push([tr.dataset.key, isNum ? v : JSON.stringify(v.replace(/^"|"$/g, ''))]);
-  }
-  if (!changes.length) { say('Nothing changed.', 'ok'); return; }
-  try {
-    const sha = await saveFile('data/inputs.toml', t => changes.reduce((s, [k, v]) => s.replace(new RegExp(`^(${k} = )(.+?)(\\s+#.*)?$`, 'm'), (m, a, b, c) => a + v + (c || '')), t),
-      `Change ${changes.map(c => c[0]).join(', ')}`);
-    if (sha) follow(sha, changes.map(c => c[0]).join(', '));
-  } catch (x) { err.textContent = 'Could not save: ' + x.message.slice(0, 160); err.hidden = false; }
+async function saveInputChanges(changes) {
+  const sha = await saveFile('data/inputs.toml', t => changes.reduce((s, [k, v]) => s.replace(new RegExp(`^(${k} = )(.+?)(\\s+#.*)?$`, 'm'), (m, a, b, c) => a + v + (c || '')), t),
+    `Change ${changes.map(c => c[0]).join(', ')}`);
+  if (!sha) { say('Nothing changed.', 'ok'); return false; }
+  follow(sha, changes.map(c => c[0]).join(', ')); return true;
 }
 
-// ---------- recent edits (files page): public GitHub history of the two data files, with Undo through the relay
+// ---------- quick edits: a pencil next to each value, or double-click it; each one saves on its own
+const NUM = new Set(['qty', 'price', 'mass', 'power_w']), LONG = new Set(['job', 'why', 'without', 'instead']);
+const LABEL = Object.fromEntries(FIELDS.map(([k, l]) => [k, l]));
+const EDITABLE = '[data-f], [data-buy], [data-ref], #inputs tr[data-key] .val';
+let fullFor = null;
+const PEN = '<button type="button" class="pen" title="Change this" aria-label="Change this">✎</button>';
+function decorate(root) {
+  if (!editing || !root) return;
+  if (root.id === 'detail' && !root.querySelector('.qhint') && !root.querySelector('form.pform') && window.RB?.current?.()) {
+    root.insertAdjacentHTML('afterbegin', '<p class="qhint">Click ✎ or double-click a value to change it. <button type="button" class="plainbtn" data-full>Edit all fields at once</button></p>');
+    root.querySelector('[data-full]').onclick = () => { fullFor = window.RB.current().id; window.RB.rerender(); };
+  }
+  root.querySelectorAll(EDITABLE).forEach(e => { if (!e.closest('form') && !e.querySelector(':scope > .pen')) e.insertAdjacentHTML('beforeend', PEN); });
+  root.querySelectorAll('[data-add]').forEach(p => {
+    if (p.querySelector('.addbtn')) return;
+    const kind = p.dataset.add;
+    p.innerHTML = `<button type="button" class="plainbtn addbtn">+ add ${kind === 'buy' ? 'a shop' : 'a reference'}</button>`;
+    p.querySelector('button').onclick = () => {
+      let ul = p.previousElementSibling;
+      if (!ul || ul.tagName !== 'UL') { ul = document.createElement('ul'); if (kind === 'ref') ul.className = 'refs'; const prev = p.previousElementSibling; if (prev && prev.tagName === 'P' && kind === 'buy') prev.replaceWith(ul); else p.before(ul); }
+      const li = document.createElement('li'); li.dataset[kind] = String(ul.children.length); ul.append(li);
+      const t = target(li); if (t) openEditor(t, true);
+    };
+  });
+}
+function target(el) {
+  const f = el.closest(EDITABLE); if (!f) return null;
+  const key = f.closest('#inputs tr[data-key]');
+  if (key) return { kind: 'input', el: f, key: key.dataset.key, label: key.cells[0].textContent.trim() };
+  const row = f.closest('tr[data-id]');
+  const p = row ? window.RB?.part?.(row.dataset.id) : (f.closest('#detail') ? window.RB?.current?.() : null);
+  if (!p || !p.raw) return null;
+  if (f.dataset.buy != null) return { kind: 'buy', el: f, p, i: +f.dataset.buy };
+  if (f.dataset.ref != null) return { kind: 'ref', el: f, p, i: +f.dataset.ref };
+  return { kind: 'field', el: f, p, k: f.dataset.f };
+}
+document.addEventListener('click', e => {
+  if (!editing) return;
+  const b = e.target.closest('.pen'), a = e.target.closest('[data-buy] a, [data-ref] a');
+  if (!b && !a) return;
+  e.preventDefault(); e.stopPropagation();                 // while editing, a click on a shop or paper link edits it instead of opening it
+  const t = target((b || a).parentElement); if (t) openEditor(t);
+}, true);
+document.addEventListener('dblclick', e => {
+  if (!editing || e.target.closest('form')) return;
+  const t = target(e.target); if (!t) return;
+  e.preventDefault(); getSelection()?.removeAllRanges(); openEditor(t);
+});
+function openEditor(t, isNew = false) {
+  document.querySelectorAll('form.qedit').forEach(q => q.cancel());
+  const el = t.el, keep = el.innerHTML;
+  let fields;
+  if (t.kind === 'input') fields = [['v', t.label, el.dataset.orig ?? '']];
+  else if (t.kind === 'field') fields = [['v', LABEL[t.k] || t.k, t.p.raw[t.k] ?? '', LONG.has(t.k)]];
+  else if (t.kind === 'buy') { const b = t.p.raw.buy?.[t.i] || { store: '', link: '', price: '' }; fields = [['store', 'Shop', b.store], ['link', 'https://… link', b.link], ['price', 'Price, e.g. $24.99', b.price]]; }
+  else { const r = t.p.raw.refs?.[t.i] || { cite: '', link: '', says: '' }; fields = [['cite', 'Author et al., Journal (year)', r.cite], ['link', 'https://doi.org/… link', r.link], ['says', 'What it shows, in a few words', r.says]]; }
+  const one = fields.length === 1;
+  const inp = ([n, l, v, long]) => long ? `<textarea name="${n}" rows="5" aria-label="${esc(l)}">${esc(v)}</textarea>`
+    : `<input name="${n}" value="${esc(v)}" placeholder="${esc(l)}" aria-label="${esc(l)}"${one ? ` size="${Math.min(40, Math.max(6, String(v).length + 2))}"` : ''}>`;
+  el.innerHTML = `<form class="qedit${one ? '' : ' multi'}">${fields.map(inp).join('')}<span class="qbtns"><button type="submit" class="ok">Save</button> <button type="button" class="plainbtn no">Cancel</button>${(t.kind === 'buy' || t.kind === 'ref') && !isNew ? ' <button type="button" class="plainbtn del">Remove</button>' : ''}</span><span class="err" hidden></span></form>`;
+  const form = el.querySelector('form');
+  form.cancel = () => { if (isNew) el.remove(); else el.innerHTML = keep; };
+  form.querySelector('.no').onclick = () => form.cancel();
+  form.addEventListener('keydown', e => { if (e.key === 'Escape') form.cancel(); });
+  form.addEventListener('click', e => e.stopPropagation());   // do not re-select the table row underneath
+  const first = form.querySelector('input, textarea'); first.focus(); first.select?.();
+  const err = form.querySelector('.err'), val = n => form.elements[n].value.trim();
+  const fail = m => { err.textContent = m; err.hidden = false; return false; };
+  const busy = on => { form.querySelectorAll('button').forEach(b => { b.disabled = on; }); form.querySelector('.ok').textContent = on ? 'Saving…' : 'Save'; };
+  const run = async (save, shown) => {
+    busy(true);
+    try { const ok = await save(); if (ok) el.innerHTML = `${esc(shown)} <span class="small saving">saved, updating the site…</span>`; else form.cancel(); }
+    catch (x) { busy(false); fail('Could not save: ' + x.message.slice(0, 160)); }
+  };
+  form.querySelector('.del')?.addEventListener('click', () => {
+    const raw = structuredClone(t.p.raw); raw[t.kind === 'buy' ? 'buy' : 'refs'].splice(t.i, 1);
+    run(() => savePart(t.p, raw), '(removed)');
+  });
+  form.onsubmit = e => {
+    e.preventDefault(); err.hidden = true;
+    if (t.kind === 'input') {
+      const v = val('v'), orig = el.dataset.orig ?? '';
+      if (v === orig) return form.cancel();
+      const isNum = /^-?\d+(\.\d+)?([eE]-?\d+)?$/.test(v), wasNum = /^-?\d/.test(orig);
+      if (wasNum && !isNum) return fail('This must be a number.');
+      return run(() => saveInputChanges([[t.key, isNum ? v : JSON.stringify(v.replace(/^"|"$/g, ''))]]), v);
+    }
+    const raw = structuredClone(t.p.raw); let shown;
+    if (t.kind === 'field') {
+      let v = val('v');
+      if (NUM.has(t.k)) { const n = Number(v.replace(/[$,]/g, '')); if (v === '' || !Number.isFinite(n) || n < 0) return fail('This must be a number.'); v = n; }
+      if (v === '' && !(t.k in raw)) return form.cancel();
+      raw[t.k] = v; shown = String(v);
+    } else if (t.kind === 'buy') {
+      const b = { store: val('store'), link: val('link'), price: val('price') };
+      if (!b.store || !/^https:\/\/\S+$/.test(b.link)) return fail('A shop name and a link starting with https:// are needed.');
+      raw.buy = [...(raw.buy || [])]; raw.buy[t.i] = b; shown = `${b.store}, ${b.price}`;
+    } else {
+      const r = { cite: val('cite'), link: val('link'), says: val('says') };
+      if (!r.cite || !/^https:\/\/\S+$/.test(r.link)) return fail('A name and a link starting with https:// are needed.');
+      raw.refs = [...(raw.refs || [])]; raw.refs[t.i] = r; shown = `${r.cite}: ${r.says}`;
+    }
+    run(() => savePart(t.p, raw), shown);
+  };
+}
+async function savePart(p, raw) {
+  const sha = await saveFile('data/parts.toml', t => replacePart(t, raw), `Edit ${raw.id}`);
+  if (!sha) { say('Nothing changed.', 'ok'); return false; }
+  p.raw = raw; follow(sha, raw.name); return true;
+}
+window.RB = Object.assign(window.RB || {}, { decorate });
+
 async function recentEdits() {
   const list = document.getElementById('editlist'); if (!list) return;
   try {

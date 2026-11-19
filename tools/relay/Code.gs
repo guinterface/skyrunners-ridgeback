@@ -8,7 +8,7 @@ const REPO = 'guinterface/skyrunners-ridgeback';
 const ALLOWED = ['data/parts.toml', 'data/inputs.toml'];
 const MAX_BYTES = 400000;          // parts.toml is ~60 kB; refuses anything wildly larger
 const MAX_SAVES_PER_HOUR = 60;
-const MAX_WRONG_PASSCODES = 20;    // per 10 minutes, for everyone together; then the relay refuses all requests for 10 minutes
+const MAX_WRONG_PASSCODES = 10;    // per hour, for everyone together (one-word passcode: slow guessing down); then the relay refuses all requests for an hour
 
 function doPost(e) {
   try {
@@ -17,8 +17,8 @@ function doPost(e) {
     const pass = props.getProperty('PASSCODE') || secret('PASSCODE');
     const cache = CacheService.getScriptCache();
     const wrong = Number(cache.get('wrong') || 0);
-    if (wrong >= MAX_WRONG_PASSCODES) return out({ error: 'Too many wrong passcodes; editing is paused for 10 minutes.', status: 429 });
-    if (pass && q.pass !== pass) { cache.put('wrong', String(wrong + 1), 600); return out({ error: 'Wrong team passcode.', status: 401 }); }
+    if (wrong >= MAX_WRONG_PASSCODES) return out({ error: 'Too many wrong passcodes; editing is paused for an hour.', status: 429 });
+    if (pass && q.pass !== pass) { cache.put('wrong', String(wrong + 1), 3600); return out({ error: 'Wrong team passcode.', status: 401 }); }
     if (q.op === 'check') return out({ ok: true });
     if (q.op === 'read') { allowed(q.path); return out(readFile(q.path)); }
     if (q.op === 'status') return out(status(String(q.sha || '')));

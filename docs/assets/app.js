@@ -230,17 +230,19 @@ function calcBlock(p) {
 function esc(s) { return String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch])); }
 function showDetail(p) {
   if (window.RB?.partForm?.(p, document.getElementById('detail'))) return;
+  const ed = !!window.RB?.isEditing?.();
   const price = p.status.startsWith('reuse') ? 'owned' : (p.price ? `$${p.price.toFixed(2)} each` : '');
   const conn = p.connects.length ? '<ul>' + p.connects.map(([to, how]) => `<li><button class="link" data-go="${to}">${esc(parts[to]?.name || to)}</button>: ${esc(how)}</li>`).join('') + '</ul>' : '<p>Nothing wired; it runs on its own.</p>';
-  const buy = p.buy.length ? '<ul>' + p.buy.map(([s, u, pr]) => `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${esc(s)}</a>, ${esc(pr)}</li>`).join('') + '</ul>' : '<p>Not bought.</p>';
-  document.getElementById('detail').innerHTML = `<h2>${esc(p.name)}</h2>
-   <dl class="meta"><div><dt>System</dt><dd><span class="key" style="--c:${p.color}"></span>${esc(p.systemName)}</dd></div><div><dt>Status</dt><dd>${esc(p.status.charAt(0).toUpperCase() + p.status.slice(1))}</dd></div><div><dt>Quantity</dt><dd>${p.qty}</dd></div>${price ? `<div><dt>Price</dt><dd>${price}</dd></div>` : ''}<div><dt>Mass</dt><dd>${p.mass} g each</dd></div>${p.power_w ? `<div><dt>Power</dt><dd>${p.power_w} W</dd></div>` : ''}</dl>
-   ${p.size || sizeOf[p.id] ? `<p class="size"><b>Size</b> ${esc(p.size || '')}${sizeOf[p.id] ? `${p.size ? '. ' : ''}Drawn at its CAD size: ${[sizeOf[p.id].x, sizeOf[p.id].y, sizeOf[p.id].z].map(v => Math.round(v * 1000)).join(' × ')} mm (outlined).` : ''}</p>` : ''}
-   <h3>What it does</h3><p>${esc(p.job)}</p><h3>Why we chose it</h3><p>${esc(p.why)}</p>${p.without ? `<h3>Without it</h3><p>${esc(p.without)}</p>` : ''}${p.refs?.length ? '<h3>Evidence</h3><ul class="refs">' + p.refs.map(r => `<li><a href="${esc(safeUrl(r.link))}" target="_blank" rel="noopener">${esc(r.cite)}</a>: ${esc(r.says || '')}</li>`).join('') + '</ul>' : ''}${calcBlock(p)}
-   <h3>Connects to</h3>${conn}<h3>Where to buy</h3>${buy}
-   ${p.instead ? `<h3>Considered instead</h3><p>${esc(p.instead)}</p>` : ''}${p.source ? `<p class="small">Numbers from: ${esc(p.source)}</p>` : ''}
+  const buy = p.buy.length ? '<ul>' + p.buy.map(([s, u, pr], i) => `<li data-buy="${i}"><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${esc(s)}</a>, ${esc(pr)}</li>`).join('') + '</ul>' : '<p>Not bought.</p>';
+  document.getElementById('detail').innerHTML = `<h2><span data-f="name">${esc(p.name)}</span></h2>
+   <dl class="meta"><div><dt>System</dt><dd><span class="key" style="--c:${p.color}"></span>${esc(p.systemName)}</dd></div><div><dt>Status</dt><dd><span data-f="status">${esc(p.status.charAt(0).toUpperCase() + p.status.slice(1))}</span></dd></div><div><dt>Quantity</dt><dd><span data-f="qty">${p.qty}</span></dd></div>${price || ed ? `<div><dt>Price</dt><dd><span data-f="price">${price || '$0 (bundled or printed)'}</span></dd></div>` : ''}<div><dt>Mass</dt><dd><span data-f="mass">${p.mass}</span> g each</dd></div>${p.power_w ? `<div><dt>Power</dt><dd><span data-f="power_w">${p.power_w}</span> W</dd></div>` : ''}</dl>
+   ${p.size || sizeOf[p.id] ? `<p class="size"><b>Size</b> <span data-f="size">${esc(p.size || '')}</span>${sizeOf[p.id] ? `${p.size ? '. ' : ''}Drawn at its CAD size: ${[sizeOf[p.id].x, sizeOf[p.id].y, sizeOf[p.id].z].map(v => Math.round(v * 1000)).join(' × ')} mm (outlined).` : ''}</p>` : ''}
+   <h3>What it does</h3><p data-f="job">${esc(p.job)}</p><h3>Why we chose it</h3><p data-f="why">${esc(p.why)}</p>${p.without || ed ? `<h3>Without it</h3><p data-f="without">${esc(p.without || '')}</p>` : ''}${p.refs?.length || ed ? '<h3>Evidence</h3><ul class="refs">' + (p.refs || []).map((r, i) => `<li data-ref="${i}"><a href="${esc(safeUrl(r.link))}" target="_blank" rel="noopener">${esc(r.cite)}</a>: ${esc(r.says || '')}</li>`).join('') + '</ul>' + (ed ? '<p data-add="ref"></p>' : '') : ''}${calcBlock(p)}
+   <h3>Connects to</h3>${conn}<h3>Where to buy</h3>${buy}${ed ? '<p data-add="buy"></p>' : ''}
+   ${p.instead || ed ? `<h3>Considered instead</h3><p data-f="instead">${esc(p.instead || '')}</p>` : ''}${p.source || ed ? `<p class="small">Numbers from: <span data-f="source">${esc(p.source || '')}</span></p>` : ''}
    <p class="small"><a href="#row-${p.id}">Show in the parts table</a> · <a href="${esc(p.edit)}" target="_blank" rel="noopener">Edit this part</a> (data/parts.toml, line ${p.editLine})</p>`;
   document.querySelectorAll('#detail [data-go]').forEach(b => b.addEventListener('click', () => select(b.dataset.go)));
+  window.RB?.decorate?.(document.getElementById('detail'));
 }
 document.querySelectorAll('tr[data-id]').forEach(r => {
   const go = () => { select(r.dataset.id); el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); };
@@ -297,4 +299,4 @@ renderer.setAnimationLoop(() => {
 });
 const fromHash = () => { const id = location.hash.slice(1); if (parts[id]) select(id, true); };
 addEventListener('hashchange', fromHash); fromHash();
-window.RB = Object.assign(window.RB || {}, { rerender: () => { if (selected) showDetail(parts[selected]); } });
+window.RB = Object.assign(window.RB || {}, { rerender: () => { if (selected) showDetail(parts[selected]); }, part: id => parts[id], current: () => parts[selected] });
