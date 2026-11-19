@@ -72,12 +72,15 @@ OSTATES = {"to order": "To order", "ordered": "Ordered", "arrived": "Arrived", "
 PBYID = {p["id"]: p for p in PARTS}
 BUY = json.load(open(ROOT / "data/buy_list.json"))
 PART_BY_NAME = {p["name"]: p["id"] for p in PARTS}
-def made(p): return p["status"].startswith(("print", "build")) and not p["price"]
+def made(p): return ("print" in p["status"] or "build" in p["status"]) and not p["price"]
+def option(p): return p.get("tier") in ("add", "later")
 def order_of(pid):
     p = PBYID.get(pid, {})
     if p.get("order_with") in PBYID: return dict(order_of(p["order_with"]), key=p["order_with"])   # comes in the same box
     st = p.get("order", "to order")
-    label = "To make" if (st == "to order" and p and made(p)) else OSTATES[st]
+    label = OSTATES[st]
+    if st == "to order" and p and made(p): label = "To make"
+    if st == "to order" and p and option(p): label = "Option"
     return dict(key=pid, state=st, label=label, date=p.get("order_date", ""), by=p.get("order_by", ""))
 def chip(pid, extra=""):
     o = order_of(pid)
@@ -230,7 +233,7 @@ for p in PARTS:
 # ---------- the order board (first page, right under the 3D drone): every part by component, what to order, what is ordered
 def money(x): return f"${x:,.2f}"
 BOARD_ORDER = ["power", "lift", "cruise", "control", "surfaces", "airframe", "payload", "ground", "materials"]
-rows, bcount, bleft, bspent = [], {k: 0 for k in OSTATES}, 0.0, 0.0
+rows, bcount, bleft, bspent, bopt, bopt_usd = [], {k: 0 for k in OSTATES}, 0.0, 0.0, 0, 0.0
 for sk in BOARD_ORDER + [k for k in SYSTEMS if k not in BOARD_ORDER]:
     if sk not in SYSTEMS: continue
     sname, col = SYSTEMS[sk]
@@ -240,14 +243,17 @@ for sk in BOARD_ORDER + [k for k in SYSTEMS if k not in BOARD_ORDER]:
                 f'<span class="gcount">{gdone} of {len(ps)} here</span></th></tr>')
     for p in ps:
         o = order_of(p["id"]); line = p["qty"] * p["price"]
-        if p["price"] and o["state"] != "have it":
-            if o["state"] == "to order": bleft += line * (1 + p["china"] * p["duty"])
-            else: bspent += line * (1 + p["china"] * p["duty"])
-        if p["price"] or not made(p): bcount[o["state"]] += 1
+        if option(p) and o["state"] == "to order": bopt += 1; bopt_usd += line
+        else:
+            if p["price"] and o["state"] != "have it" and not p.get("order_with"):
+                if o["state"] == "to order": bleft += line * (1 + p["china"] * p["duty"])
+                else: bspent += line * (1 + p["china"] * p["duty"])
+            bcount[o["state"]] += 1
         buy = p["buy"][0] if p["buy"] else None
         shop = (f'<a href="{E(buy[1])}" target="_blank" rel="noopener">{E(buy[0].split(" (")[0])}</a>' if buy else E(p.get("where", "")))
         when = " ".join(x for x in [o["date"], ("by " + o["by"]) if o["by"] else ""] if x)
-        each = "in a bundle" if (not p["price"] and p["status"].startswith("buy")) else ("" if not p["price"] else f'<span data-f="price">{money(p["price"])}</span>')
+        each = (f'with the {E(PBYID[p["order_with"]]["name"].split(":")[0].lower())}' if p.get("order_with") in PBYID
+                else "see Materials" if (not p["price"] and "buy" in p["status"]) else "" if not p["price"] else f'<span data-f="price">{money(p["price"])}</span>')
         rows.append(f'<tr id="row-{p["id"]}" data-id="{p["id"]}" data-state="{o["state"].replace(" ", "-")}" tabindex="0">'
                     f'<td class="st">{chip(p["id"])}{f"<span class=when>{E(when)}</span>" if when else ""}</td>'
                     f'<td class="pname">{E(p["name"])}</td><td class="num"><span data-f="qty">{p["qty"]}</span></td>'
@@ -257,7 +263,7 @@ for sk in BOARD_ORDER + [k for k in SYSTEMS if k not in BOARD_ORDER]:
 nparts = sum(bcount.values())
 board = f"""<section id="order"><h2>What to order</h2>
 <div class="orders"><p class="obar" role="img" aria-label="{bcount['arrived'] + bcount['have it']} of {nparts} parts here, {bcount['ordered']} ordered, {bcount['to order']} to order"><span class="s-arrived" style="flex:{bcount['arrived'] + bcount['have it']}"></span><span class="s-ordered" style="flex:{bcount['ordered']}"></span><span class="s-to-order" style="flex:{bcount['to order']}"></span></p>
-<p class="ototals"><span><b class="big">{bcount['to order']}</b> to order <span class="quiet">({money(bleft)} with duty)</span></span><span><b class="big">{bcount['ordered']}</b> ordered, on the way</span><span><b class="big">{bcount['arrived'] + bcount['have it']}</b> here <span class="quiet">(arrived or already ours)</span></span><span><b class="big">{money(bspent)}</b> spent so far</span></p>
+<p class="ototals"><span><b class="big">{bcount['to order']}</b> to order <span class="quiet">({money(bleft)} with duty, + about {money(val("cost_ship"))} shipping)</span></span><span><b class="big">{bcount['ordered']}</b> ordered, on the way</span><span><b class="big">{bcount['arrived'] + bcount['have it']}</b> here <span class="quiet">(arrived or already ours)</span></span><span><b class="big">{money(bspent)}</b> spent so far</span>{f'<span><b class="big">{bopt}</b> option{"s" if bopt != 1 else ""} still to decide <span class="quiet">({money(bopt_usd)}, not counted)</span></span>' if bopt else ""}</p>
 <p class="ofilter">Show: <button type="button" class="chip" data-show="all" aria-pressed="true">All</button> <button type="button" class="chip" data-show="to-order" aria-pressed="false">To order</button> <button type="button" class="chip" data-show="ordered" aria-pressed="false">Ordered</button> <button type="button" class="chip" data-show="arrived" aria-pressed="false">Arrived or have it</button></p>
 <p class="small">Click a status to change it (ordered, arrived, have it), a ✎ to change a number, or a part's name to see it on the drone. Adding or removing a part here changes the sheets, the mass, the cost and the <a href="buy.html">buy list</a> (with duty and shipping) on the next rebuild.</p></div>
 <div class="tablewrap"><table class="parts board"><thead><tr><th>Status</th><th>Part</th><th class="num">Qty</th><th class="num">Each</th><th class="num">Line</th><th>Shop</th><th></th></tr></thead>

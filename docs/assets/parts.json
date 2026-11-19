@@ -1677,7 +1677,7 @@
    "order": {
     "key": "booms",
     "state": "to order",
-    "label": "To order",
+    "label": "To make",
     "date": "",
     "by": ""
    }
@@ -2779,7 +2779,7 @@
    "order": {
     "key": "nir_channel",
     "state": "to order",
-    "label": "To order",
+    "label": "Option",
     "date": "",
     "by": ""
    }
