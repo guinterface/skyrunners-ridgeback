@@ -2,4 +2,3 @@
 # state: "ordered", "arrived" or "have it" (already own it / borrowed). Items not listed here are still "to order".
 # Easiest: on the website press Edit, then the pencil next to an item's state on the Buy list (or in a part's panel).
 [orders]
-relay_test = { state = "ordered", date = "2026-11-19", by = "Relay test" }
