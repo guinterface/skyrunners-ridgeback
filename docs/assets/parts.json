@@ -34,6 +34,15 @@
    "nodes": [
     "battery_6S6P_P50B"
    ],
+   "order": {
+    "key": "battery",
+    "state": "ordered",
+    "label": "Ordered",
+    "date": "2026-11-19",
+    "by": "gui"
+   },
+   "order_date": "2026-11-19",
+   "order_by": "gui",
    "where": "",
    "china": 0,
    "duty": 0,
@@ -74,14 +83,10 @@
     ],
     "nodes": [
      "battery_6S6P_P50B"
-    ]
-   },
-   "order": {
-    "key": "battery",
-    "state": "to order",
-    "label": "To order",
-    "date": "",
-    "by": ""
+    ],
+    "order": "ordered",
+    "order_date": "2026-11-19",
+    "order_by": "gui"
    },
    "calc": [
     [
@@ -153,7 +158,7 @@
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 48,
+   "editLine": 51,
    "raw": {
     "id": "pm07",
     "order_with": "pixhawk",
@@ -256,7 +261,7 @@
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 68,
+   "editLine": 71,
    "raw": {
     "id": "servo_reg",
     "name": "Servo regulator, 5\u20136 V, at least 5 A",
@@ -350,7 +355,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 86,
+   "editLine": 89,
    "raw": {
     "id": "motor_lift",
     "name": "Lift motor: T-Motor MN5008 KV340",
@@ -459,7 +464,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 109,
+   "editLine": 112,
    "raw": {
     "id": "prop_lift",
     "name": "Lift propeller: T-Motor P18x6.1 (pair)",
@@ -563,7 +568,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 130,
+   "editLine": 133,
    "raw": {
     "id": "esc_lift",
     "name": "Speed controller: T-Motor ALPHA 40A 6S",
@@ -675,7 +680,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 150,
+   "editLine": 153,
    "raw": {
     "id": "motor_pusher",
     "name": "Pusher motor: T-Motor AT3520 KV550",
@@ -773,7 +778,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 172,
+   "editLine": 175,
    "raw": {
     "id": "prop_pusher",
     "name": "Pusher propeller: APC 12x6E",
@@ -855,7 +860,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 191,
+   "editLine": 194,
    "raw": {
     "id": "esc_pusher",
     "name": "Pusher speed controller: ALPHA 40A 6S",
@@ -965,7 +970,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 210,
+   "editLine": 213,
    "raw": {
     "id": "pixhawk",
     "name": "Flight controller: Holybro Pixhawk 6C (plastic case), bought with the PM07",
@@ -1069,7 +1074,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 231,
+   "editLine": 234,
    "raw": {
     "id": "gnss",
     "name": "GPS and compass: Holybro M10",
@@ -1144,7 +1149,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 252,
+   "editLine": 255,
    "raw": {
     "id": "airspeed",
     "name": "Airspeed sensor: Holybro MS5525DSO with PT40 pitot tube",
@@ -1223,7 +1228,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 272,
+   "editLine": 275,
    "raw": {
     "id": "telemetry",
     "name": "Telemetry radios: Holybro SiK V3 915 MHz (pair)",
@@ -1302,7 +1307,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 293,
+   "editLine": 296,
    "raw": {
     "id": "rc_rx",
     "name": "RC receiver: RadioMaster RP2 V2 (ExpressLRS)",
@@ -1370,7 +1375,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 311,
+   "editLine": 314,
    "raw": {
     "id": "remote_id",
     "name": "Remote ID: Ruko R111S",
@@ -1451,7 +1456,7 @@
    "systemName": "Control surfaces",
    "color": "#4e7a3a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 330,
+   "editLine": 333,
    "raw": {
     "id": "servos",
     "name": "Servo: KST X10 V2",
@@ -1546,7 +1551,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 350,
+   "editLine": 353,
    "raw": {
     "id": "wing",
     "name": "Wing: printed LW-ASA on carbon spars",
@@ -1638,7 +1643,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 368,
+   "editLine": 371,
    "raw": {
     "id": "booms",
     "name": "Booms: 30 mm carbon tubes with nacelles",
@@ -1715,7 +1720,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 386,
+   "editLine": 389,
    "raw": {
     "id": "fuselage",
     "name": "Fuselage: printed shell",
@@ -1786,7 +1791,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 402,
+   "editLine": 405,
    "raw": {
     "id": "tail",
     "name": "Arch tail",
@@ -1900,7 +1905,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 418,
+   "editLine": 421,
    "raw": {
     "id": "payload_computer",
     "name": "Payload computer: Raspberry Pi 5 (4 GB) with active cooler",
@@ -2035,7 +2040,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 443,
+   "editLine": 446,
    "raw": {
     "id": "payload_power",
     "name": "Payload regulator: Pololu D36V50F5, 5 V 5.5 A",
@@ -2171,7 +2176,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 467,
+   "editLine": 470,
    "raw": {
     "id": "thermal_cam",
     "name": "Thermal camera: FLIR Lepton 3.5 on a PureThermal 3 board",
@@ -2309,7 +2314,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 497,
+   "editLine": 500,
    "raw": {
     "id": "rgb_cam",
     "name": "Colour camera: Raspberry Pi Global Shutter Camera, 6 mm lens (lens not priced)",
@@ -2452,7 +2457,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 523,
+   "editLine": 526,
    "raw": {
     "id": "spot_sensor",
     "name": "1610 nm spot sensor (built by us): two InGaAs photodiodes behind 1610 nm filters",
@@ -2595,7 +2600,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 554,
+   "editLine": 557,
    "raw": {
     "id": "air_sensor",
     "name": "Air temperature and humidity: Sensirion SHT45",
@@ -2718,7 +2723,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 580,
+   "editLine": 583,
    "raw": {
     "id": "nir_channel",
     "name": "Near-infrared reference channel (850 nm) for the spot sensor",
@@ -2821,7 +2826,7 @@
    "systemName": "Ground equipment",
    "color": "#9a6b16",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 607,
+   "editLine": 610,
    "raw": {
     "id": "rc_tx",
     "name": "RC transmitter: RadioMaster Pocket (ExpressLRS), with two 18650 cells",
@@ -2894,7 +2899,7 @@
    "systemName": "Ground equipment",
    "color": "#9a6b16",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 626,
+   "editLine": 629,
    "raw": {
     "id": "charger",
     "name": "Battery charger: HOTA H6 Pro (200 W on wall power)",
@@ -2951,7 +2956,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 647,
+   "editLine": 650,
    "raw": {
     "id": "pack_bms",
     "name": "Pack BMS, nickel strip, wrap",
@@ -3003,7 +3008,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 663,
+   "editLine": 666,
    "raw": {
     "id": "tubes_main",
     "name": "HaoZhong 1 m carbon tubes (13: booms, spars, rods, legs)",
@@ -3062,7 +3067,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 682,
+   "editLine": 685,
    "raw": {
     "id": "tubes_extra",
     "name": "HaoZhong 2 more 6/4 tubes",
@@ -3121,7 +3126,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 701,
+   "editLine": 704,
    "raw": {
     "id": "rods_3mm",
     "name": "HaoZhong 3 mm solid rod 500 mm, 5-pack",
@@ -3180,7 +3185,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 720,
+   "editLine": 723,
    "raw": {
     "id": "carbon_plates",
     "name": "Carbon plates 3 mm 100x300 + 1.5 mm 200x300",
@@ -3239,7 +3244,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 739,
+   "editLine": 742,
    "raw": {
     "id": "wire_pack",
     "name": "Wire Power Pack (Lumenier)",
@@ -3296,7 +3301,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 756,
+   "editLine": 759,
    "raw": {
     "id": "xt90",
     "name": "Amass XT90H",
@@ -3353,7 +3358,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 773,
+   "editLine": 776,
    "raw": {
     "id": "servo_ext",
     "name": "Servo extension 60 cm",
@@ -3404,7 +3409,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 790,
+   "editLine": 793,
    "raw": {
     "id": "bullets",
     "name": "3.5 mm bullet 3-packs",
@@ -3450,7 +3455,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 806,
+   "editLine": 809,
    "raw": {
     "id": "heat_shrink",
     "name": "Heat shrink 530 pc",
@@ -3496,7 +3501,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 822,
+   "editLine": 825,
    "raw": {
     "id": "xt60",
     "name": "XT60 pairs, 5-pack (removable-wing ESC feeds)",
@@ -3542,7 +3547,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 838,
+   "editLine": 841,
    "raw": {
     "id": "xt30",
     "name": "XT30 pairs, 5-pack (servo regulator, Jetson regulator)",
@@ -3588,7 +3593,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 854,
+   "editLine": 857,
    "raw": {
     "id": "balance_lead",
     "name": "JST-XH 7-pin balance lead",
@@ -3634,7 +3639,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 870,
+   "editLine": 873,
    "raw": {
     "id": "jst_gh",
     "name": "JST-GH cable set",
@@ -3680,7 +3685,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 886,
+   "editLine": 889,
    "raw": {
     "id": "solder",
     "name": "Solder, ties, sleeve",
@@ -3739,7 +3744,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 902,
+   "editLine": 905,
    "raw": {
     "id": "lw_asa",
     "name": "LW-ASA 650 g",
@@ -3790,7 +3795,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 920,
+   "editLine": 923,
    "raw": {
     "id": "petg_cf",
     "name": "Bambu PETG-CF 1 kg",
@@ -3841,7 +3846,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 937,
+   "editLine": 940,
    "raw": {
     "id": "small_spools",
     "name": "ASA, TPU, PETG small spools",
@@ -3887,7 +3892,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 953,
+   "editLine": 956,
    "raw": {
     "id": "m5_inserts",
     "name": "M5 heat-set inserts, 50",
@@ -3933,7 +3938,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 969,
+   "editLine": 972,
    "raw": {
     "id": "hardware",
     "name": "Hardware (inserts, bolts, magnets, hinges, epoxy)",
@@ -3985,7 +3990,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 985,
+   "editLine": 988,
    "raw": {
     "id": "nozzle",
     "name": "Prusa ObXidian 0.4 nozzle (only if needed)",
