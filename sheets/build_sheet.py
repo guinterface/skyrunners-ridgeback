@@ -818,9 +818,11 @@ ws = sheet("Electronics", [30, 26, 5, 16, 10, 12, 44, 10, 46, 46, 18])
 title(ws, "Electronics: what each part does, reuse vs buy, and why this part")
 header(ws, ["Part", "Job", "Qty", "Status", "Unit $", "Line $", "Buy", "Mass g (each)", "Why this one", "Alternatives considered", "On the website"])
 EL = [
-    ("Holybro Pixhawk 6C (plastic) + PM07 bundle", "flight controller (PX4 VTOL) + power module", part_qty("pixhawk"), "BUY", part_price("pixhawk"), part_url("pixhawk"), part_mass("pixhawk"),
-     "PX4 standard VTOL support; CAD and params drawn for it; PM07 90 A continuous [V Holybro 11-19] vs hot hover current [C Lift_Hover]", "6C Mini + PM02 V3 $197.99 (60 A, too close); Matek H743-WING V3 (ArduPilot, hard to find)"),
-    ("Holybro M10 GPS", "position, heading", part_qty("gnss"), "BUY", part_price("gnss"), part_url("gnss"), part_mass("gnss"), "plugs into the 6C GPS port", "M9N $54.99"),
+    ("CubePilot Cube Orange on its carrier (ours)", "flight controller (PX4 VTOL)", part_qty("pixhawk"), "OWN", part_price("pixhawk"), part_url("pixhawk"), part_mass("pixhawk"),
+     "club already owns it (user 11-19); 3 IMUs, 2 heated + isolated; ADS-B in if on the ADS-B carrier; PX4 cubepilot_cubeorange. Mass 75 g [A]: weigh it", "Pixhawk 6C plastic + PM07 $242.99 [V Holybro 11-19]; Cube Orange+ Standard Set $451 [V IRLock 11-19]"),
+    ("Holybro PM07 power module", "power to the ESCs + battery voltage/current", part_qty("pm07"), "BUY", part_price("pm07"), part_url("pm07"), part_mass("pm07"),
+     "90 A continuous [V Holybro 11-19] vs hot hover current [C Lift_Hover]; check its power cable fits the Cube carrier", "the Cube's Power Brick Mini (too small for our current)"),
+    ("Holybro M10 GPS", "position, heading", part_qty("gnss"), "BUY", part_price("gnss"), part_url("gnss"), part_mass("gnss"), "plugs into the flight controller GPS port (check the cable for the Cube carrier)", "M9N $54.99"),
     ("Holybro MS5525DSO airspeed + PT40", "airspeed for transitions and stall protection", part_qty("airspeed"), "BUY", part_price("airspeed"), part_url("airspeed"), part_mass("airspeed"), "PX4 I2C driver", "MS4525DO sold out"),
     ("Holybro SiK V3 915 MHz (pair)", "ground link", part_qty("telemetry"), "BUY", part_price("telemetry"), part_url("telemetry"), part_mass("telemetry"), "pair = drone + laptop radio", "1 W pair $175"),
     ("RadioMaster RP2 V2 ELRS receiver", "manual control", part_qty("rc_rx"), "BUY", part_price("rc_rx"), part_url("rc_rx"), part_mass("rc_rx"), "CRSF into PX4", ""),
@@ -1001,7 +1003,7 @@ text_rows(ws, [
     ["Booms", "30/28 CF, two 1 m tubes bonded with a sleeve", "one-piece 2 m 25/22 ($288.60)", "$97 vs $289; margin 1.97; needs a bonded-joint test.", "Structure_Stability; mini_boom.md", "10-31 / done"],
     ["Servos", "KST X10 V2", "DS145MG, X10 Mini", "Margin 1.60 over need, US stock.", "Electronics; mini_servo.md", "10-30 / done"],
     ["Remote ID", "Ruko R111S", "Dronetag Beacon $149", "On the FAA accepted list; cheapest found.", "Electronics", "10-31 / done"],
-    ["Flight electronics", "Buy new: Pixhawk 6C + PM07, M10, MS5525DSO, SiK V3, RP2, Pocket", "reuse Sky4 (not available, user 11-19)", "Prices read on the stores 11-19 (Electronics tab); the Pocket transmitter and charger are in BOM_Cost, Ground equipment.", "Electronics; BOM_Cost", "11-19 / done"],
+    ["Flight electronics", "Reuse our Cube Orange (user 11-19); buy PM07, M10, MS5525DSO, SiK V3, RP2, Pocket", "Pixhawk 6C + PM07 new ($242.99); Sky4 parts (not available)", "Prices read on the stores 11-19 (Electronics tab); the Pocket transmitter and charger are in BOM_Cost, Ground equipment.", "Electronics; BOM_Cost", "11-19 / done"],
 ])
 
 # =====================================================================================================

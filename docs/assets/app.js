@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-const data = await (await fetch('assets/parts.json')).json();
+const data = await (await fetch('assets/parts.json', { cache: 'no-cache' })).json();   // always check for a newer copy
 const parts = Object.fromEntries(data.parts.map(p => [p.id, p]));
 const exact = {}, prefixes = [];
 data.parts.forEach(p => p.nodes.forEach(n => n.endsWith('*') ? prefixes.push([n.slice(0, -1), p.id]) : (exact[n] = p.id)));
@@ -19,6 +19,7 @@ const el = document.getElementById('view');
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 el.appendChild(renderer.domElement);
+let onScreen = true, idleFrames = 0;                     // render only when visible and something moves (see the loop at the end)
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(30, 1, 0.02, 60);
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -245,7 +246,7 @@ function showDetail(p) {
   window.RB?.decorate?.(document.getElementById('detail'));
 }
 document.querySelectorAll('tr[data-id]').forEach(r => {
-  const go = () => { select(r.dataset.id); el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); };
+  const go = () => { if (window.RB?.isEditing?.()) return; select(r.dataset.id); el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); };   // while editing the list, stay on the list
   r.addEventListener('click', go); r.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
 });
 
@@ -278,10 +279,17 @@ document.querySelectorAll('[data-mode]').forEach(b => {
 document.getElementById('reset')?.addEventListener('click', () => select(null));
 document.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => select(b.dataset.pick)));
 
-function size() { const w = el.clientWidth, h = el.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+function size() { const w = el.clientWidth, h = el.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); idleFrames = 0; }
 new ResizeObserver(size).observe(el); size();
 const clock = new THREE.Clock();
+// Draw only while the viewer is on screen and the tab is visible; when still, only while something moves.
+new IntersectionObserver(es => { onScreen = es[0].isIntersecting; }).observe(el);
+controls.addEventListener('change', () => { idleFrames = 0; });
 renderer.setAnimationLoop(() => {
+  if (!onScreen || document.hidden) { clock.getDelta(); return; }
+  const moving = mode !== 'still' || selected || fly || idleFrames < 3;
+  if (!moving) { clock.getDelta(); return; }
+  idleFrames++;
   const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
   for (const p of spinning) {
     if (p.userData.spin === 'z') {

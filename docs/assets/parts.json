@@ -108,25 +108,26 @@
   },
   {
    "id": "pm07",
-   "order_with": "pixhawk",
    "name": "Power module: Holybro PM07",
    "system": "power",
    "qty": 1,
-   "status": "buy (in the Pixhawk 6C bundle)",
-   "price": 0,
+   "status": "buy",
+   "price": 43.99,
+   "china": 1,
+   "duty": 0.25,
    "mass": 25,
    "size": "68 \u00d7 50 \u00d7 8 mm (Holybro)",
    "buy": [
     [
-     "Holybro (in the Pixhawk 6C bundle; alone $43.99)",
+     "Holybro",
      "https://holybro.com/products/pixhawk-4-power-module-pm07",
-     "in bundle"
+     "$43.99"
     ]
    ],
    "job": "Splits battery power to the five speed controllers and tells the flight controller the battery voltage and current.",
    "why": "Rated 90 A continuous. Hot-day hover draws 55 A. Its stock 30 A input wire is replaced by two 14 AWG wires and an XT90.",
    "instead": "PM08D (higher rating) if the wiring tests run hot.",
-   "source": "Holybro PM07 page (90 A continuous, 140 A for 60 s), read 19 Nov; sheet 04 Lift_Hover",
+   "source": "Holybro PM07 page (90 A continuous, 140 A for 60 s; $43.99 on its own), read 19 Nov; sheet 04 Lift_Hover. The Cube's own Power Brick Mini is not used: our hot-day hover current is too high for a small brick.",
    "connects": [
     [
      "battery",
@@ -153,33 +154,32 @@
     "power_module_PM07"
    ],
    "where": "",
-   "china": 0,
-   "duty": 0,
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
    "editLine": 51,
    "raw": {
     "id": "pm07",
-    "order_with": "pixhawk",
     "name": "Power module: Holybro PM07",
     "system": "power",
     "qty": 1,
-    "status": "buy (in the Pixhawk 6C bundle)",
-    "price": 0,
+    "status": "buy",
+    "price": 43.99,
+    "china": 1,
+    "duty": 0.25,
     "mass": 25,
     "size": "68 \u00d7 50 \u00d7 8 mm (Holybro)",
     "buy": [
      {
-      "store": "Holybro (in the Pixhawk 6C bundle; alone $43.99)",
+      "store": "Holybro",
       "link": "https://holybro.com/products/pixhawk-4-power-module-pm07",
-      "price": "in bundle"
+      "price": "$43.99"
      }
     ],
     "job": "Splits battery power to the five speed controllers and tells the flight controller the battery voltage and current.",
     "why": "Rated 90 A continuous. Hot-day hover draws {Ipack_hot} A. Its stock 30 A input wire is replaced by two 14 AWG wires and an XT90.",
     "instead": "PM08D (higher rating) if the wiring tests run hot.",
-    "source": "Holybro PM07 page (90 A continuous, 140 A for 60 s), read 19 Nov; sheet 04 Lift_Hover",
+    "source": "Holybro PM07 page (90 A continuous, 140 A for 60 s; $43.99 on its own), read 19 Nov; sheet 04 Lift_Hover. The Cube's own Power Brick Mini is not used: our hot-day hover current is too high for a small brick.",
     "connects": [
      [
       "battery",
@@ -207,7 +207,7 @@
     ]
    },
    "order": {
-    "key": "pixhawk",
+    "key": "pm07",
     "state": "to order",
     "label": "To order",
     "date": "",
@@ -261,7 +261,7 @@
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 71,
+   "editLine": 69,
    "raw": {
     "id": "servo_reg",
     "name": "Servo regulator, 5\u20136 V, at least 5 A",
@@ -355,7 +355,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 89,
+   "editLine": 87,
    "raw": {
     "id": "motor_lift",
     "name": "Lift motor: T-Motor MN5008 KV340",
@@ -464,7 +464,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 112,
+   "editLine": 110,
    "raw": {
     "id": "prop_lift",
     "name": "Lift propeller: T-Motor P18x6.1 (pair)",
@@ -568,7 +568,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 133,
+   "editLine": 131,
    "raw": {
     "id": "esc_lift",
     "name": "Speed controller: T-Motor ALPHA 40A 6S",
@@ -680,7 +680,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 153,
+   "editLine": 151,
    "raw": {
     "id": "motor_pusher",
     "name": "Pusher motor: T-Motor AT3520 KV550",
@@ -778,7 +778,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 175,
+   "editLine": 173,
    "raw": {
     "id": "prop_pusher",
     "name": "Pusher propeller: APC 12x6E",
@@ -860,7 +860,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 194,
+   "editLine": 192,
    "raw": {
     "id": "esc_pusher",
     "name": "Pusher speed controller: ALPHA 40A 6S",
@@ -909,26 +909,24 @@
   },
   {
    "id": "pixhawk",
-   "name": "Flight controller: Holybro Pixhawk 6C (plastic case), bought with the PM07",
+   "name": "Flight controller: CubePilot Cube Orange on its carrier board (ours)",
    "system": "control",
    "qty": 1,
-   "status": "buy",
-   "price": 242.99,
-   "china": 1,
-   "duty": 0.25,
-   "mass": 34.6,
-   "size": "84.8 \u00d7 44 \u00d7 12.4 mm (Holybro)",
+   "status": "reuse (we own it)",
+   "price": 0,
+   "mass": 75,
+   "size": "Cube 38.25 \u00d7 38.25 \u00d7 22.3 mm on a 94.5 \u00d7 44.3 \u00d7 17.3 mm carrier, about 40 mm tall together (PX4 docs). Mass 75 g is our estimate: weigh it.",
    "buy": [
     [
-     "Holybro (Pixhawk 6C plastic + PM07 bundle)",
-     "https://holybro.com/products/pixhawk-6c",
-     "$242.99"
+     "IRLock (Cube Orange+ Standard Set with ADS-B carrier, if ours fails)",
+     "https://irlock.com/products/cube-orange-plus-standard-set",
+     "$451.00"
     ]
    ],
    "job": "Flies the drone: reads the sensors, runs PX4's VTOL software, and commands the motors and servos.",
-   "why": "PX4 supports quadplanes on it out of the box, and the CAD, wiring table and PX4 settings are drawn for it. The bundle with the PM07 power module costs $242.99; the aluminium case is sold out, and the plastic one is 25 g lighter.",
-   "instead": "Pixhawk 6C Mini with PM02 V3 ($197.99): the PM02 is rated 60 A continuous, too close to the {Ipack_hot} A hot-day hover. Matek H743-WING V3 (built-in 220 A current sensor and servo regulator, ArduPilot): cheaper and replaces the servo regulator, but hard to find in stock, often counterfeited, and the CAD and settings would change.",
-   "source": "Holybro store, read 19 Nov",
+   "why": "The club already owns it, so it costs nothing, against $242.99 for a new Pixhawk 6C with power module. Three IMUs, two of them on a heated, vibration-isolated board. If ours is on the ADS-B carrier, it also hears crewed aircraft nearby (1090 MHz ADS-B in), which matters near Palo Alto airport. PX4 runs on it (cubepilot_cubeorange).",
+   "instead": "Holybro Pixhawk 6C (plastic) with PM07, $242.99: lighter (34.6 g) and thinner (12.4 mm), the board the first CAD was drawn for. Cube Orange+ Standard Set, $451 at IRLock: only if ours is broken.",
+   "source": "PX4 Cube Orange page (dimensions), read 19 Nov; IRLock store, read 19 Nov. To check on ours: Orange or Orange+ (different firmware), which carrier, and that the power cable fits the PM07.",
    "connects": [
     [
      "gnss",
@@ -966,33 +964,40 @@
    "nodes": [
     "pixhawk_6C"
    ],
+   "order": {
+    "key": "pixhawk",
+    "state": "have it",
+    "label": "Have it",
+    "date": "",
+    "by": ""
+   },
    "where": "",
+   "china": 0,
+   "duty": 0,
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 213,
+   "editLine": 211,
    "raw": {
     "id": "pixhawk",
-    "name": "Flight controller: Holybro Pixhawk 6C (plastic case), bought with the PM07",
+    "name": "Flight controller: CubePilot Cube Orange on its carrier board (ours)",
     "system": "control",
     "qty": 1,
-    "status": "buy",
-    "price": 242.99,
-    "china": 1,
-    "duty": 0.25,
-    "mass": 34.6,
-    "size": "84.8 \u00d7 44 \u00d7 12.4 mm (Holybro)",
+    "status": "reuse (we own it)",
+    "price": 0,
+    "mass": 75,
+    "size": "Cube 38.25 \u00d7 38.25 \u00d7 22.3 mm on a 94.5 \u00d7 44.3 \u00d7 17.3 mm carrier, about 40 mm tall together (PX4 docs). Mass 75 g is our estimate: weigh it.",
     "buy": [
      {
-      "store": "Holybro (Pixhawk 6C plastic + PM07 bundle)",
-      "link": "https://holybro.com/products/pixhawk-6c",
-      "price": "$242.99"
+      "store": "IRLock (Cube Orange+ Standard Set with ADS-B carrier, if ours fails)",
+      "link": "https://irlock.com/products/cube-orange-plus-standard-set",
+      "price": "$451.00"
      }
     ],
     "job": "Flies the drone: reads the sensors, runs PX4's VTOL software, and commands the motors and servos.",
-    "why": "PX4 supports quadplanes on it out of the box, and the CAD, wiring table and PX4 settings are drawn for it. The bundle with the PM07 power module costs $242.99; the aluminium case is sold out, and the plastic one is 25 g lighter.",
-    "instead": "Pixhawk 6C Mini with PM02 V3 ($197.99): the PM02 is rated 60 A continuous, too close to the {Ipack_hot} A hot-day hover. Matek H743-WING V3 (built-in 220 A current sensor and servo regulator, ArduPilot): cheaper and replaces the servo regulator, but hard to find in stock, often counterfeited, and the CAD and settings would change.",
-    "source": "Holybro store, read 19 Nov",
+    "why": "The club already owns it, so it costs nothing, against $242.99 for a new Pixhawk 6C with power module. Three IMUs, two of them on a heated, vibration-isolated board. If ours is on the ADS-B carrier, it also hears crewed aircraft nearby (1090 MHz ADS-B in), which matters near Palo Alto airport. PX4 runs on it (cubepilot_cubeorange).",
+    "instead": "Holybro Pixhawk 6C (plastic) with PM07, $242.99: lighter (34.6 g) and thinner (12.4 mm), the board the first CAD was drawn for. Cube Orange+ Standard Set, $451 at IRLock: only if ours is broken.",
+    "source": "PX4 Cube Orange page (dimensions), read 19 Nov; IRLock store, read 19 Nov. To check on ours: Orange or Orange+ (different firmware), which carrier, and that the power cable fits the PM07.",
     "connects": [
      [
       "gnss",
@@ -1029,14 +1034,8 @@
     ],
     "nodes": [
      "pixhawk_6C"
-    ]
-   },
-   "order": {
-    "key": "pixhawk",
-    "state": "to order",
-    "label": "To order",
-    "date": "",
-    "by": ""
+    ],
+    "order": "have it"
    }
   },
   {
@@ -1058,7 +1057,7 @@
     ]
    ],
    "job": "Position and heading.",
-   "why": "Plugs straight into the Pixhawk's GPS port with its compass. Mounted on the wing, away from the high-current wires that would disturb the compass.",
+   "why": "Plugs into the flight controller's GPS port with its compass (check the cable: the Cube carrier's GPS port may need Holybro's 8-pin lead). Mounted on the wing, away from the high-current wires that would disturb the compass.",
    "instead": "Holybro M9N ($54.99): older chip, $11 more.",
    "source": "Holybro store, read 19 Nov",
    "connects": [
@@ -1094,7 +1093,7 @@
      }
     ],
     "job": "Position and heading.",
-    "why": "Plugs straight into the Pixhawk's GPS port with its compass. Mounted on the wing, away from the high-current wires that would disturb the compass.",
+    "why": "Plugs into the flight controller's GPS port with its compass (check the cable: the Cube carrier's GPS port may need Holybro's 8-pin lead). Mounted on the wing, away from the high-current wires that would disturb the compass.",
     "instead": "Holybro M9N ($54.99): older chip, $11 more.",
     "source": "Holybro store, read 19 Nov",
     "connects": [

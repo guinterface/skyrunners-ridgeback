@@ -551,3 +551,14 @@ Not bought: a spot welder for the battery pack (borrow one from a lab first) and
 {''.join(f'<section>{h}</section>' for h in buy_html)}"""
 (ROOT / "docs/buy.html").write_text(page("Ridgeback buy list", "buy.html", buy_body))
 print("buy list", len(BUY), "rows, total", round(grand))
+
+# ------------------------------------------------------------------ cache busting: every page links its scripts and styles by content hash,
+# so a browser never runs an old editor after a change (GitHub Pages lets browsers cache files for 10 minutes)
+import hashlib as _hl
+def _ver(m):
+    f = ROOT / "docs/assets" / m.group(2)
+    return f'{m.group(1)}="assets/{m.group(2)}?v={_hl.sha1(f.read_bytes()).hexdigest()[:10]}"' if f.exists() else m.group(0)
+for _h in (ROOT / "docs").glob("*.html"):
+    _t = _h.read_text()
+    _n = re.sub(r'(src|href)="assets/([\w.-]+\.(?:js|css))(?:\?v=\w+)?"', _ver, _t)
+    if _n != _t: _h.write_text(_n)

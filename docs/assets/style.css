@@ -216,11 +216,9 @@ table.buy td.quiet{color:var(--quiet);font-size:13px}table.buy tr.sub td{color:v
 .pen{display:inline-block;margin-left:4px;padding:0 4px;font:14px/1.2 system-ui,sans-serif;background:none;border:1px solid transparent;border-radius:3px;color:var(--purple);cursor:pointer;vertical-align:baseline;opacity:.75}
 .pen:hover,.pen:focus-visible{opacity:1;border-color:var(--purple)}
 body.editing [data-f],body.editing [data-buy],body.editing [data-ref],body.editing #inputs td.val{cursor:text;border-radius:2px}
-body.editing [data-f]:hover,body.editing [data-buy]:hover,body.editing [data-ref]:hover,body.editing #inputs td.val:hover{background:color-mix(in srgb,var(--purple) 9%,transparent)}
 body.editing #detail [data-f]:empty::before{content:"(empty)";color:var(--quiet);font-style:italic}
 .qhint{font-size:13px;color:var(--quiet);border-left:3px solid var(--purple);padding:2px 0 2px 8px;margin:0 0 10px}
 form.qedit{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;max-width:100%}
-form.qedit.multi,form.qedit:has(textarea){display:flex;width:100%}
 form.qedit input,form.qedit textarea{font:14px/1.45 "Archivo";padding:4px 7px;border:1px solid var(--purple);background:#fff;color:var(--ink);max-width:100%;box-sizing:border-box}
 form.qedit.multi input{flex:1 1 160px}
 form.qedit textarea{width:100%}
@@ -231,7 +229,6 @@ form.qedit .err{flex-basis:100%;color:var(--red);font-size:13px}
 td.num form.qedit{justify-content:flex-end}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) form.qedit input,:root:not([data-theme="light"]) form.qedit textarea{background:var(--paper)}}
 :root[data-theme="dark"] form.qedit input,:root[data-theme="dark"] form.qedit textarea{background:var(--paper)}
-body.editing [data-f]:has(form),body.editing [data-buy]:has(form),body.editing [data-ref]:has(form),body.editing #inputs td.val:has(form){background:none}
 #detail button.link{text-align:left;display:inline;padding:0}
 /* pencils show for everyone; quieter until editing */
 body:not(.editing) .pen{opacity:.4}
@@ -240,20 +237,12 @@ body:not(.editing) .pen:hover,body:not(.editing) .pen:focus-visible{opacity:1}
 .loginpop .go{font:600 13px "Archivo";padding:3px 10px;background:var(--purple);color:#fff;border:0;cursor:pointer}
 .loginpop .plainbtn{font-size:13px;padding:0}
 /* order status: text label always present, colour only supports it */
-.ostate{display:inline-block;font:600 12px/1.5 "Archivo";padding:0 7px;border-radius:9px;border:1px solid var(--hair);color:var(--quiet);white-space:nowrap}
-.ostate.s-ordered{border-color:var(--blue);color:var(--blue);background:color-mix(in srgb,var(--blue) 9%,transparent)}
-.ostate.s-arrived{border-color:var(--green);color:var(--paper);background:var(--green)}
-.ostate.s-have-it{border-color:var(--green);color:var(--green)}
-.ostate .saving{font-weight:400}
 table.buy td .small{color:var(--quiet);font-size:12px}
 .orders{margin:14px 0 4px;max-width:46rem}
 .obar{display:flex;height:10px;margin:0 0 8px;background:var(--hair);gap:2px;overflow:hidden;border-radius:2px}
 .obar span{min-width:0}
 .obar .s-arrived{background:var(--green)}.obar .s-ordered{background:var(--blue)}.obar .s-to-order{background:var(--hair)}
 .ofilter{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px}
-.chip{font:500 13px "Archivo";padding:3px 10px;border:1px solid var(--hair);background:none;color:var(--ink);border-radius:12px;cursor:pointer}
-.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
-:has(> .loginpop){position:relative}
 .loginpop{position:absolute;left:0;top:calc(100% + 4px);z-index:30;margin:0}
 td.num .loginpop{left:auto;right:0}
 /* order board (drone page, under the 3D drone) */
@@ -272,19 +261,45 @@ table.board .outpart{font-size:12px;color:var(--red)}
 table.board tr.removing{opacity:.45}
 table.board tr.newpart form.addform input{flex:1 1 110px}
 table.board tr.newpart form.addform input[name=name]{flex:2 1 220px}
-.ostate[data-order]{cursor:pointer}
 @media (max-width:640px){table.board td:nth-child(4),table.board th:nth-child(4),table.board td:nth-child(6),table.board th:nth-child(6){display:none}}
 /* status chips are buttons: a small caret, no pencil; the menu lists the four states */
-.ostate[data-order]{display:inline-flex;align-items:center;gap:4px;transition:box-shadow .12s}
-.ostate[data-order]::after{content:"";width:0;height:0;border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-top:4px solid currentColor;opacity:.55}
-.ostate[data-order]:hover{box-shadow:0 0 0 2px color-mix(in srgb,var(--purple) 30%,transparent)}
-:has(> .smenu){position:relative}
-.smenu{position:absolute;left:0;top:calc(100% + 4px);z-index:40;display:flex;flex-direction:column;min-width:13.5rem;padding:5px;background:var(--paper);border:1px solid var(--hair);border-radius:6px;box-shadow:0 6px 22px rgba(0,0,0,.16)}
-.smenu button{display:flex;align-items:center;gap:10px;width:100%;padding:6px 8px;background:none;border:0;border-radius:4px;cursor:pointer;text-align:left;font:13px "Archivo";color:var(--ink)}
-.smenu button:hover,.smenu button:focus-visible{background:color-mix(in srgb,var(--purple) 8%,transparent);outline:none}
-.smenu button[aria-checked="true"]{background:color-mix(in srgb,var(--ink) 6%,transparent)}
-.smenu button[aria-checked="true"]::after{content:"✓";margin-left:auto;color:var(--purple);font-weight:700}
-.smenu button .ostate{min-width:5.2rem;justify-content:center;text-align:center}
+
+form.qedit.multi,form.qedit.tall{display:flex;width:100%}
+body.editing .editing-now{background:none!important}
+.anchor{position:relative}
+/* status: a coloured dot and a word; clickable ones get a quiet hover and a caret */
+.ostate{display:inline-flex;align-items:center;gap:6px;font:600 12.5px/1.6 "Archivo";color:var(--ink);white-space:nowrap;padding:1px 6px 1px 4px;border-radius:4px}
+.ostate::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;box-sizing:border-box;border:1.5px solid var(--quiet)}
+.ostate.s-to-order{color:var(--quiet)}
+.ostate.s-ordered::before{border-color:var(--blue);background:var(--blue)}
+.ostate.s-arrived::before{border-color:var(--green);background:var(--green)}
+.ostate.s-have-it::before{border-color:var(--green);background:color-mix(in srgb,var(--green) 25%,transparent)}
+.ostate.s-ordered{color:var(--blue)}.ostate.s-arrived,.ostate.s-have-it{color:var(--green)}
+.ostate[data-order]{cursor:pointer;border:1px solid transparent}
+.ostate[data-order]::after{content:"";width:5px;height:5px;margin:0 0 3px 1px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);opacity:0;transition:opacity .1s}
+.ostate[data-order]:hover,.ostate[data-order]:focus-visible{border-color:var(--hair);background:var(--paper)}
+.ostate[data-order]:hover::after,.ostate[data-order]:focus-visible::after,.anchor > .ostate[data-order]::after{opacity:.6}
+.ostate .saving{font-weight:400}
+.smenu{position:absolute;left:0;top:calc(100% + 3px);z-index:40;display:flex;flex-direction:column;min-width:15rem;padding:4px 0;background:var(--paper);border:1px solid var(--hair);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.smenu button{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;column-gap:10px;width:100%;padding:7px 12px;background:none;border:0;cursor:pointer;text-align:left;font:13px/1.3 "Archivo";color:var(--ink)}
+.smenu button:hover,.smenu button:focus-visible{background:color-mix(in srgb,var(--ink) 6%,transparent);outline:none}
+.smenu button .ostate{padding:0;font-size:13px}
+.smenu button[aria-checked="true"]::after{content:"✓";color:var(--ink);font-weight:700}
 .smenu .shelp{color:var(--quiet);font-size:12px}
-.smenu button:disabled{cursor:default;opacity:.7}
-.smenu .err{color:var(--red);font-size:12px;padding:4px 8px 2px}
+.smenu button:disabled{cursor:default;opacity:.6}
+.smenu .err{color:var(--red);font-size:12px;padding:4px 12px 2px}
+/* filters: a quiet segmented row */
+.chip{font:500 13px "Archivo";padding:3px 10px;border:1px solid var(--hair);background:none;color:var(--quiet);border-radius:4px;cursor:pointer}
+.chip:hover{color:var(--ink);border-color:var(--quiet)}
+.chip[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);background:color-mix(in srgb,var(--ink) 7%,transparent)}
+/* hover while editing: a dotted underline on the value only (no block of colour) */
+body.editing [data-f]:hover,body.editing [data-buy]:hover,body.editing [data-ref]:hover,body.editing #inputs td.val:hover{text-decoration:underline dotted color-mix(in srgb,var(--purple) 60%,transparent);text-underline-offset:3px}
+/* a single value edits in place: same font, size and alignment as the number it replaces */
+form.qedit.inline{display:inline-flex;flex-wrap:nowrap;gap:3px;align-items:center;vertical-align:baseline;max-width:none}
+form.qedit.inline input{font:inherit;line-height:1.3;color:inherit;padding:0 3px;margin:-1px -4px;border:1px solid var(--purple);border-radius:3px;background:var(--paper);box-shadow:0 0 0 3px color-mix(in srgb,var(--purple) 14%,transparent);outline:none}
+td.num form.qedit.inline input{text-align:right}
+form.qedit.inline .qbtns{display:inline-flex;gap:2px;margin-left:6px}
+form.qedit .icon{width:22px;height:22px;padding:0;border-radius:4px;font:600 13px/1 system-ui,sans-serif;cursor:pointer}
+form.qedit .ok.icon{background:var(--purple);color:#fff;border:0}
+form.qedit .no.icon{background:none;color:var(--quiet);border:1px solid var(--hair)}
+form.qedit.inline .err{position:absolute;white-space:nowrap;margin-top:28px;font-size:12px}

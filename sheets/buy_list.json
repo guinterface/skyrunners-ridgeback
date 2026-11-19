@@ -13,6 +13,18 @@
 },
 {
 "group": "Aircraft",
+"name": "Power module: Holybro PM07",
+"qty": 1,
+"unit": 43.99,
+"line": 43.99,
+"duty": 11.0,
+"store": "Holybro",
+"link": "https://holybro.com/products/pixhawk-4-power-module-pm07",
+"note": "Holybro PM07 page (90 A continuous, 140 A for 60 s; $43.99 on its own), read 19 Nov; sheet 04 Lift_Hover. The Cube's own Power Brick Mini is not used: our hot-day hover current is too high for a small brick.",
+"id": "pm07"
+},
+{
+"group": "Aircraft",
 "name": "Servo regulator, 5–6 V, at least 5 A",
 "qty": 1,
 "unit": 39.99,
@@ -94,18 +106,6 @@
 "link": "https://store.uniteduav.com/products/alpha-40a-6s",
 "note": "AT3520 table",
 "id": "esc_pusher"
-},
-{
-"group": "Aircraft",
-"name": "Flight controller: Holybro Pixhawk 6C (plastic case), bought with the PM07",
-"qty": 1,
-"unit": 242.99,
-"line": 242.99,
-"duty": 60.75,
-"store": "Holybro",
-"link": "https://holybro.com/products/pixhawk-6c",
-"note": "Holybro store, read 19 Nov",
-"id": "pixhawk"
 },
 {
 "group": "Aircraft",
