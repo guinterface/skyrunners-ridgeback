@@ -44,6 +44,7 @@ nodes = ["battery_6S6P_P50B"]
 
 [[part]]
 id = "pm07"
+order_with = "pixhawk"   # comes in the same box; its order status follows the Pixhawk
 name = "Power module: Holybro PM07"
 system = "power"
 qty = 1

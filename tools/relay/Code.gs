@@ -5,7 +5,7 @@
 // Setup: tools/relay/SETUP.md. Script properties: GITHUB_TOKEN (required), PASSCODE (team passcode; empty = anyone).
 
 const REPO = 'guinterface/skyrunners-ridgeback';
-const ALLOWED = ['data/parts.toml', 'data/inputs.toml'];
+const ALLOWED = ['data/parts.toml', 'data/inputs.toml', 'data/orders.toml'];
 const MAX_BYTES = 400000;          // parts.toml is ~60 kB; refuses anything wildly larger
 const MAX_SAVES_PER_HOUR = 60;
 const MAX_WRONG_PASSCODES = 10;    // per hour, for everyone together (one-word passcode: slow guessing down); then the relay refuses all requests for an hour
@@ -30,7 +30,7 @@ function doPost(e) {
       if (typeof q.text !== 'string' || q.text.length > MAX_BYTES) throw err('The file is too large.', 413);
       rateLimit();
       const body = {
-        message: (q.path === 'data/inputs.toml' ? 'Change design numbers' : 'Edit part') + (what ? ' ' + what : '') + ' (by ' + name + ', on the website)',
+        message: ({ 'data/inputs.toml': 'Change design numbers', 'data/orders.toml': 'Order status' }[q.path] || 'Edit part') + (what ? ' ' + what : '') + ' (by ' + name + ', on the website)',
         content: Utilities.base64Encode(q.text, Utilities.Charset.UTF_8), sha: q.sha, branch: 'main',
       };
       const r = gh('put', '/contents/' + q.path, body);

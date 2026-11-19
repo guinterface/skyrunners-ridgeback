@@ -233,3 +233,26 @@ td.num form.qedit{justify-content:flex-end}
 :root[data-theme="dark"] form.qedit input,:root[data-theme="dark"] form.qedit textarea{background:var(--paper)}
 body.editing [data-f]:has(form),body.editing [data-buy]:has(form),body.editing [data-ref]:has(form),body.editing #inputs td.val:has(form){background:none}
 #detail button.link{text-align:left;display:inline;padding:0}
+/* pencils show for everyone; quieter until editing */
+body:not(.editing) .pen{opacity:.4}
+body:not(.editing) .pen:hover,body:not(.editing) .pen:focus-visible{opacity:1}
+.loginpop{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px;margin-left:6px;padding:3px 8px;font:500 13px "Archivo";color:var(--ink);background:var(--paper);border:1px solid var(--purple);border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,.12);white-space:nowrap;vertical-align:middle}
+.loginpop .go{font:600 13px "Archivo";padding:3px 10px;background:var(--purple);color:#fff;border:0;cursor:pointer}
+.loginpop .plainbtn{font-size:13px;padding:0}
+/* order status: text label always present, colour only supports it */
+.ostate{display:inline-block;font:600 12px/1.5 "Archivo";padding:0 7px;border-radius:9px;border:1px solid var(--hair);color:var(--quiet);white-space:nowrap}
+.ostate.s-ordered{border-color:var(--blue);color:var(--blue);background:color-mix(in srgb,var(--blue) 9%,transparent)}
+.ostate.s-arrived{border-color:var(--green);color:var(--paper);background:var(--green)}
+.ostate.s-have-it{border-color:var(--green);color:var(--green)}
+.ostate .saving{font-weight:400}
+table.buy td .small{color:var(--quiet);font-size:12px}
+.orders{margin:14px 0 4px;max-width:46rem}
+.obar{display:flex;height:10px;margin:0 0 8px;background:var(--hair);gap:2px;overflow:hidden;border-radius:2px}
+.obar span{min-width:0}
+.obar .s-arrived{background:var(--green)}.obar .s-ordered{background:var(--blue)}.obar .s-to-order{background:var(--hair)}
+.ofilter{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px}
+.chip{font:500 13px "Archivo";padding:3px 10px;border:1px solid var(--hair);background:none;color:var(--ink);border-radius:12px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+:has(> .loginpop){position:relative}
+.loginpop{position:absolute;left:0;top:calc(100% + 4px);z-index:30;margin:0}
+td.num .loginpop{left:auto;right:0}

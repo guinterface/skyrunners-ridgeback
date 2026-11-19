@@ -1,0 +1,4 @@
+# What we have ordered and what has arrived. One line per item on the buy list (buy.html); the key is the item's id.
+# state: "ordered", "arrived" or "have it" (already own it / borrowed). Items not listed here are still "to order".
+# Easiest: on the website press Edit, then the pencil next to an item's state on the Buy list (or in a part's panel).
+[orders]

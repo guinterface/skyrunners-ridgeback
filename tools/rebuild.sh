@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rebuild everything from the editable files (data/parts.toml, data/inputs.toml) and the code.
+# Rebuild everything from the editable files (data/parts.toml, data/inputs.toml, data/orders.toml) and the code.
 # GitHub runs this on every save (.github/workflows/rebuild.yml). Locally: PY=/path/to/python tools/rebuild.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."

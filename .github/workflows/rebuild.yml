@@ -3,7 +3,7 @@ name: Rebuild sheets and website
 on:
   push:
     branches: [main]
-    paths: ["data/parts.toml", "data/inputs.toml", "sheets/**", "tools/**", "docs/assets/*.js", "docs/assets/*.css"]
+    paths: ["data/parts.toml", "data/inputs.toml", "data/orders.toml", "sheets/**", "tools/**", "docs/assets/*.js", "docs/assets/*.css"]
   workflow_dispatch:
 permissions:
   contents: write

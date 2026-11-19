@@ -67,12 +67,41 @@ CALCS = {
     "servos": dict(step=None, sheet=("05_Structure_and_Stability", "Structure_Stability"),
         lines=[(r"\tau_{needed} = 2 \times M_{hinge} = 2 \times 2.34 = 4.7\ \text{kg·cm} \;<\; 7.5", "aileron at a 34 m/s dive, with a factor of 2")]),
 }
+# ------------------------------------------------------------------ orders: what we have ordered / received (data/orders.toml)
+import tomllib as _tl
+OSTATES = {"to order": "To order", "ordered": "Ordered", "arrived": "Arrived", "have it": "Have it"}
+ORDERS = _tl.load(open(ROOT / "data/orders.toml", "rb")).get("orders", {})
+for _k, _o in ORDERS.items():
+    assert _o.get("state") in OSTATES, f'data/orders.toml: {_k} has state "{_o.get("state")}"; use one of {list(OSTATES)}'
+def okey(name): return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")[:60]
+BUY = json.load(open(ROOT / "data/buy_list.json"))
+PART_BY_NAME = {p["name"]: p["id"] for p in PARTS}
+PART_ORDER = {}
+_norm = lambda u: (u or "").split("?")[0].rstrip("/")
+PART_ORDER = {}                                   # part id -> the buy-list row that buys it (by part id, name or shop link)
+for p in PARTS:
+    links = {_norm(x[1]) for x in p["buy"]}
+    for _b in BUY:
+        if _b["group"] == "Shipping and fees": continue
+        if _b.get("id") == p["id"] or _b["name"] == p["name"] or (_norm(_b.get("link")) and _norm(_b.get("link")) in links):
+            PART_ORDER[p["id"]] = okey(_b["name"]); break
+for p in PARTS:
+    if p.get("order_with") in PART_ORDER: PART_ORDER[p["id"]] = PART_ORDER[p["order_with"]]
+_known = {okey(b["name"]) for b in BUY}
+for _k in ORDERS:
+    if _k not in _known: print(f"warning: data/orders.toml has {_k}, which is no longer on the buy list")
+def order_of(key): o = ORDERS.get(key, {}); return dict(key=key, state=o.get("state", "to order"), date=o.get("date", ""), by=o.get("by", ""))
+
+def ochip(pid):
+    if pid not in PART_ORDER: return ""
+    o = order_of(PART_ORDER[pid]); return f' <span class="ostate s-{o["state"].replace(" ", "-")}" data-order="{o["key"]}" data-state="{o["state"]}">{OSTATES[o["state"]]}</span>'
 pj = []
 for p in PARTS:
     q = dict(p)
     q["why"] = fill(p["why"]); q["job"] = fill(p["job"])
     q["systemName"], q["color"] = SYSTEMS[p["system"]]
     q["edit"] = f"{GH}/edit/main/data/parts.toml"; q["editLine"] = PART_LINE[p["id"]]; q["raw"] = RAW[p["id"]]
+    if p["id"] in PART_ORDER: q["order"] = order_of(PART_ORDER[p["id"]])
     if p["id"] in CALCS:
         c = CALCS[p["id"]]
         q["calc"] = [list(x) for x in c["lines"]]
@@ -217,7 +246,7 @@ for sk, (sname, col) in SYSTEMS.items():
         price = "owned" if p["status"].startswith("reuse") else (f"${p['price']:,.2f}" if p["price"] else "")
         buy = p["buy"][0] if p["buy"] else None
         b = f'<a href="{E(buy[1])}" target="_blank" rel="noopener">{E(buy[0].split(" (")[0])}</a>' if buy else ""
-        rows.append(f'<tr id="row-{p["id"]}" data-id="{p["id"]}" tabindex="0"><td>{E(p["name"])}</td><td class="num"><span data-f="qty">{p["qty"]}</span></td><td>{E(p["status"])}</td>'
+        rows.append(f'<tr id="row-{p["id"]}" data-id="{p["id"]}" tabindex="0"><td>{E(p["name"])}</td><td class="num"><span data-f="qty">{p["qty"]}</span></td><td><span data-f="status">{E(p["status"])}</span>{ochip(p["id"])}</td>'
                     f'<td class="num"><span data-f="price">{price}</span></td><td class="num"><span data-f="mass">{p["mass"]:,.0f}</span> g</td><td>{b}</td></tr>')
 index_body = f"""
 <section class="lead"><h1>Inside the drone</h1>
@@ -461,10 +490,13 @@ tools/rebuild.sh     # sheets, checks (0 errors, split files equal the full mode
 print("site written")
 
 # ------------------------------------------------------------------ buy list: everything to buy, from the sheets (data/buy_list.json)
-BUY = json.load(open(ROOT / "data/buy_list.json"))
 GROUPS = ["Aircraft", "Mission sensors", "Ground equipment", "Shipping and fees", "Mission sensors: worth adding"]
-PART_BY_NAME = {p["name"]: p["id"] for p in PARTS}
 buy_html, totals = [], {}
+def ostate(b):
+    if b["group"] == "Shipping and fees": return '<td class="quiet">with the order</td>'
+    o = order_of(okey(b["name"])); when = " ".join(x for x in [o["date"], ("by " + o["by"]) if o["by"] else ""] if x)
+    return f'<td><span class="ostate s-{o["state"].replace(" ", "-")}" data-order="{o["key"]}" data-state="{o["state"]}">{OSTATES[o["state"]]}</span>{f"<span class=small> {E(when)}</span>" if when else ""}</td>'
+ocount = {k: 0 for k in OSTATES}; ospent = 0.0; oitems = 0
 for g in GROUPS:
     rows = [b for b in BUY if b["group"] == g and b["qty"]]
     if not rows: continue
@@ -474,17 +506,26 @@ for g in GROUPS:
     def name(b):
         pid = b.get("id") or PART_BY_NAME.get(b["name"])
         return f'<a href="index.html#{pid}">{E(b["name"])}</a>' if pid else E(b["name"])
-    tr = "".join(f'<tr><td>{name(b)}</td><td class="num">{b["qty"]:g}</td><td class="num">${b["unit"]:,.2f}</td><td class="num">${b["line"]:,.2f}</td><td>{shop(b)}</td><td class="quiet">{E(b["note"])}</td></tr>' for b in rows)
-    if duty: tr += f'<tr class="sub"><td>Import duty on parts shipped from China</td><td></td><td></td><td class="num">${duty:,.2f}</td><td></td><td class="quiet">rates in Sheet 06, BOM_Cost</td></tr>'
-    tr += f'<tr class="tot"><td>{E(g)}: total</td><td></td><td></td><td class="num">${sub + duty:,.2f}</td><td></td><td></td></tr>'
+    if ":" not in g:
+        for b in rows:
+            if b["group"] == "Shipping and fees": continue
+            st = order_of(okey(b["name"]))["state"]; ocount[st] += 1; oitems += 1
+            if st in ("ordered", "arrived"): ospent += b["line"] + b["duty"]
+    tr = "".join(f'<tr data-state="{order_of(okey(b["name"]))["state"].replace(" ", "-") if b["group"] != "Shipping and fees" else "fee"}"><td>{name(b)}</td>{ostate(b)}<td class="num">{b["qty"]:g}</td><td class="num">${b["unit"]:,.2f}</td><td class="num">${b["line"]:,.2f}</td><td>{shop(b)}</td><td class="quiet">{E(b["note"])}</td></tr>' for b in rows)
+    if duty: tr += f'<tr class="sub"><td>Import duty on parts shipped from China</td><td></td><td></td><td></td><td class="num">${duty:,.2f}</td><td></td><td class="quiet">rates in Sheet 06, BOM_Cost</td></tr>'
+    tr += f'<tr class="tot"><td>{E(g)}: total</td><td></td><td></td><td></td><td class="num">${sub + duty:,.2f}</td><td></td><td></td></tr>'
     buy_html.append(f'<h2 id="{g.split(":")[0].lower().replace(" ", "-")}{"-add" if ":" in g else ""}">{E(g)}</h2>'
                     + (f'<p class="small">Not in the total below: recommended before the first mission flights, still to decide.</p>' if ":" in g else "")
-                    + f'<div class="tablewrap"><table class="parts buy"><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Each</th><th class="num">Line</th><th>Shop</th><th>Price from</th></tr></thead><tbody>{tr}</tbody></table></div>')
+                    + f'<div class="tablewrap"><table class="parts buy"><thead><tr><th>Item</th><th>Status</th><th class="num">Qty</th><th class="num">Each</th><th class="num">Line</th><th>Shop</th><th>Price from</th></tr></thead><tbody>{tr}</tbody></table></div>')
 grand = sum(v for k, v in totals.items() if ":" not in k)
 assert abs(grand - val("cost_every")) < 1.5, (grand, val("cost_every"))     # same total as the sheets
 buy_body = f"""<section class="lead"><h1>Buy list</h1>
 <p>Everything we have to buy to fly the first mission, from the calculation sheets: the aircraft, the mission sensors and the ground equipment.
-Nothing comes from Sky4. Every price was read on the shop's page; the date is in the last column. Nothing has been ordered.</p>
+Nothing comes from Sky4. Every price was read on the shop's page; the date is in the last column.</p>
+<div class="orders"><p class="obar" role="img" aria-label="{ocount['arrived'] + ocount['have it']} of {oitems} items arrived, {ocount['ordered']} ordered"><span class="s-arrived" style="flex:{ocount['arrived'] + ocount['have it']}"></span><span class="s-ordered" style="flex:{ocount['ordered']}"></span><span class="s-to-order" style="flex:{ocount['to order']}"></span></p>
+<p><b>{ocount['arrived'] + ocount['have it']} of {oitems}</b> items arrived or already ours, <b>{ocount['ordered']}</b> ordered and on the way, <b>{ocount['to order']}</b> still to order. Spent so far about <b>${ospent:,.0f}</b> (shop prices + duty of what is ordered or arrived; shipping not counted).</p>
+<p class="ofilter">Show: <button type="button" class="chip" data-show="all" aria-pressed="true">All</button> <button type="button" class="chip" data-show="to-order" aria-pressed="false">To order</button> <button type="button" class="chip" data-show="ordered" aria-pressed="false">Ordered</button> <button type="button" class="chip" data-show="arrived" aria-pressed="false">Arrived or have it</button></p>
+<p class="small">To mark something ordered or arrived: press Edit at the top, then the ✎ next to its status. The name and date are saved with it.</p></div>
 <table class="status"><tbody>{''.join(f'<tr><td>{E(k)}</td><td class="num">${v:,.0f}</td></tr>' for k, v in totals.items() if ":" not in k)}
 <tr class="tot"><td><b>Everything</b></td><td class="num"><b>${grand:,.0f}</b></td></tr></tbody></table>
 <p class="small">Budget: $3,000 for the aircraft, stretch $4,000–5,000 for everything (team, 30 Oct). To change a price or a shop link, press Edit on the drone page and pick the part; this list rebuilds from it.
