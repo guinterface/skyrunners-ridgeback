@@ -274,3 +274,17 @@ table.board tr.newpart form.addform input{flex:1 1 110px}
 table.board tr.newpart form.addform input[name=name]{flex:2 1 220px}
 .ostate[data-order]{cursor:pointer}
 @media (max-width:640px){table.board td:nth-child(4),table.board th:nth-child(4),table.board td:nth-child(6),table.board th:nth-child(6){display:none}}
+/* status chips are buttons: a small caret, no pencil; the menu lists the four states */
+.ostate[data-order]{display:inline-flex;align-items:center;gap:4px;transition:box-shadow .12s}
+.ostate[data-order]::after{content:"";width:0;height:0;border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-top:4px solid currentColor;opacity:.55}
+.ostate[data-order]:hover{box-shadow:0 0 0 2px color-mix(in srgb,var(--purple) 30%,transparent)}
+:has(> .smenu){position:relative}
+.smenu{position:absolute;left:0;top:calc(100% + 4px);z-index:40;display:flex;flex-direction:column;min-width:13.5rem;padding:5px;background:var(--paper);border:1px solid var(--hair);border-radius:6px;box-shadow:0 6px 22px rgba(0,0,0,.16)}
+.smenu button{display:flex;align-items:center;gap:10px;width:100%;padding:6px 8px;background:none;border:0;border-radius:4px;cursor:pointer;text-align:left;font:13px "Archivo";color:var(--ink)}
+.smenu button:hover,.smenu button:focus-visible{background:color-mix(in srgb,var(--purple) 8%,transparent);outline:none}
+.smenu button[aria-checked="true"]{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.smenu button[aria-checked="true"]::after{content:"✓";margin-left:auto;color:var(--purple);font-weight:700}
+.smenu button .ostate{min-width:5.2rem;justify-content:center;text-align:center}
+.smenu .shelp{color:var(--quiet);font-size:12px}
+.smenu button:disabled{cursor:default;opacity:.7}
+.smenu .err{color:var(--red);font-size:12px;padding:4px 8px 2px}

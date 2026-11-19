@@ -121,6 +121,7 @@ function askToken() {
   document.getElementById('tokNo').onclick = stop;
 }
 function start() {
+  store.set('rb-editing', '1');                             // stay in edit mode on the next page and the next visit
   editing = true; btn.setAttribute('aria-pressed', 'true'); btn.textContent = 'Done editing';
   document.body.classList.add('editing');
   say(`<b>Editing.</b> Click the ✎ next to any number, text or link (or double-click it) to change it, then press Save.
@@ -135,6 +136,7 @@ function start() {
   }
 }
 function stop() {
+  store.set('rb-editing', null);
   editing = false; fullFor = null; document.querySelectorAll('form.qedit').forEach(q => q.cancel()); document.querySelectorAll('.qhint, .addbtn, .loginpop, .outpart, tr.newpart').forEach(b => b.remove());
   btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Edit';
   document.body.classList.remove('editing'); bar.hidden = true;
@@ -255,7 +257,7 @@ function decorate(root) {
     root.querySelector('[data-full]').onclick = () => { fullFor = window.RB.current().id; window.RB.rerender(); };
   }
   if (editing) root.querySelectorAll('table.board tr[data-id] td.rm').forEach(td => { if (!td.firstChild) td.innerHTML = '<button type="button" class="plainbtn outpart" title="Remove this part">remove</button>'; });
-  root.querySelectorAll(EDITABLE).forEach(e => { if (!e.closest('form') && !e.querySelector(':scope > .pen')) e.insertAdjacentHTML('beforeend', PEN); });
+  root.querySelectorAll(EDITABLE).forEach(e => { if (!e.closest('form') && !e.matches('[data-order]') && !e.querySelector(':scope > .pen')) e.insertAdjacentHTML('beforeend', PEN); });
   if (editing) root.querySelectorAll('[data-add]').forEach(p => {
     if (p.querySelector('.addbtn')) return;
     const kind = p.dataset.add;
@@ -284,10 +286,10 @@ document.addEventListener('click', e => {
   if (e.target.closest('.loginpop')) return;               // the prompt's own buttons
   const chipEl = e.target.closest('.ostate[data-order]');
   if (!editing) {
-    const b = e.target.closest('.pen') || (chipEl && (chipEl.querySelector('.pen') || chipEl)); if (!b) return;
-    e.preventDefault(); e.stopPropagation(); loginPrompt(b); return;
+    const b = e.target.closest('.pen') || chipEl; if (!b) return;
+    e.preventDefault(); e.stopPropagation(); editOrPrompt(b); return;
   }
-  if (chipEl && !e.target.closest('form')) { e.preventDefault(); e.stopPropagation(); const t = target(chipEl); if (t) openEditor(t); return; }
+  if (chipEl && !e.target.closest('.smenu')) { e.preventDefault(); e.stopPropagation(); const t = target(chipEl); if (t) openEditor(t); return; }
   const b = e.target.closest('.pen'), a = e.target.closest('[data-buy] a, [data-ref] a');
   if (!b && !a) return;
   e.preventDefault(); e.stopPropagation();                 // while editing, a click on a shop or paper link edits it instead of opening it
@@ -302,25 +304,7 @@ function openEditor(t, isNew = false) {
   document.querySelectorAll('form.qedit').forEach(q => q.cancel());
   const el = t.el, keep = el.innerHTML;
   let fields;
-  if (t.kind === 'order') {
-    el.innerHTML = `<form class="qedit"><select name="v" aria-label="Order status">${Object.entries(OSTATE).map(([k, l]) => `<option value="${k}"${k === t.state ? ' selected' : ''}>${l}</option>`).join('')}</select><span class="qbtns"><button type="submit" class="ok">Save</button> <button type="button" class="plainbtn no">Cancel</button></span><span class="err" hidden></span></form>`;
-    const form = el.querySelector('form'), err = form.querySelector('.err');
-    form.cancel = () => { el.innerHTML = keep; };
-    form.querySelector('.no').onclick = () => form.cancel();
-    form.addEventListener('keydown', e => { if (e.key === 'Escape') form.cancel(); });
-    form.addEventListener('click', e => e.stopPropagation());
-    form.elements.v.focus();
-    form.onsubmit = async e => {
-      e.preventDefault(); const st = form.elements.v.value;
-      if (st === t.state) return form.cancel();
-      form.querySelectorAll('button, select').forEach(b => { b.disabled = true; }); form.querySelector('.ok').textContent = 'Saving…';
-      try {
-        if (await saveOrder(t.key, st)) { el.dataset.state = st; el.className = 'ostate s-' + st.replace(' ', '-'); el.innerHTML = `${OSTATE[st]} <span class="saving">saving…</span>`; }
-        else form.cancel();
-      } catch (x) { form.querySelectorAll('button, select').forEach(b => { b.disabled = false; }); form.querySelector('.ok').textContent = 'Save'; err.textContent = 'Could not save: ' + x.message.slice(0, 160); err.hidden = false; }
-    };
-    return;
-  }
+  if (t.kind === 'order') { openStatusMenu(el, t); return; }
   if (t.kind === 'input') fields = [['v', t.label, el.dataset.orig ?? '']];
   else if (t.kind === 'field') fields = [['v', LABEL[t.k] || t.k, t.p.raw[t.k] ?? '', LONG.has(t.k)]];
   else if (t.kind === 'buy') { const b = t.p.raw.buy?.[t.i] || { store: '', link: '', price: '' }; fields = [['store', 'Shop', b.store], ['link', 'https://… link', b.link], ['price', 'Price, e.g. $24.99', b.price]]; }
@@ -397,6 +381,32 @@ async function saveOrder(id, st) {
   if (!sha) { say('Nothing changed.', 'ok'); return false; }
   p.raw = raw; follow(sha, `${p.name}: ${OSTATE[st].toLowerCase()}`); return true;
 }
+// ---------- status menu: click a status chip, pick one, saved at once
+const SHELP = { 'to order': 'not bought yet', ordered: 'paid, on the way', arrived: 'it is here', 'have it': 'already ours or borrowed' };
+function closeMenus() { document.querySelectorAll('.smenu').forEach(m => m.remove()); }
+function openStatusMenu(chipEl, t) {
+  const had = chipEl.nextElementSibling?.classList.contains('smenu'); closeMenus(); if (had) return;
+  chipEl.insertAdjacentHTML('afterend', `<span class="smenu" role="menu" aria-label="Change status">${Object.entries(OSTATE).map(([k, l]) =>
+    `<button type="button" role="menuitemradio" aria-checked="${k === t.state}" data-st="${k}"><span class="ostate s-${k.replace(' ', '-')}">${l}</span><span class="shelp">${SHELP[k]}</span></button>`).join('')}<span class="err" hidden></span></span>`);
+  const menu = chipEl.nextElementSibling;
+  menu.addEventListener('click', async e => {
+    e.stopPropagation();
+    const b = e.target.closest('[data-st]'); if (!b) return;
+    const st = b.dataset.st; if (st === t.state) return closeMenus();
+    menu.querySelectorAll('button').forEach(x => { x.disabled = true; }); b.querySelector('.shelp').textContent = 'saving…';
+    try {
+      if (await saveOrder(t.key, st)) {
+        document.querySelectorAll(`.ostate[data-order="${CSS.escape(t.key)}"]`).forEach(c => { c.dataset.state = st; c.className = 'ostate s-' + st.replace(' ', '-'); c.textContent = OSTATE[st]; });
+        const tr = chipEl.closest('tr[data-state]'); if (tr) tr.dataset.state = st.replace(' ', '-');
+      }
+      closeMenus();
+    } catch (x) { menu.querySelectorAll('button').forEach(y => { y.disabled = false; }); b.querySelector('.shelp').textContent = SHELP[st]; const er = menu.querySelector('.err'); er.textContent = 'Could not save: ' + x.message.slice(0, 120); er.hidden = false; }
+  });
+  menu.querySelector('[aria-checked="true"]')?.focus();
+}
+document.addEventListener('click', e => { if (!e.target.closest('.smenu, .ostate[data-order]')) closeMenus(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
+
 // ---------- add and take out parts (order board on the drone page)
 const slug = s => s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40) || 'part';
 function addPartForm(btn) {
@@ -460,7 +470,7 @@ document.addEventListener('click', e => {
   const add = e.target.closest('.addpart'), out = e.target.closest('.outpart');
   if (!add && !out) return;
   e.preventDefault(); e.stopPropagation();
-  if (!editing) return loginPrompt(add || out);
+  if (!editing) return editOrPrompt(add || out);
   if (add) addPartForm(add); else takeOutPart(out.closest('tr').dataset.id, out.closest('tr'));
 }, true);
 // buy page: show only some states
@@ -481,6 +491,13 @@ function selOf(f) {
   for (const a of ['order', 'f', 'buy', 'ref']) if (f.dataset[a] != null) return scope + q('data-' + a, f.dataset[a]);
   return null;
 }
+const signedIn = () => !!token || (!!RELAY && pass != null);
+function editOrPrompt(el) {                                  // signed in before in this browser: no prompt, open the editor
+  if (!signedIn()) return loginPrompt(el);
+  const f = el.closest(EDITABLE);
+  pending = el.matches('.addpart') ? `.addpart[data-sys="${CSS.escape(el.dataset.sys)}"]` : (f ? selOf(f) : null);
+  start();
+}
 function loginPrompt(pen) {
   document.querySelectorAll('.loginpop').forEach(x => x.remove());
   const f = pen.closest(EDITABLE), btnSel = pen.matches('.addpart') ? `.addpart[data-sys="${CSS.escape(pen.dataset.sys)}"]` : null;
@@ -497,6 +514,7 @@ function loginPrompt(pen) {
   pop.querySelector('.go').focus();
 }
 decorate(document.body);                                    // pencils show for everyone; editing needs a login
+if (signedIn() && store.get('rb-editing') === '1') start();   // was editing last time in this browser: carry on (a stale passcode is asked again on save)
 window.RB = Object.assign(window.RB || {}, { decorate });
 
 async function recentEdits() {
