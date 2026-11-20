@@ -1,0 +1,119 @@
+{
+ "cards": [
+  {
+   "card": 0,
+   "size_mm": [
+    300.0,
+    232.2
+   ],
+   "n_parts": 12,
+   "one_region": true,
+   "area_mm2": 28628,
+   "mass_g": 44.4,
+   "parts": [
+    "y0000_rear_C",
+    "y0601_rear_L",
+    "y0034_rear_L",
+    "y1120_rear_L",
+    "y0034_rear_R",
+    "y1120_rear_R",
+    "y0123_rear_L",
+    "y1037_rear_L",
+    "y0123_rear_R",
+    "y1037_rear_R",
+    "y0212_rear_L",
+    "y0953_rear_L"
+   ]
+  },
+  {
+   "card": 1,
+   "size_mm": [
+    300.0,
+    219.8
+   ],
+   "n_parts": 12,
+   "one_region": true,
+   "area_mm2": 28369,
+   "mass_g": 44.0,
+   "parts": [
+    "y0212_rear_R",
+    "y0953_rear_R",
+    "y0301_rear_L",
+    "y0870_rear_L",
+    "y0301_rear_R",
+    "y0870_rear_R",
+    "y0390_rear_L",
+    "y0800_rear_L",
+    "y0390_rear_R",
+    "y0800_rear_R",
+    "y0446_rear_L",
+    "y0601_rear_R"
+   ]
+  },
+  {
+   "card": 2,
+   "size_mm": [
+    300.0,
+    223.0
+   ],
+   "n_parts": 19,
+   "one_region": true,
+   "area_mm2": 28423,
+   "mass_g": 44.1,
+   "parts": [
+    "y0446_rear_R",
+    "y0700_rear_L",
+    "y0501_rear_L",
+    "y0700_rear_R",
+    "y0501_rear_R",
+    "y0000_front_C",
+    "y0800_front_L",
+    "y0034_front_L",
+    "y0034_front_R",
+    "y0212_front_L",
+    "y0212_front_R",
+    "y0301_front_L",
+    "y0301_front_R",
+    "y0390_front_L",
+    "y0390_front_R",
+    "y0446_front_L",
+    "y0446_front_R",
+    "y0501_front_L",
+    "y0501_front_R"
+   ]
+  },
+  {
+   "card": 3,
+   "size_mm": [
+    300.0,
+    145.0
+   ],
+   "n_parts": 15,
+   "one_region": true,
+   "area_mm2": 18443,
+   "mass_g": 28.6,
+   "parts": [
+    "y0800_front_R",
+    "y0870_front_L",
+    "y0870_front_R",
+    "y0123_front_L",
+    "y0123_front_R",
+    "y0601_front_L",
+    "y0601_front_R",
+    "y0953_front_L",
+    "y0953_front_R",
+    "y0700_front_L",
+    "y0700_front_R",
+    "y1037_front_L",
+    "y1037_front_R",
+    "y1120_front_L",
+    "y1120_front_R"
+   ]
+  }
+ ],
+ "total_pieces": 58,
+ "plate_m2": 0.246,
+ "frame": 6.0,
+ "bar": 5.0,
+ "tab": 2.0
+}

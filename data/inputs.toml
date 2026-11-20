@@ -70,7 +70,7 @@ eta_push = 0.55   # Pusher efficiency (electrical → thrust power); [A] motor ~
 Tmax_test = 4215   # Max thrust per motor in the test (100 %) [g]; [V]
 V_test = 22.51   # Test voltage at 100 % [V]; [V]
 rho_test = 1.2   # Air density during the maker's test [kg/m³]; [A] not stated on the page
-I_esc = 40   # ESC continuous rating (ALPHA 40A 6S) [A]; [V] product name / page
+I_esc = 20   # ESC continuous rating (ALPHA 40A 6S, 40 A only for 10 s) [A]; [V] store.tmotor.com alpha-40a-6s-esc: Con. Current 20A, Peak Current(10s) 40A, read 2026-11-20
 
 [Pusher]
 J0 = 0.66   # Advance ratio where thrust reaches zero; [A] APC thin-electric props, pitch/diameter ≈ 0.5: zero thrust at J ≈ 0.62-0.70 (independent review, from UIUC/APC data; APC file blocked HTTP 403)

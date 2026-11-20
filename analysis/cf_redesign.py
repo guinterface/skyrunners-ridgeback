@@ -57,6 +57,15 @@ FILM_GM2 = 45.0      # g/m2, light iron-on covering film [A: the Horizon UltraCo
 FOAM = 0.030         # g/cm3, EPS/XPS foam for fairings and tail cores [A]
 TC = 0.092           # SD7037 thickness/chord [A, airfoil library value, not re-read]
 RIB_T, RIB_PITCH, RIB_LIGHT = 1.0, 0.10, 0.50   # mm (SendCutSend 0.040 in), m between ribs, fraction removed by holes [A]
+def _ribs_cad():
+    """Masses from the drawn ribs (cad/cf/ribs.py -> cad/out/cf_ribs/ribs.json) for the 0.50 m2 wing, without aileron ribs."""
+    f = ROOT / "cad/out/cf_ribs/ribs.json"
+    if not f.exists():                         # fail loudly: the site's wing mass (462 g) comes from the drawn ribs
+        raise SystemExit("cad/out/cf_ribs/ribs.json missing: run cad/cf/ribs.py first (cadenv python)")
+    j = json.load(open(f)); rows = [r for r in j["rows"] if not r["part"].startswith("aileron")]
+    return dict(S=0.50, wing_ribs_g=sum(r["mass_g"] * r["qty"] for r in rows), n=j["n_wing_ribs"],
+                te_w_mm=j["te_strip"]["w_mm"], te_t_mm=j["te_strip"]["t_mm"], removed=j["removed_mean"])
+RIBS_CAD = _ribs_cad()
 GLUE = 0.15          # epoxy and fillets as a fraction of the bonded carbon [A]
 TAPER = 0.65         # cad/design.py
 
@@ -71,12 +80,20 @@ def wing_cf(S, m_kg):
     ys = [i / (n_ribs - 1) for i in range(n_ribs)]                # 0..1 across the span
     rib_area = sum(0.68 * TC * (cr + (ct - cr) * abs(2 * y - 1)) ** 2 for y in ys)   # m2, airfoil area ~ 0.68 t c
     ribs = rib_area * 1e4 * RIB_T / 10 * RHO_CF * (1 - RIB_LIGHT)
+    te = b * 100 * (1.0 * 0.1) * RHO_CF                            # 10 x 1 mm strip (old assumption)
+    ail = 0.0
+    if RIBS_CAD:                                                   # drawn ribs (cad/cf/ribs.py, reviewed 11-20) replace the estimate
+        k = S / RIBS_CAD["S"]                                      # same AR: chord^2 ~ S, rib count ~ span ~ S^0.5
+        ribs = RIBS_CAD["wing_ribs_g"] * k ** 1.5
+        n_ribs = round(RIBS_CAD["n"] * k ** 0.5)
+        te = b * 100 * (RIBS_CAD["te_w_mm"] / 10 * RIBS_CAD["te_t_mm"] / 10) * RHO_CF   # flush strip, about 26 x 0.5 mm
+        # ailerons are foam-core panels (decision 11-20): 2 x span 0.365 m x 25 % chord, mean core 5 mm [A], film counted with the wing
+        ail = 2 * 0.365 * (b / B0) * 0.25 * (S / b) * 1e4 * 0.5 * FOAM
     le = b * 100 * (math.pi / 4 * 0.3 ** 2) * RHO_CF               # 3 mm rod
-    te = b * 100 * (1.0 * 0.1) * RHO_CF                            # 10 x 1 mm strip
     false_spar = (MROWS["rod_rear_outer"]["G"] + MROWS["rod_rear_centre"]["G"]) * b / B0   # 6/4 tubes kept (aileron hinge line)
     film = 2.04 * S * FILM_GM2
     glue = GLUE * (ribs + le + te)
-    return dict(spar=spar, ribs=ribs, le_rod=le, te_strip=te, false_spar=false_spar, film=film, glue=glue,
+    return dict(spar=spar, ribs=ribs, le_rod=le, te_strip=te, false_spar=false_spar, film=film, glue=glue, aileron_foam=ail,
                 _n_ribs=n_ribs, _b=b, _cr=cr)
 
 def fuselage_cf():
@@ -209,7 +226,12 @@ if __name__ == "__main__":
         for k, v in d.items():
             if not k.startswith("_"): L.append(f"| {grp} | {k.replace('_', ' ')} | {v:.0f} |")
     w = base["parts"]["wing"]
-    L.append(f"\nWing: {w['_n_ribs']} ribs (1.0 mm carbon, every {RIB_PITCH*1000:.0f} mm, {RIB_LIGHT:.0%} cut out), root chord {w['_cr']*1000:.0f} mm, span {w['_b']:.2f} m.\n")
+    if RIBS_CAD:
+        L.append(f"\nWing: {w['_n_ribs']} ribs drawn in cad/cf/ribs.py (1.0 mm carbon, split front/rear at the spar, {RIBS_CAD['removed']:.0%} cut out, "
+                 f"hard ribs at the bolts, boom, aileron ends, servo and tip break), flush {RIBS_CAD['te_w_mm']:.0f} x {RIBS_CAD['te_t_mm']} mm trailing-edge strip, "
+                 f"foam-core ailerons; root chord {w['_cr']*1000:.0f} mm, span {w['_b']:.2f} m.\n")
+    else:
+        L.append(f"\nWing: {w['_n_ribs']} ribs (1.0 mm carbon, every {RIB_PITCH*1000:.0f} mm, {RIB_LIGHT:.0%} cut out), root chord {w['_cr']*1000:.0f} mm, span {w['_b']:.2f} m.\n")
     L.append("## 2. The team's requirements, at today's size (0.50 m² wing, 6S6P)\n")
     L.append("| Requirement | Team | With 1.5 kg payload | With today's 0.23 kg sensors | Pass? |\n|---|---|---|---|---|")
     p = passes(team)

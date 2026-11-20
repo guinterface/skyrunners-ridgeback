@@ -277,11 +277,11 @@
 },
 {
 "group": "Aircraft",
-"name": "HaoZhong carbon flat strip, 500 mm long: 0.5 x 10 mm 6-pack + 4-pack (trailing edges) and 1 x 6 mm 4-pack (hatch rims)",
+"name": "HaoZhong carbon flat strip, 500 mm long: 0.5 x 10 mm 4-pack (tail trailing edges) and 1 x 6 mm 4-pack (hatch rims)",
 "qty": 1,
-"unit": 26.0,
-"line": 26.0,
-"duty": 9.75,
+"unit": 16.0,
+"line": 16.0,
+"duty": 6.0,
 "store": "HaoZhong",
 "link": "https://carbonfibertubes.net/products/carbon-fiber-sheet-diameter-0-5-0-6-0-8-1-1-2-2-3-4-x-3-4-5-6-7-10-12-15-20mm",
 "note": "[V] HaoZhong store data, 20 Nov",
@@ -322,6 +322,18 @@
 "link": "https://fiberglasssupply.com/epoxy/west-system/west-system-105-epoxy-resin/west-system-kits-105-epoxy-with-206-slow-hardener/",
 "note": "[V] fiberglasssupply.com, 20 Nov",
 "id": "epoxy"
+},
+{
+"group": "Aircraft",
+"name": "0.5 mm carbon sheet for the wing trailing edge (cut into 26 mm strips; product not found yet)",
+"qty": 1,
+"unit": 30.0,
+"line": 30.0,
+"duty": 0.0,
+"store": "carbon sheet store: not found yet",
+"link": "",
+"note": "[A] estimate, 20 Nov; strip size from cad/cf/ribs.py",
+"id": "cf_te_sheet"
 },
 {
 "group": "Aircraft",

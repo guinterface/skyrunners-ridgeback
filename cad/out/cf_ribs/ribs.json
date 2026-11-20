@@ -1,0 +1,1102 @@
+{
+ "n_wing_ribs": 29,
+ "n_parts": 68,
+ "mass_g": 85.1,
+ "mass_uncut_g": 137.4,
+ "removed_mean": 0.38,
+ "te_strip": {
+  "w_mm": 26.1,
+  "t_mm": 0.5,
+  "g": 45.3
+ },
+ "below_min_part_size": [
+  "rib_00_y0000_front",
+  "rib_00_y0000_rear",
+  "rib_01_y0034_front",
+  "rib_01_y0034_rear",
+  "rib_02_y0123_front",
+  "rib_02_y0123_rear",
+  "rib_03_y0212_front",
+  "rib_03_y0212_rear",
+  "rib_04_y0301_front",
+  "rib_04_y0301_rear",
+  "rib_05_y0390_front",
+  "rib_05_y0390_rear",
+  "rib_06_y0446_front",
+  "rib_06_y0446_rear",
+  "rib_07_y0501_front",
+  "rib_07_y0501_rear",
+  "rib_08_y0503_aileron_end",
+  "rib_09_y0601_front",
+  "rib_09_y0601_rear",
+  "rib_09_y0601_aileron",
+  "rib_10_y0700_front",
+  "rib_10_y0700_rear",
+  "rib_10_y0700_aileron",
+  "rib_11_y0800_front",
+  "rib_11_y0800_rear",
+  "rib_11_y0800_aileron",
+  "rib_12_y0868_aileron_end",
+  "rib_13_y0870_front",
+  "rib_13_y0870_rear",
+  "rib_14_y0953_front",
+  "rib_14_y0953_rear",
+  "rib_15_y1037_front",
+  "rib_15_y1037_rear",
+  "rib_16_y1120_front",
+  "rib_16_y1120_rear"
+ ],
+ "cf_redesign_ribs_g": 60.4,
+ "ZS": 4.6,
+ "hinge_x": 161.2,
+ "flags": [
+  "rib_10_y0700_aileron: web around torque_rod 1.58 mm < 2.0 mm",
+  "rib_11_y0800_aileron: web around torque_rod 0.86 mm < 2.0 mm",
+  "rib_12_y0868_aileron_end: web around torque_rod -0.10 mm < 2.0 mm"
+ ],
+ "rows": [
+  {
+   "name": "rib_00_y0000_front",
+   "y": 0.0,
+   "kind": "centre",
+   "chord": 270.6,
+   "qty": 1,
+   "part": "front",
+   "bbox_mm": [
+    64.8,
+    25.2
+   ],
+   "area_mm2": 648,
+   "mass_g": 1.0,
+   "removed": 0.503,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     67.8,
+     6.97,
+     21.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 26.1,
+   "spar_contact": 0.91
+  },
+  {
+   "name": "rib_00_y0000_rear",
+   "y": 0.0,
+   "kind": "centre",
+   "chord": 270.6,
+   "qty": 1,
+   "part": "rear",
+   "bbox_mm": [
+    184.7,
+    25.3
+   ],
+   "area_mm2": 1712,
+   "mass_g": 2.65,
+   "removed": 0.447,
+   "webs_mm": {
+    "rear_rod": 5.37
+   },
+   "holes": [
+    [
+     "spar",
+     67.8,
+     6.97,
+     21.2
+    ],
+    [
+     "rear_rod",
+     159.9,
+     6.8,
+     6.2
+    ]
+   ],
+   "tail_web_mm": 1.46,
+   "te_strip_w_mm": 26.1,
+   "spar_contact": 0.9
+  },
+  {
+   "name": "rib_01_y0034_front",
+   "y": 34.5,
+   "kind": "bolt rib (wing-bolt sleeves at x 35 and 190 bond to its outboard face)",
+   "chord": 267.6,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    64.7,
+    25.0
+   ],
+   "area_mm2": 642,
+   "mass_g": 1.0,
+   "removed": 0.502,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     67.7,
+     6.97,
+     21.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 26.1,
+   "spar_contact": 0.91
+  },
+  {
+   "name": "rib_01_y0034_rear",
+   "y": 34.5,
+   "kind": "bolt rib (wing-bolt sleeves at x 35 and 190 bond to its outboard face)",
+   "chord": 267.6,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    181.8,
+    25.0
+   ],
+   "area_mm2": 1671,
+   "mass_g": 2.59,
+   "removed": 0.445,
+   "webs_mm": {
+    "rear_rod": 5.28
+   },
+   "holes": [
+    [
+     "spar",
+     67.7,
+     6.97,
+     21.2
+    ],
+    [
+     "rear_rod",
+     159.8,
+     6.79,
+     6.2
+    ]
+   ],
+   "tail_web_mm": 1.47,
+   "te_strip_w_mm": 26.1,
+   "spar_contact": 0.89
+  },
+  {
+   "name": "rib_02_y0123_front",
+   "y": 123.4,
+   "kind": "",
+   "chord": 260.1,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    61.6,
+    24.2
+   ],
+   "area_mm2": 625,
+   "mass_g": 0.97,
+   "removed": 0.503,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     67.5,
+     6.96,
+     21.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 26.0,
+   "spar_contact": 0.81
+  },
+  {
+   "name": "rib_02_y0123_rear",
+   "y": 123.4,
+   "kind": "",
+   "chord": 260.1,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    172.9,
+    24.2
+   ],
+   "area_mm2": 1586,
+   "mass_g": 2.46,
+   "removed": 0.434,
+   "webs_mm": {
+    "rear_rod": 5.07
+   },
+   "holes": [
+    [
+     "spar",
+     67.5,
+     6.96,
+     21.2
+    ],
+    [
+     "rear_rod",
+     159.5,
+     6.79,
+     6.2
+    ]
+   ],
+   "tail_web_mm": 1.47,
+   "te_strip_w_mm": 26.0,
+   "spar_contact": 0.82
+  },
+  {
+   "name": "rib_03_y0212_front",
+   "y": 212.2,
+   "kind": "",
+   "chord": 252.6,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    64.1,
+    23.7
+   ],
+   "area_mm2": 649,
+   "mass_g": 1.01,
+   "removed": 0.47,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     67.3,
+     6.95,
+     17.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.8,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_03_y0212_rear",
+   "y": 212.2,
+   "kind": "",
+   "chord": 252.6,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    167.5,
+    23.6
+   ],
+   "area_mm2": 1571,
+   "mass_g": 2.43,
+   "removed": 0.396,
+   "webs_mm": {
+    "rear_rod": 4.56
+   },
+   "holes": [
+    [
+     "spar",
+     67.3,
+     6.95,
+     17.2
+    ],
+    [
+     "rear_rod",
+     159.3,
+     6.78,
+     6.2
+    ]
+   ],
+   "tail_web_mm": 1.47,
+   "te_strip_w_mm": 25.8,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_04_y0301_front",
+   "y": 301.1,
+   "kind": "",
+   "chord": 245.1,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    63.8,
+    23.1
+   ],
+   "area_mm2": 637,
+   "mass_g": 0.99,
+   "removed": 0.465,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     67.0,
+     6.94,
+     17.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.7,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_04_y0301_rear",
+   "y": 301.1,
+   "kind": "",
+   "chord": 245.1,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    160.3,
+    22.8
+   ],
+   "area_mm2": 1486,
+   "mass_g": 2.3,
+   "removed": 0.383,
+   "webs_mm": {
+    "rear_rod": 3.64
+   },
+   "holes": [
+    [
+     "spar",
+     67.0,
+     6.94,
+     17.2
+    ],
+    [
+     "rear_rod",
+     159.1,
+     6.77,
+     6.2
+    ]
+   ],
+   "tail_web_mm": 1.48,
+   "te_strip_w_mm": 25.7,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_05_y0390_front",
+   "y": 390.0,
+   "kind": "boom rib (boom clamp station)",
+   "chord": 237.6,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    63.5,
+    22.5
+   ],
+   "area_mm2": 625,
+   "mass_g": 0.97,
+   "removed": 0.46,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     66.8,
+     6.94,
+     17.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.6,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_05_y0390_rear",
+   "y": 390.0,
+   "kind": "boom rib (boom clamp station)",
+   "chord": 237.6,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    153.2,
+    22.0
+   ],
+   "area_mm2": 1434,
+   "mass_g": 2.22,
+   "removed": 0.354,
+   "webs_mm": {
+    "rear_rod": 3.74
+   },
+   "holes": [
+    [
+     "spar",
+     66.8,
+     6.94,
+     17.2
+    ],
+    [
+     "rear_rod",
+     155.1,
+     6.15,
+     6.2
+    ]
+   ],
+   "tail_web_mm": 1.49,
+   "te_strip_w_mm": 25.6,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_06_y0446_front",
+   "y": 445.5,
+   "kind": "",
+   "chord": 232.9,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    63.3,
+    22.0
+   ],
+   "area_mm2": 617,
+   "mass_g": 0.96,
+   "removed": 0.458,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     66.7,
+     6.8,
+     17.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.5,
+   "spar_contact": 0.96
+  },
+  {
+   "name": "rib_06_y0446_rear",
+   "y": 445.5,
+   "kind": "",
+   "chord": 232.9,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    148.7,
+    21.6
+   ],
+   "area_mm2": 1406,
+   "mass_g": 2.18,
+   "removed": 0.333,
+   "webs_mm": {
+    "rear_rod": 3.95
+   },
+   "holes": [
+    [
+     "spar",
+     66.7,
+     6.8,
+     17.2
+    ],
+    [
+     "rear_rod",
+     148.0,
+     6.01,
+     6.2
+    ]
+   ],
+   "tail_web_mm": 1.49,
+   "te_strip_w_mm": 25.5,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_07_y0501_front",
+   "y": 501.0,
+   "kind": "aileron bay inner end",
+   "chord": 228.2,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    63.1,
+    21.6
+   ],
+   "area_mm2": 608,
+   "mass_g": 0.94,
+   "removed": 0.456,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     66.6,
+     6.66,
+     17.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.5,
+   "spar_contact": 0.93
+  },
+  {
+   "name": "rib_07_y0501_rear",
+   "y": 501.0,
+   "kind": "aileron bay inner end",
+   "chord": 228.2,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    144.2,
+    21.1
+   ],
+   "area_mm2": 1326,
+   "mass_g": 2.05,
+   "removed": 0.336,
+   "webs_mm": {
+    "rear_rod": 3.99
+   },
+   "holes": [
+    [
+     "spar",
+     66.6,
+     6.66,
+     17.2
+    ],
+    [
+     "rear_rod",
+     140.8,
+     5.91,
+     6.2
+    ]
+   ],
+   "tail_web_mm": 1.5,
+   "te_strip_w_mm": 25.5,
+   "spar_contact": 0.94
+  },
+  {
+   "name": "rib_08_y0503_aileron_end",
+   "y": 503.0,
+   "kind": "aileron end rib",
+   "chord": 228.0,
+   "qty": 2,
+   "part": "aileron_end",
+   "bbox_mm": [
+    49.0,
+    11.4
+   ],
+   "area_mm2": 334,
+   "mass_g": 0.52,
+   "removed": 0.023,
+   "webs_mm": {
+    "torque_rod": 3.05
+   },
+   "holes": [
+    [
+     "torque_rod",
+     173.3,
+     4.68,
+     3.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.5,
+   "spar_contact": null
+  },
+  {
+   "name": "rib_09_y0601_front",
+   "y": 600.7,
+   "kind": "",
+   "chord": 219.8,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    61.3,
+    20.8
+   ],
+   "area_mm2": 590,
+   "mass_g": 0.91,
+   "removed": 0.453,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     66.3,
+     6.42,
+     17.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.3,
+   "spar_contact": 0.84
+  },
+  {
+   "name": "rib_09_y0601_rear",
+   "y": 600.7,
+   "kind": "",
+   "chord": 219.8,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    89.4,
+    20.2
+   ],
+   "area_mm2": 927,
+   "mass_g": 1.44,
+   "removed": 0.387,
+   "webs_mm": {
+    "rear_rod": 4.12
+   },
+   "holes": [
+    [
+     "spar",
+     66.3,
+     6.42,
+     17.2
+    ],
+    [
+     "rear_rod",
+     128.0,
+     5.79,
+     6.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.3,
+   "spar_contact": 0.83
+  },
+  {
+   "name": "rib_09_y0601_aileron",
+   "y": 600.7,
+   "kind": "",
+   "chord": 219.8,
+   "qty": 2,
+   "part": "aileron",
+   "bbox_mm": [
+    41.1,
+    10.0
+   ],
+   "area_mm2": 249,
+   "mass_g": 0.39,
+   "removed": 0.031,
+   "webs_mm": {
+    "torque_rod": 2.35
+   },
+   "holes": [
+    [
+     "torque_rod",
+     173.1,
+     4.07,
+     3.2
+    ]
+   ],
+   "tail_web_mm": 1.51,
+   "te_strip_w_mm": 25.3,
+   "spar_contact": null
+  },
+  {
+   "name": "rib_10_y0700_front",
+   "y": 700.3,
+   "kind": "",
+   "chord": 211.3,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    59.7,
+    20.1
+   ],
+   "area_mm2": 574,
+   "mass_g": 0.89,
+   "removed": 0.448,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     66.1,
+     6.17,
+     17.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.2,
+   "spar_contact": 0.77
+  },
+  {
+   "name": "rib_10_y0700_rear",
+   "y": 700.3,
+   "kind": "",
+   "chord": 211.3,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    88.5,
+    19.3
+   ],
+   "area_mm2": 937,
+   "mass_g": 1.45,
+   "removed": 0.336,
+   "webs_mm": {
+    "rear_rod": 4.35
+   },
+   "holes": [
+    [
+     "spar",
+     66.1,
+     6.17,
+     17.2
+    ],
+    [
+     "rear_rod",
+     115.2,
+     5.77,
+     6.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.2,
+   "spar_contact": 0.75
+  },
+  {
+   "name": "rib_10_y0700_aileron",
+   "y": 700.3,
+   "kind": "",
+   "chord": 211.3,
+   "qty": 2,
+   "part": "aileron",
+   "bbox_mm": [
+    33.0,
+    8.6
+   ],
+   "area_mm2": 174,
+   "mass_g": 0.27,
+   "removed": 0.044,
+   "webs_mm": {
+    "torque_rod": 1.58
+   },
+   "holes": [
+    [
+     "torque_rod",
+     172.8,
+     3.45,
+     3.2
+    ]
+   ],
+   "tail_web_mm": 1.51,
+   "te_strip_w_mm": 25.2,
+   "spar_contact": null
+  },
+  {
+   "name": "rib_11_y0800_front",
+   "y": 800.0,
+   "kind": "servo / horn rib",
+   "chord": 202.9,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    62.0,
+    19.3
+   ],
+   "area_mm2": 593,
+   "mass_g": 0.92,
+   "removed": 0.407,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.9,
+     5.93,
+     13.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.0,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_11_y0800_rear",
+   "y": 800.0,
+   "kind": "servo / horn rib",
+   "chord": 202.9,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    91.5,
+    18.5
+   ],
+   "area_mm2": 1041,
+   "mass_g": 1.61,
+   "removed": 0.203,
+   "webs_mm": {
+    "rear_rod": 4.67
+   },
+   "holes": [
+    [
+     "spar",
+     65.9,
+     5.93,
+     13.2
+    ],
+    [
+     "rear_rod",
+     102.4,
+     5.83,
+     6.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 25.0,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_11_y0800_aileron",
+   "y": 800.0,
+   "kind": "servo / horn rib",
+   "chord": 202.9,
+   "qty": 2,
+   "part": "aileron",
+   "bbox_mm": [
+    25.0,
+    7.2
+   ],
+   "area_mm2": 110,
+   "mass_g": 0.17,
+   "removed": 0.068,
+   "webs_mm": {
+    "torque_rod": 0.86
+   },
+   "holes": [
+    [
+     "torque_rod",
+     172.6,
+     2.83,
+     3.2
+    ]
+   ],
+   "tail_web_mm": 1.52,
+   "te_strip_w_mm": 25.0,
+   "spar_contact": null
+  },
+  {
+   "name": "rib_12_y0868_aileron_end",
+   "y": 868.0,
+   "kind": "aileron end rib",
+   "chord": 197.2,
+   "qty": 2,
+   "part": "aileron_end",
+   "bbox_mm": [
+    19.5,
+    6.2
+   ],
+   "area_mm2": 73,
+   "mass_g": 0.11,
+   "removed": 0.098,
+   "webs_mm": {
+    "torque_rod": -0.1
+   },
+   "holes": [
+    [
+     "torque_rod",
+     172.4,
+     2.41,
+     3.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 24.9,
+   "spar_contact": null
+  },
+  {
+   "name": "rib_13_y0870_front",
+   "y": 870.0,
+   "kind": "tip break (spar joint, 10 deg polyhedral, aileron bay outer end)",
+   "chord": 197.0,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    61.8,
+    18.8
+   ],
+   "area_mm2": 584,
+   "mass_g": 0.91,
+   "removed": 0.4,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.7,
+     5.76,
+     13.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 24.9,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_13_y0870_rear",
+   "y": 870.0,
+   "kind": "tip break (spar joint, 10 deg polyhedral, aileron bay outer end)",
+   "chord": 197.0,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    114.4,
+    17.9
+   ],
+   "area_mm2": 1015,
+   "mass_g": 1.57,
+   "removed": 0.239,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.7,
+     5.76,
+     13.2
+    ]
+   ],
+   "tail_web_mm": 1.52,
+   "te_strip_w_mm": 24.9,
+   "spar_contact": 0.97
+  },
+  {
+   "name": "rib_14_y0953_front",
+   "y": 953.3,
+   "kind": "",
+   "chord": 190.0,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    61.2,
+    18.1
+   ],
+   "area_mm2": 569,
+   "mass_g": 0.88,
+   "removed": 0.394,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.5,
+     5.56,
+     13.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 24.8,
+   "spar_contact": 0.67
+  },
+  {
+   "name": "rib_14_y0953_rear",
+   "y": 953.3,
+   "kind": "",
+   "chord": 190.0,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    107.3,
+    17.2
+   ],
+   "area_mm2": 913,
+   "mass_g": 1.42,
+   "removed": 0.24,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.5,
+     5.56,
+     13.2
+    ]
+   ],
+   "tail_web_mm": 1.54,
+   "te_strip_w_mm": 24.8,
+   "spar_contact": 0.67
+  },
+  {
+   "name": "rib_15_y1037_front",
+   "y": 1036.7,
+   "kind": "",
+   "chord": 182.9,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    59.5,
+    17.5
+   ],
+   "area_mm2": 555,
+   "mass_g": 0.86,
+   "removed": 0.388,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.3,
+     5.37,
+     13.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 24.7,
+   "spar_contact": 0.67
+  },
+  {
+   "name": "rib_15_y1037_rear",
+   "y": 1036.7,
+   "kind": "",
+   "chord": 182.9,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    99.3,
+    16.3
+   ],
+   "area_mm2": 844,
+   "mass_g": 1.31,
+   "removed": 0.216,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.3,
+     5.37,
+     13.2
+    ]
+   ],
+   "tail_web_mm": 1.54,
+   "te_strip_w_mm": 24.7,
+   "spar_contact": 0.67
+  },
+  {
+   "name": "rib_16_y1120_front",
+   "y": 1120.0,
+   "kind": "tip rib",
+   "chord": 175.9,
+   "qty": 2,
+   "part": "front",
+   "bbox_mm": [
+    58.4,
+    16.8
+   ],
+   "area_mm2": 542,
+   "mass_g": 0.84,
+   "removed": 0.378,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.1,
+     5.17,
+     13.2
+    ]
+   ],
+   "tail_web_mm": null,
+   "te_strip_w_mm": 24.6,
+   "spar_contact": 0.67
+  },
+  {
+   "name": "rib_16_y1120_rear",
+   "y": 1120.0,
+   "kind": "tip rib",
+   "chord": 175.9,
+   "qty": 2,
+   "part": "rear",
+   "bbox_mm": [
+    91.7,
+    15.5
+   ],
+   "area_mm2": 776,
+   "mass_g": 1.2,
+   "removed": 0.188,
+   "webs_mm": {},
+   "holes": [
+    [
+     "spar",
+     65.1,
+     5.17,
+     13.2
+    ]
+   ],
+   "tail_web_mm": 1.55,
+   "te_strip_w_mm": 24.6,
+   "spar_contact": 0.66
+  }
+ ]
+}

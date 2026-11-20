@@ -54,8 +54,8 @@ CALCS = {
     "prop_lift": dict(step="step-7", sheet=("04_Propulsion_Battery_Energy", "Lift_Hover"),
         lines=[(r"\dfrac{T}{W} = %.2f \;\text{on a hot day}" % val("TW_hot"), "the maker's thrust figures are for this exact propeller")]),
     "esc_lift": dict(step="step-6", sheet=("04_Propulsion_Battery_Energy", "Lift_Hover"),
-        lines=[(r"I_{max} = \dfrac{P_{100\%%}}{V} = \dfrac{754\ \text{W}}{22.5\ \text{V}} = %.1f\ \text{A} \;<\; 40\ \text{A}" % val("I_full"), "full throttle, from the motor test table"),
-               (r"I_{hover} = %.1f\ \text{A}" % val("Imot_hot"), "hot-day hover, per motor")]),
+        lines=[(r"I_{hover} = %.1f\ \text{A} \;<\; 20\ \text{A continuous}" % val("Imot_hot"), "hot-day hover, per motor: inside the continuous rating"),
+               (r"I_{max} = \dfrac{P_{100\%%}}{V} = \dfrac{754\ \text{W}}{22.5\ \text{V}} = %.1f\ \text{A} \;<\; 40\ \text{A for 10 s}" % val("I_full"), "full throttle, from the motor test table: above the 20 A continuous rating, so only as a short burst")]),
     "pm07": dict(step="step-6", sheet=("04_Propulsion_Battery_Energy", "Lift_Hover"),
         lines=[(r"I_{pack} = \dfrac{P_{hover}}{V} = \dfrac{%.0f\ \text{W}}{21.6\ \text{V}} = %.0f\ \text{A} \;<\; 90\ \text{A}" % (val("Phov_hot"), val("Ipack_hot")), "hot-day hover through the power module")]),
     "motor_pusher": dict(step="step-4", sheet=("04_Propulsion_Battery_Energy", "Pusher"),
@@ -299,7 +299,7 @@ def cf_section():
     b, t, req = _CF["base"], _CF["team"], _CF["req"]
     def grp(d): return sum(v for k, v in d.items() if not k.startswith("_"))
     rows = "".join(f"<tr><td>{E(name)}</td><td class=num>{grp(b['parts'][k]):,.0f} g</td></tr>" for k, name in
-                   (("wing", "Wing: tube spar, 25 carbon ribs, rod and strip edges, film"), ("fuselage", "Fuselage: carbon rails, bulkheads and floor, foam and film skin"),
+                   (("wing", f"Wing: tube spar, {b['parts']['wing']['_n_ribs']} carbon ribs, rod and strip edges, film"), ("fuselage", "Fuselage: carbon rails, bulkheads and floor, foam and film skin"),
                     ("tail", "Tail: foam-core panels with a carbon strip, printed sockets kept"), ("booms", "Booms, legs, motor plates, carbon-plate clamps, foam nacelles")))
     def yes(ok): return '<span class="ok">yes</span>' if ok else '<span class="bad">no</span>'
     vcr = req["cruise_kmh"] / 3.6
@@ -331,7 +331,7 @@ Every carbon mass is an estimate until parts are weighed. <b>The 3D view, the ma
 <li>At 8 kg, 60 min and 65 km/h the payload can be at most about {_CF['max8']['payload_g']:,.0f} g (wing {_CF['max8']['S']:.2f} m², 6S{_CF['max8']['P']}P), and thrust/weight is then {_CF['max8']['tw_sl']:.2f}, still short of 2.0.</li>
 <li>Thrust/weight 2.0 needs about {_CF['need_tmax_g']/1000:.1f} kg of thrust from each lift motor; the MN5008 with 18 inch props gives 4.2 kg. Bigger lift motors or props are needed, and their extra mass is not counted yet.</li>
 <li>How much the wing twists with the tube spar alone depends on how the tube is wound, which the store does not say: {_CF['twist'][0]['g20']:.1f}° at 65 km/h and {_CF['twist'][2]['g20']:.1f}° at 30 m/s if it has ±45° plies, but {_CF['twist'][0]['g5']:.1f}° and {_CF['twist'][2]['g5']:.1f}° if it is a 0/90 weave or pultruded. Above about 2° the wing needs a molded carbon leading edge (D-box). <b>Still open:</b> ask HaoZhong for the layup, or twist-test one wing panel by hand.</li>
-<li>Not in the cost total: bigger lift motors for thrust/weight 2, the spot welder and battery tools. About $425 of the total is our estimate, not a quote (carbon cut parts $250 until SendCutSend quotes our DXF files, shop supplies $125, foam $50).</li>
+<li>Not in the cost total: bigger lift motors for thrust/weight 2, the spot welder and battery tools. About $455 of the total is our estimate, not a quote (carbon cut parts $250 until SendCutSend quotes our DXF files, shop supplies $125, foam $50, the 0.5 mm trailing-edge sheet $30).</li>
 </ul>
 <p class="small">Open with the team: which requirement gives (weight, payload or endurance), what the 1.5 kg payload is, and whether they want tilt rotors (their table mentions it).</p></section>"""
 

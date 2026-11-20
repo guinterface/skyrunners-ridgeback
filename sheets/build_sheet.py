@@ -247,7 +247,7 @@ def srow(label, a, b, rule, status):
 srow("Takeoff mass (kg), CAD + payload", "={m_to}", "={m_to}", "", "=\"From 161 CAD parts + \"&TEXT({m_pay_g},\"0\")&\" g of mission sensors. Printed-part masses still to be weighed.\"")
 r_ = srow("CG x (mm) vs target 94", "={cg_x}", "", "94 ± 5", "=IF(ABS({cg_x}-{cg_target})<=5,\"OK: within 5 mm, trim with the battery\",\"MOVE BATTERY\")")
 srow("Hover thrust / weight", "={TW_sl}", "={TW_hot}", "≥ 1.5 hot", "=IF({TW_hot}>={req_tw},\"PASS\",\"FAIL\")&\": MN5008 + P18 maker data; matches our Python model exactly\"")
-srow("Hover power (W)", "={Phov_sl}", "={Phov_hot}", "", "About 13-14 A per motor, under the 40 A ESCs; about 9 A per cell.")
+srow("Hover power (W)", "={Phov_sl}", "={Phov_hot}", "", "About 13-14 A per motor, under the ESCs' 20 A continuous rating; about 9 A per cell.")
 srow("Stall speed (m/s), clean wing", "={Vs_sl}", "={Vs_hot}", "≤ 15 SL", "=IF({Vs_sl}<={req_stall},\"PASS\",\"FAIL by \"&TEXT({Vs_sl}-{req_stall},\"0.0\")&\" m/s\")&\": CLmax from the SD7037 polar. Flaps (already in the CAD) or relaxing the rule (VTOL lands on rotors) would fix it.\"")
 srow("CD0 (drag buildup)", "={CD0_build}", "", "first sizing assumed 0.025-0.035", "An independent check put it at 0.040 to 0.090, most likely 0.060. The exposed lift motors, landing feet and stopped props are about 45 %.")
 srow("Loiter speed (m/s)", "={V_sl}", "={V_hot}", "", "Set by 1.3 x stall, not by best power.")
@@ -621,8 +621,8 @@ p(ws, "Tmax_test", "Max thrust per motor in the test (100 %)", "T_max", 4215, "g
 p(ws, "V_test", "Test voltage at 100 %", "V_test", 22.51, "V", "", "[V]", "", fmt="0.00")
 p(ws, "V_load", "Our pack voltage under hover load", "V_load", "=6*3.6", "V", "6 cells x 3.6 V", "[A] Li-ion mid-discharge under load", "", fmt="0.00")
 p(ws, "rho_test", "Air density during the maker's test", "ρ_test", 1.20, "kg/m³", "typed", "[A] not stated on the page", "", fmt="0.00")
-p(ws, "I_esc", "ESC continuous rating (ALPHA 40A 6S)", "I_ESC", 40, "A", "", "[V] product name / page", "", fmt="0")
-p(ws, "I_full", "Motor current at 100 % (table)", "I_100", f"=B{t1}/{{V_test}}", "A", "P / V", "[C]", "must stay under the ESC rating", fmt="0.0")
+p(ws, "I_esc", "ESC continuous rating (ALPHA 40A 6S; 40 A only for 10 s)", "I_ESC", 20, "A", "Con. Current 20A, Peak Current(10s) 40A", "[V] store.tmotor.com alpha-40a-6s-esc, read 2026-11-20", "hover must stay under it; full throttle only as a short burst", fmt="0")
+p(ws, "I_full", "Motor current at 100 % (table)", "I_100", f"=B{t1}/{{V_test}}", "A", "P / V", "[C]", "above the 20 A continuous rating: allowed only under 10 s (40 A peak)", fmt="0.0")
 section(ws, "Hover results")
 header(ws, ["Quantity", "Symbol", "Sea level ISA", "800 m ISA+20", "Equation", "Source [tag]", "Note"])
 two("Thov", "Thrust per motor needed", "T", "={m_to_g}/4", "={m_to_g}/4", "g", "T = m / 4")
@@ -661,7 +661,7 @@ a1r = ws._r - 1
 section(ws, "Static numbers and an in-flight estimate")
 header(ws, PARAM_COLS)
 p(ws, "T0_push", "Static thrust at 100 % (13x6.5)", "T_0", f"=F{a1r}/1000*{{g}}", "N", "table, g → N", "[V]", "", fmt="0.00")
-p(ws, "I_push", "Current at 100 %", "I", f"=C{a1r}", "A", "table", "[V]", "under the 40 A ALPHA ESC → the 13x6.5 is allowed (the buy-list note said it might exceed 40 A [A]; the maker's table says 34.9 A)", fmt="0.0")
+p(ws, "I_push", "Current at 100 %", "I", f"=C{a1r}", "A", "table", "[V]", "over the ALPHA 40A's 20 A continuous rating, under its 40 A 10 s peak [V]: full pusher throttle only as a short burst; cruise ~16 A is inside", fmt="0.0")
 p(ws, "n_push", "Prop speed at 100 %", "n", f"=E{a1r}/60", "rev/s", "rpm / 60", "[V]", "", fmt="0.0")
 p(ws, "D_push", "Prop diameter of the test data (13 in)", "D", "=13*0.0254", "m", "", "[V]", "our CAD/BOM prop is 12 in (305 mm): 13 in would leave ~15 mm ground clearance", fmt="0.000")
 p(ws, "J0", "Advance ratio where thrust reaches zero", "J_0", 0.66, "-", "typed", "[A] APC thin-electric props, pitch/diameter ≈ 0.5: zero thrust at J ≈ 0.62-0.70 (independent review, from UIUC/APC data; APC file blocked HTTP 403)", "", fmt="0.00")
@@ -833,10 +833,10 @@ EL = [
      "maker's thrust table [V] gives T/W 1.5+ at 800 m hot on 6S with P18 (Lift_Hover)", "SunnySky V4014 KV330: T/W 1.20 hot [C] → rejected"),
     ("T-Motor P18x6.1 prop pair", "lift props", part_qty("prop_lift"), "BUY", part_price("prop_lift"), part_url("prop_lift"), part_mass("prop_lift"), "matched to MN5008 in the maker's test", ""),
     ("T-Motor ALPHA 40A 6S ESC", "motor drive (4 lift + 1 pusher)", part_qty("esc_lift") + part_qty("esc_pusher"), "BUY", part_price("esc_lift"), part_url("esc_lift"), part_mass("esc_lift"),
-     "FOC, 6S; 40 A > 33.5 A motor full-throttle current [C Lift_Hover]; US stock = no import duty", "UnmannedRC $69.99 + 37.5 % duty = $96.24 [C]"),
+     "FOC, 6S; 20 A continuous > hover 13-14 A, 40 A for 10 s > 33.5 A full throttle [V T-Motor page, C Lift_Hover]; US stock = no import duty", "UnmannedRC $69.99 + 37.5 % duty = $96.24 [C]"),
     ("T-Motor AT3520 KV550 long shaft", "pusher motor", part_qty("motor_pusher"), "BUY", part_price("motor_pusher"), part_url("motor_pusher"), part_mass("motor_pusher"),
      "maker recommends 6S + 13x6.5; table [V] 3.58 kg static at 34.9 A", "V4014 too slow (330 KV)"),
-    ("APC 12x6E pusher prop", "pusher prop", part_qty("prop_pusher"), "BUY", part_price("prop_pusher"), part_url("prop_pusher"), part_mass("prop_pusher"), "fits the CAD (305 mm disc, ground clearance); price [A]", "13x6.5 (maker's test prop, 34.9 A < 40 A [V]) leaves ~15 mm ground clearance → only with longer legs"),
+    ("APC 12x6E pusher prop", "pusher prop", part_qty("prop_pusher"), "BUY", part_price("prop_pusher"), part_url("prop_pusher"), part_mass("prop_pusher"), "fits the CAD (305 mm disc, ground clearance); price [A]", "13x6.5 (maker's test prop, 34.9 A: inside the 40 A 10 s peak only [V]) leaves ~15 mm ground clearance → only with longer legs"),
     ("KST X10 V2 wing servo", "ailerons + ruddervators", part_qty("servos"), "BUY", part_price("servos"), part_url("servos"), part_mass("servos"),
      "10 mm thin-wing servo; 7.5 kg cm vs 4.7 needed [C]", "KST DS145MG $34.99 (5.2 kg cm, ships from China) → Cost_Options"),
     ("Servo regulator 5-6 V ≥ 5 A", "servo power", part_qty("servo_reg"), "BUY", part_price("servo_reg"), part_url("servo_reg"), part_mass("servo_reg"),
@@ -997,7 +997,7 @@ text_rows(ws, [
     ["Wing area and battery", "0.50 m² + 6S6P P50B", "0.40-0.70 m², 6S3P-7P", "Cheapest size that met T/W ≥ 1.5 hot, stall ≤ 15 m/s and ≥ 80 min in the sweep (CD0 0.025-0.035 assumed). RE-CHECK with the drag buildup (this workbook).", "Battery_Options, Mission_Energy", "10-30 / re-check 11-17"],
     ["6S voltage", "6S", "12S", "Smaller aircraft draws ~1.1-1.5 kW in hover: 6S keeps currents ≤ 13 A per motor; cheaper ESCs and connectors; same cells.", "Lift_Hover", "10-30 / done"],
     ["Lift motor", "T-Motor MN5008 KV340 + P18x6.1", "Sky4 SunnySky V4014 (owned)", "V4014: T/W 1.20 at 800 m hot (rule 1.5). MN5008 table gives the margin.", "Lift_Hover; SunnySky V4014 maker table", "11-10 / done"],
-    ["Pusher", "AT3520 KV550 + APC 12x6E", "APC 13x6.5 (maker's test prop)", "13x6.5 draws only 34.9 A at 100 % [V] (fine for the 40 A ESC) but leaves ~15 mm ground clearance, so 12 in stays. Winged climb limited to ~1.5-2 m/s: climb gently or on rotors.", "Pusher", "11-02 / kept 11-17"],
+    ["Pusher", "AT3520 KV550 + APC 12x6E", "APC 13x6.5 (maker's test prop)", "13x6.5 draws 34.9 A at 100 % [V] (over the ESC's 20 A continuous, inside its 40 A 10 s peak) and leaves ~15 mm ground clearance, so 12 in stays. Winged climb limited to ~1.5-2 m/s: climb gently or on rotors.", "Pusher", "11-02 / kept 11-17"],
     ["ESC", "ALPHA 40A 6S from US stock", "same from China; Sky4 Tekko32", "US $92 vs China $69.99 + 37.5 % duty = $96.24, and no customs wait.", "BOM_Cost; Electronics", "11-10 / done"],
     ["Cells", "Molicel P50B", "Samsung 50S, 50E", "P50B rated 60 A, in US stock, tested by others; 50S cheaper but sag untested; 50E rating too low.", "Battery_Options", "11-02 / done"],
     ["Airfoil", "SD7037", "others not compared here", "Low-Re sailplane airfoil, 9.2 % thick: good L/D at Re 2-3 x 10⁵; thick enough for the spar tubes.", "Airfoil_SD7037", "10 / done"],

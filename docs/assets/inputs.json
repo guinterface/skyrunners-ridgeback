@@ -410,10 +410,10 @@
 {
 "group": "Lift_Hover",
 "key": "I_esc",
-"value": "40",
-"label": "ESC continuous rating (ALPHA 40A 6S)",
+"value": "20",
+"label": "ESC continuous rating (ALPHA 40A 6S, 40 A only for 10 s)",
 "unit": "A",
-"source": "[V] product name / page"
+"source": "[V] store.tmotor.com alpha-40a-6s-esc: Con. Current 20A, Peak Current(10s) 40A, read 2026-11-20"
 },
 {
 "group": "Pusher",

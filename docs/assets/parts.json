@@ -415,7 +415,7 @@
     ]
    ],
    "job": "Lifts the drone straight up for take-off and landing, and holds it in a hover.",
-   "why": "T-Motor's own test table for this motor with an 18 inch prop on 6 cells: 4.2 kg of thrust at full throttle. Our drone weighs 8.9 kg, so each motor carries 2,229 g in a hover, about 56% throttle at sea level and 65% on a hot day at 800 m. Total thrust is 1.54 times the weight on that hot day, above the 1.5 we require for control in gusts. Each motor draws 14.0 A in a hot hover and 33.5 A at full throttle, inside the 40 A speed controller.",
+   "why": "T-Motor's own test table for this motor with an 18 inch prop on 6 cells: 4.2 kg of thrust at full throttle. Our drone weighs 8.9 kg, so each motor carries 2,229 g in a hover, about 56% throttle at sea level and 65% on a hot day at 800 m. Total thrust is 1.54 times the weight on that hot day, above the 1.5 we require for control in gusts. Each motor draws 14.0 A in a hot hover, inside the speed controller's 20 A continuous rating, and 33.5 A at full throttle in the maker's test, which the controller allows only for 10 seconds (40 A peak), so full throttle is for short bursts such as a climb-out. On a freshly charged pack (25.2 V) full throttle would draw about 42 A, over even the 10 second rating, so the flight controller needs a throttle limit.",
    "instead": "SunnySky V4014 KV330 (Sky4's motors, which we do not have): only 1.20 times the weight on a hot day anyway, below the 1.5 rule.",
    "source": "store.tmotor.com MN5008 test table (read 30 Oct); sheet 04 Lift_Hover",
    "connects": [
@@ -468,7 +468,7 @@
      }
     ],
     "job": "Lifts the drone straight up for take-off and landing, and holds it in a hover.",
-    "why": "T-Motor's own test table for this motor with an 18 inch prop on 6 cells: 4.2 kg of thrust at full throttle. Our drone weighs {m_to} kg, so each motor carries {Thov_sl} g in a hover, about {throttle_sl} throttle at sea level and {throttle_hot} on a hot day at 800 m. Total thrust is {TW_hot} times the weight on that hot day, above the 1.5 we require for control in gusts. Each motor draws {Imot_hot} A in a hot hover and {I_full} A at full throttle, inside the 40 A speed controller.",
+    "why": "T-Motor's own test table for this motor with an 18 inch prop on 6 cells: 4.2 kg of thrust at full throttle. Our drone weighs {m_to} kg, so each motor carries {Thov_sl} g in a hover, about {throttle_sl} throttle at sea level and {throttle_hot} on a hot day at 800 m. Total thrust is {TW_hot} times the weight on that hot day, above the 1.5 we require for control in gusts. Each motor draws {Imot_hot} A in a hot hover, inside the speed controller's 20 A continuous rating, and {I_full} A at full throttle in the maker's test, which the controller allows only for 10 seconds (40 A peak), so full throttle is for short bursts such as a climb-out. On a freshly charged pack (25.2 V) full throttle would draw about 42 A, over even the 10 second rating, so the flight controller needs a throttle limit.",
     "instead": "SunnySky V4014 KV330 (Sky4's motors, which we do not have): only 1.20 times the weight on a hot day anyway, below the 1.5 rule.",
     "source": "store.tmotor.com MN5008 test table (read 30 Oct); sheet 04 Lift_Hover",
     "connects": [
@@ -624,7 +624,7 @@
     ]
    ],
    "job": "Drives one lift motor at the speed the flight controller asks for. Sits in the boom nacelle next to its motor.",
-   "why": "Made for this motor class on 6 cells. Rated 40 A against 33.5 A at full throttle. The US price beats the China price once duty is paid.",
+   "why": "Made for this motor class on 6 cells. T-Motor rates it 20 A continuous and 40 A for 10 seconds: hover (14.0 A on a hot day) is inside the continuous rating, full throttle (33.5 A) only as a short burst, and about 42 A on a fresh 25.2 V pack would exceed even the burst rating, so set a throttle limit. The US price beats the China price once duty is paid.",
    "instead": "A four-in-one board would put all four lift motors on one failure.",
    "source": "Electronics sheet; T-Motor table",
    "connects": [
@@ -676,7 +676,7 @@
      }
     ],
     "job": "Drives one lift motor at the speed the flight controller asks for. Sits in the boom nacelle next to its motor.",
-    "why": "Made for this motor class on 6 cells. Rated 40 A against {I_full} A at full throttle. The US price beats the China price once duty is paid.",
+    "why": "Made for this motor class on 6 cells. T-Motor rates it 20 A continuous and 40 A for 10 seconds: hover ({Imot_hot} A on a hot day) is inside the continuous rating, full throttle ({I_full} A) only as a short burst, and about 42 A on a fresh 25.2 V pack would exceed even the burst rating, so set a throttle limit. The US price beats the China price once duty is paid.",
     "instead": "A four-in-one board would put all four lift motors on one failure.",
     "source": "Electronics sheet; T-Motor table",
     "connects": [
@@ -709,12 +709,12 @@
    },
    "calc": [
     [
-     "I_{max} = \\dfrac{P_{100\\%}}{V} = \\dfrac{754\\ \\text{W}}{22.5\\ \\text{V}} = 33.5\\ \\text{A} \\;<\\; 40\\ \\text{A}",
-     "full throttle, from the motor test table"
+     "I_{hover} = 14.0\\ \\text{A} \\;<\\; 20\\ \\text{A continuous}",
+     "hot-day hover, per motor: inside the continuous rating"
     ],
     [
-     "I_{hover} = 14.0\\ \\text{A}",
-     "hot-day hover, per motor"
+     "I_{max} = \\dfrac{P_{100\\%}}{V} = \\dfrac{754\\ \\text{W}}{22.5\\ \\text{V}} = 33.5\\ \\text{A} \\;<\\; 40\\ \\text{A for 10 s}",
+     "full throttle, from the motor test table: above the 20 A continuous rating, so only as a short burst"
     ]
    ],
    "calcStep": "step-6",
@@ -924,7 +924,7 @@
     ]
    ],
    "job": "Drives the pusher motor.",
-   "why": "Same part as the lift controllers; 34.9 A at full pusher throttle is inside its 40 A rating.",
+   "why": "Same part as the lift controllers: 20 A continuous, 40 A for 10 seconds [V T-Motor page]. Cruise draws about 16 A, inside the continuous rating; full pusher throttle (34.9 A) is allowed only as a short burst, so climb gently on the wing or climb on the rotors.",
    "instead": "",
    "source": "AT3520 table",
    "connects": [
@@ -968,7 +968,7 @@
      }
     ],
     "job": "Drives the pusher motor.",
-    "why": "Same part as the lift controllers; {I_push} A at full pusher throttle is inside its 40 A rating.",
+    "why": "Same part as the lift controllers: 20 A continuous, 40 A for 10 seconds [V T-Motor page]. Cruise draws about 16 A, inside the continuous rating; full pusher throttle ({I_push} A) is allowed only as a short burst, so climb gently on the wing or climb on the rotors.",
     "instead": "",
     "source": "AT3520 table",
     "connects": [
@@ -1634,7 +1634,7 @@
    "qty": 1,
    "status": "build (carbon)",
    "price": 0,
-   "mass": 418,
+   "mass": 462,
    "buy": [
     [
      "HaoZhong carbon tubes",
@@ -1642,8 +1642,8 @@
      "spar set $70.47"
     ]
    ],
-   "job": "Carries the drone in forward flight. 2.24 m span, 0.50 m\u00b2, SD7037 airfoil, 10\u00b0 tips. Built up: the carbon tube spar carries bending and twist; 25 ribs of 1 mm carbon every 100 mm; 3 mm carbon rod leading edge; carbon strip trailing edge; iron-on film skin.",
-   "why": "Spar margin 1.52 at the root under 3.8 g with both lift motors at full thrust (same tubes as before). Tip twist from the tube alone: 0.4\u00b0 at 65 km/h and 1.1\u00b0 at 30 m/s if the tube has \u00b145\u00b0 plies, 1.6\u00b0 and 4.3\u00b0 if it is a 0/90 weave or pultruded; HaoZhong says only roll-wrapped, so whether we need a molded carbon leading edge (D-box) is still open until we know the layup or twist-test a panel (analysis/cf_redesign.py). About 0.42 kg against about 0.94 kg printed (estimate until weighed).",
+   "job": "Carries the drone in forward flight. 2.24 m span, 0.50 m\u00b2, SD7037 airfoil, 10\u00b0 tips. Built up: the carbon tube spar carries bending and twist; 29 ribs of 1 mm carbon, each cut in a front and a rear piece bonded onto the spar (the tube is too deep for a closed hole), with extra ribs at the wing bolts, boom, aileron ends, servo and tip break; 3 mm carbon rod leading edge; a 26 x 0.5 mm carbon strip set flush into the rib tails as the trailing edge; foam-core ailerons; iron-on film skin. Rib drawings: cad/cf/ribs.py.",
+   "why": "Spar margin 1.52 at the root under 3.8 g with both lift motors at full thrust (same tubes as before). Tip twist from the tube alone: 0.4\u00b0 at 65 km/h and 1.1\u00b0 at 30 m/s if the tube has \u00b145\u00b0 plies, 1.6\u00b0 and 4.3\u00b0 if it is a 0/90 weave or pultruded; HaoZhong says only roll-wrapped, so whether we need a molded carbon leading edge (D-box) is still open until we know the layup or twist-test a panel (analysis/cf_redesign.py). About 0.46 kg against about 0.94 kg printed (estimate until weighed).",
    "instead": "",
    "source": "analysis/cf_redesign.py (carbon redesign, 20 Nov); Structure_Stability; mini_spar.py",
    "connects": [
@@ -1670,7 +1670,7 @@
     "qty": 1,
     "status": "build (carbon)",
     "price": 0,
-    "mass": 418,
+    "mass": 462,
     "buy": [
      {
       "store": "HaoZhong carbon tubes",
@@ -1678,8 +1678,8 @@
       "price": "spar set $70.47"
      }
     ],
-    "job": "Carries the drone in forward flight. 2.24 m span, 0.50 m\u00b2, SD7037 airfoil, 10\u00b0 tips. Built up: the carbon tube spar carries bending and twist; 25 ribs of 1 mm carbon every 100 mm; 3 mm carbon rod leading edge; carbon strip trailing edge; iron-on film skin.",
-    "why": "Spar margin 1.52 at the root under 3.8 g with both lift motors at full thrust (same tubes as before). Tip twist from the tube alone: 0.4\u00b0 at 65 km/h and 1.1\u00b0 at 30 m/s if the tube has \u00b145\u00b0 plies, 1.6\u00b0 and 4.3\u00b0 if it is a 0/90 weave or pultruded; HaoZhong says only roll-wrapped, so whether we need a molded carbon leading edge (D-box) is still open until we know the layup or twist-test a panel (analysis/cf_redesign.py). About 0.42 kg against about 0.94 kg printed (estimate until weighed).",
+    "job": "Carries the drone in forward flight. 2.24 m span, 0.50 m\u00b2, SD7037 airfoil, 10\u00b0 tips. Built up: the carbon tube spar carries bending and twist; 29 ribs of 1 mm carbon, each cut in a front and a rear piece bonded onto the spar (the tube is too deep for a closed hole), with extra ribs at the wing bolts, boom, aileron ends, servo and tip break; 3 mm carbon rod leading edge; a 26 x 0.5 mm carbon strip set flush into the rib tails as the trailing edge; foam-core ailerons; iron-on film skin. Rib drawings: cad/cf/ribs.py.",
+    "why": "Spar margin 1.52 at the root under 3.8 g with both lift motors at full thrust (same tubes as before). Tip twist from the tube alone: 0.4\u00b0 at 65 km/h and 1.1\u00b0 at 30 m/s if the tube has \u00b145\u00b0 plies, 1.6\u00b0 and 4.3\u00b0 if it is a 0/90 weave or pultruded; HaoZhong says only roll-wrapped, so whether we need a molded carbon leading edge (D-box) is still open until we know the layup or twist-test a panel (analysis/cf_redesign.py). About 0.46 kg against about 0.94 kg printed (estimate until weighed).",
     "instead": "",
     "source": "analysis/cf_redesign.py (carbon redesign, 20 Nov); Structure_Stability; mini_spar.py",
     "connects": [
@@ -3284,7 +3284,7 @@
      "quote from our DXF files: ESTIMATE $250"
     ]
    ],
-   "job": "Every flat carbon part: 25 wing ribs and 5 bulkheads in 1.0 mm, the battery and payload floor in 1.6 mm, motor plates and boom clamp plates in 3.0 mm. We send the DXF outlines from the CAD and they cut them.",
+   "job": "Every flat carbon part: 29 wing ribs (58 pieces, split front and rear at the spar, nested on 4 cards because each piece is under SendCutSend's 1 x 2 inch minimum part size; the aileron rib files are not ordered, the ailerons are foam) and 6 bulkheads in 1.0 mm, the battery and payload floor in 1.6 mm, motor plates and boom clamp plates in 3.0 mm. We send the DXF outlines from the CAD and they cut them.",
    "why": "Replaces most printed parts. SendCutSend publishes no prices; the $250 is our estimate until the DXF files exist and are quoted. The raw carbon plate for the same area costs about $100 at HaoZhong (1.0 mm 100 x 300 mm plate $13.20), and cutting adds the rest.",
    "source": "sendcutsend.com carbon fiber page (thicknesses, tolerance, read 20 Nov); price [A]",
    "connects": [],
@@ -3312,7 +3312,7 @@
       "price": "quote from our DXF files: ESTIMATE $250"
      }
     ],
-    "job": "Every flat carbon part: 25 wing ribs and 5 bulkheads in 1.0 mm, the battery and payload floor in 1.6 mm, motor plates and boom clamp plates in 3.0 mm. We send the DXF outlines from the CAD and they cut them.",
+    "job": "Every flat carbon part: 29 wing ribs (58 pieces, split front and rear at the spar, nested on 4 cards because each piece is under SendCutSend's 1 x 2 inch minimum part size; the aileron rib files are not ordered, the ailerons are foam) and 6 bulkheads in 1.0 mm, the battery and payload floor in 1.6 mm, motor plates and boom clamp plates in 3.0 mm. We send the DXF outlines from the CAD and they cut them.",
     "why": "Replaces most printed parts. SendCutSend publishes no prices; the $250 is our estimate until the DXF files exist and are quoted. The raw carbon plate for the same area costs about $100 at HaoZhong (1.0 mm 100 x 300 mm plate $13.20), and cutting adds the rest.",
     "source": "sendcutsend.com carbon fiber page (thicknesses, tolerance, read 20 Nov); price [A]",
     "connects": [],
@@ -3449,20 +3449,15 @@
   },
   {
    "id": "cf_strips",
-   "name": "HaoZhong carbon flat strip, 500 mm long: 0.5 x 10 mm 6-pack + 4-pack (trailing edges) and 1 x 6 mm 4-pack (hatch rims)",
+   "name": "HaoZhong carbon flat strip, 500 mm long: 0.5 x 10 mm 4-pack (tail trailing edges) and 1 x 6 mm 4-pack (hatch rims)",
    "system": "materials",
    "qty": 1,
    "status": "buy",
-   "price": 26.0,
+   "price": 16.0,
    "mass": 0,
    "china": 1,
    "duty": 0.375,
    "buy": [
-    [
-     "HaoZhong (0.5 x 10 mm, 6 pcs)",
-     "https://carbonfibertubes.net/products/carbon-fiber-sheet-diameter-0-5-0-6-0-8-1-1-2-2-3-4-x-3-4-5-6-7-10-12-15-20mm",
-     "$10.00"
-    ],
     [
      "HaoZhong (0.5 x 10 mm, 4 pcs)",
      "https://carbonfibertubes.net/products/carbon-fiber-sheet-diameter-0-5-0-6-0-8-1-1-2-2-3-4-x-3-4-5-6-7-10-12-15-20mm",
@@ -3474,8 +3469,8 @@
      "$8.00"
     ]
    ],
-   "job": "Wing and tail trailing edges, and the stiff rims of the hatch lids.",
-   "why": "The listing's table gives every strip as 500 mm long (0.5 x 10 mm: 8 g each). The trailing edges need about 3.3 m (wing 2.24 m, tail about 1.1 m), so 10 strips of 0.5 x 10 mm, joined with short overlaps; the hatch rims need about 1.1 m of 1 x 6 mm.",
+   "job": "Tail trailing edges, and the stiff rims of the hatch lids. The wing trailing edge needs a wider strip (next line).",
+   "why": "The listing's table gives every strip as 500 mm long (0.5 x 10 mm: 8 g each). The tail trailing edges need about 1.1 m, so 3 strips of 0.5 x 10 mm; the hatch rims need about 1.1 m of 1 x 6 mm.",
    "source": "[V] HaoZhong store data, 20 Nov",
    "connects": [],
    "nodes": [],
@@ -3487,20 +3482,15 @@
    "editLine": 778,
    "raw": {
     "id": "cf_strips",
-    "name": "HaoZhong carbon flat strip, 500 mm long: 0.5 x 10 mm 6-pack + 4-pack (trailing edges) and 1 x 6 mm 4-pack (hatch rims)",
+    "name": "HaoZhong carbon flat strip, 500 mm long: 0.5 x 10 mm 4-pack (tail trailing edges) and 1 x 6 mm 4-pack (hatch rims)",
     "system": "materials",
     "qty": 1,
     "status": "buy",
-    "price": 26.0,
+    "price": 16.0,
     "mass": 0,
     "china": 1,
     "duty": 0.375,
     "buy": [
-     {
-      "store": "HaoZhong (0.5 x 10 mm, 6 pcs)",
-      "link": "https://carbonfibertubes.net/products/carbon-fiber-sheet-diameter-0-5-0-6-0-8-1-1-2-2-3-4-x-3-4-5-6-7-10-12-15-20mm",
-      "price": "$10.00"
-     },
      {
       "store": "HaoZhong (0.5 x 10 mm, 4 pcs)",
       "link": "https://carbonfibertubes.net/products/carbon-fiber-sheet-diameter-0-5-0-6-0-8-1-1-2-2-3-4-x-3-4-5-6-7-10-12-15-20mm",
@@ -3512,8 +3502,8 @@
       "price": "$8.00"
      }
     ],
-    "job": "Wing and tail trailing edges, and the stiff rims of the hatch lids.",
-    "why": "The listing's table gives every strip as 500 mm long (0.5 x 10 mm: 8 g each). The trailing edges need about 3.3 m (wing 2.24 m, tail about 1.1 m), so 10 strips of 0.5 x 10 mm, joined with short overlaps; the hatch rims need about 1.1 m of 1 x 6 mm.",
+    "job": "Tail trailing edges, and the stiff rims of the hatch lids. The wing trailing edge needs a wider strip (next line).",
+    "why": "The listing's table gives every strip as 500 mm long (0.5 x 10 mm: 8 g each). The tail trailing edges need about 1.1 m, so 3 strips of 0.5 x 10 mm; the hatch rims need about 1.1 m of 1 x 6 mm.",
     "source": "[V] HaoZhong store data, 20 Nov",
     "connects": [],
     "nodes": []
@@ -3554,7 +3544,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 799,
+   "editLine": 798,
    "raw": {
     "id": "film",
     "name": "Covering film: Hangar 9 UltraCote Lite, 3 rolls",
@@ -3606,7 +3596,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 816,
+   "editLine": 815,
    "raw": {
     "id": "foam_sheet",
     "name": "Foam sheet: 3 mm (fuselage skin, hatch lids) and 5 to 6 mm (nose and tail fairings, tail cores)",
@@ -3659,7 +3649,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 832,
+   "editLine": 831,
    "raw": {
     "id": "epoxy",
     "name": "Epoxy: West System 105 resin + 206 slow hardener, 1.2 quart kit",
@@ -3691,6 +3681,53 @@
    "heldBy": []
   },
   {
+   "id": "cf_te_sheet",
+   "name": "0.5 mm carbon sheet for the wing trailing edge (cut into 26 mm strips; product not found yet)",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy (estimate)",
+   "price": 30.0,
+   "mass": 0,
+   "buy": [],
+   "where": "carbon sheet store: not found yet",
+   "job": "The wing's trailing edge: a 26 x 0.5 mm carbon strip set flush into a step in every rib tail, about 2.24 m in total (5 strips of 500 mm).",
+   "why": "HaoZhong's 0.5 mm strips stop at 10 mm wide and its plates start at 1.0 mm [V store data, 20 Nov], so a 0.5 mm sheet at least 26 x 500 mm per strip is needed from another store. $30 is our estimate [A] until a listing is read. Narrower strips would shorten the bond in the rib step.",
+   "source": "[A] estimate, 20 Nov; strip size from cad/cf/ribs.py",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 848,
+   "raw": {
+    "id": "cf_te_sheet",
+    "name": "0.5 mm carbon sheet for the wing trailing edge (cut into 26 mm strips; product not found yet)",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy (estimate)",
+    "price": 30.0,
+    "mass": 0,
+    "buy": [],
+    "where": "carbon sheet store: not found yet",
+    "job": "The wing's trailing edge: a 26 x 0.5 mm carbon strip set flush into a step in every rib tail, about 2.24 m in total (5 strips of 500 mm).",
+    "why": "HaoZhong's 0.5 mm strips stop at 10 mm wide and its plates start at 1.0 mm [V store data, 20 Nov], so a 0.5 mm sheet at least 26 x 500 mm per strip is needed from another store. $30 is our estimate [A] until a listing is read. Narrower strips would shorten the bond in the rib step.",
+    "source": "[A] estimate, 20 Nov; strip size from cad/cf/ribs.py",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "cf_te_sheet",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": []
+  },
+  {
    "id": "build_consumables",
    "name": "Shop supplies for the carbon build (estimate)",
    "system": "materials",
@@ -3711,7 +3748,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 849,
+   "editLine": 864,
    "raw": {
     "id": "build_consumables",
     "name": "Shop supplies for the carbon build (estimate)",
@@ -3764,7 +3801,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 865,
+   "editLine": 880,
    "raw": {
     "id": "wire_pack",
     "name": "Wire Power Pack (Lumenier)",
@@ -3822,7 +3859,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 882,
+   "editLine": 897,
    "raw": {
     "id": "xt90",
     "name": "Amass XT90H",
@@ -3880,7 +3917,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 899,
+   "editLine": 914,
    "raw": {
     "id": "servo_ext",
     "name": "Servo extension 60 cm",
@@ -3932,7 +3969,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 916,
+   "editLine": 931,
    "raw": {
     "id": "bullets",
     "name": "3.5 mm bullet 3-packs",
@@ -3979,7 +4016,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 932,
+   "editLine": 947,
    "raw": {
     "id": "heat_shrink",
     "name": "Heat shrink 530 pc",
@@ -4026,7 +4063,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 948,
+   "editLine": 963,
    "raw": {
     "id": "xt60",
     "name": "XT60 pairs, 5-pack (removable-wing ESC feeds)",
@@ -4073,7 +4110,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 964,
+   "editLine": 979,
    "raw": {
     "id": "xt30",
     "name": "XT30 pairs, 5-pack (servo regulator, Jetson regulator)",
@@ -4120,7 +4157,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 980,
+   "editLine": 995,
    "raw": {
     "id": "balance_lead",
     "name": "JST-XH 7-pin balance lead",
@@ -4167,7 +4204,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 996,
+   "editLine": 1011,
    "raw": {
     "id": "jst_gh",
     "name": "JST-GH cable set",
@@ -4214,7 +4251,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1012,
+   "editLine": 1027,
    "raw": {
     "id": "solder",
     "name": "Solder, ties, sleeve",
@@ -4274,7 +4311,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1028,
+   "editLine": 1043,
    "raw": {
     "id": "lw_asa",
     "name": "LW-ASA 650 g",
@@ -4326,7 +4363,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1046,
+   "editLine": 1061,
    "raw": {
     "id": "petg_cf",
     "name": "Bambu PETG-CF 1 kg",
@@ -4378,7 +4415,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1063,
+   "editLine": 1078,
    "raw": {
     "id": "small_spools",
     "name": "ASA, TPU, PETG small spools",
@@ -4425,7 +4462,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1079,
+   "editLine": 1094,
    "raw": {
     "id": "m5_inserts",
     "name": "M5 heat-set inserts, 50",
@@ -4472,7 +4509,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1095,
+   "editLine": 1110,
    "raw": {
     "id": "hardware",
     "name": "Other hardware (bolts, hinges, epoxy)",
@@ -4565,7 +4602,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1111,
+   "editLine": 1126,
    "raw": {
     "id": "mount_hardware",
     "name": "Mount hardware: thumb screws, inserts, standoffs, straps, hatch magnets",
@@ -4681,7 +4718,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1136,
+   "editLine": 1151,
    "raw": {
     "id": "mount_avionics_tray",
     "name": "Avionics cassette (removable tray in the nose)",
@@ -4756,7 +4793,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1152,
+   "editLine": 1167,
    "raw": {
     "id": "mount_avionics_rails",
     "name": "Cassette rail blocks (bonded to frames F1 and F2)",
@@ -4815,7 +4852,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1168,
+   "editLine": 1183,
    "raw": {
     "id": "mount_battery_sled",
     "name": "Battery sled",
@@ -4873,7 +4910,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1184,
+   "editLine": 1199,
    "raw": {
     "id": "mount_battery_stop",
     "name": "Battery end stop and side guides",
@@ -4956,7 +4993,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1200,
+   "editLine": 1215,
    "raw": {
     "id": "mount_belly_plate",
     "name": "Belly sensor plate with the Pi deck (removable)",
@@ -5048,7 +5085,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1216,
+   "editLine": 1231,
    "raw": {
     "id": "mount_tail_panel",
     "name": "Tail-cone access panel (pusher ESC and servo regulator ride on it)",
@@ -5110,7 +5147,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1232,
+   "editLine": 1247,
    "raw": {
     "id": "mount_tail_insert_blocks",
     "name": "Tail-panel insert blocks (4, bonded)",
@@ -5168,7 +5205,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1248,
+   "editLine": 1263,
    "raw": {
     "id": "mount_esc_cradle",
     "name": "Lift ESC cradle (one in each boom nacelle)",
@@ -5231,7 +5268,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1264,
+   "editLine": 1279,
    "raw": {
     "id": "mount_gps_holder",
     "name": "GPS holder on the right wing pad",
@@ -5294,7 +5331,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1280,
+   "editLine": 1295,
    "raw": {
     "id": "mount_pitot_mount",
     "name": "Pitot and airspeed bulkhead in the nose",
