@@ -2,28 +2,28 @@
  "parts": [
   {
    "id": "battery",
-   "name": "Battery: ready-made 6S6P pack of Molicel P50B cells (Upgrade Energy RED V3, 30 Ah, XT90)",
+   "name": "Battery: 6S6P pack of Molicel P50B cells, built by us",
    "system": "power",
    "qty": 1,
-   "status": "buy (ready-made pack)",
-   "price": 479,
+   "status": "buy cells, we build it",
+   "price": 359.6,
    "mass": 2720,
-   "size": "Store size not read yet. Our CAD block for 36 P50B cells (6 \u00d7 6, each 21.7 mm wide \u00d7 70.4 mm tall): 140 \u00d7 135 \u00d7 75 mm with strip, BMS and wrap. Check the store size fits the battery bay before ordering.",
+   "size": "36 P50B cells (6 \u00d7 6, each 21.7 mm wide \u00d7 70.4 mm tall) in a printed holder: must fit the 140 \u00d7 135 \u00d7 75 mm battery bay",
    "buy": [
     [
-     "Upgrade Energy (RED V3 6S6P 30 Ah P50B, XT90)",
-     "https://www.upgradeenergytech.com/products/red-6s6p-30000mah-molicel-p50b",
-     "$479 (seen in a search listing 19 Nov; the store blocks our page reader, so open the page and confirm price and weight)"
+     "Liion Wholesale (40 cells: 36 + 4 spares, $8.99 each)",
+     "https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor",
+     "$359.60"
     ]
    ],
    "job": "Powers the drone: an estimated 2.7 survey flights per charge. Six cells in series give 21.6 V under load; six in parallel give 30 Ah.",
-   "why": "648 Wh in about 2.72 kg. In a hot-day hover each cell carries 9.5 A, against a 60 A rating. It gives 57 min of loiter with 20 % left, or 2.7 survey flights per charge. Bought ready-made: about the same cost as building it (cells, BMS, strip, spot welder), without a first-time pack build.",
-   "instead": "Build it ourselves from 36 loose P50B cells: $323.64 at Liion Wholesale (https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor) plus about $50 for BMS, nickel strip and wrap, plus a spot welder; plan and safety steps in the team's battery-build notes. Samsung 50S cells ($6.99 each) need a voltage-sag bench test first. Samsung 50E: 9.8 A rating, too low. A LiPo pack of the same mass would hold about 40 % less energy.",
-   "source": "Sheet 04, Battery_Options and Mission_Energy. Mass 2,720 g = 36 cells \u00d7 70 g \u00d7 1.08 [A] until the store weight is read.",
+   "why": "648 Wh in about 2.72 kg. In a hot-day hover each cell carries 9.5 A, against a 60 A rating. It gives 57 min of loiter with 20 % left, or 2.7 survey flights per charge. We build it ourselves (spot-welded, no BMS in the power path); a practice 6S3P pack from 18 cells we already own comes first.",
+   "instead": "Buy it ready-made: Upgrade Energy RED V3 6S6P P50B, about $479 (https://www.upgradeenergytech.com/products/red-6s6p-30000mah-molicel-p50b, price from a search listing). Samsung 50S cells ($6.99 each) need a voltage-sag bench test first. Samsung 50E: 9.8 A rating, too low. A LiPo pack of the same mass would hold about 40 % less energy.",
+   "source": "Sheet 04, Battery_Options and Mission_Energy. Mass 2,720 g = 36 cells \u00d7 70 g \u00d7 1.08 [A]: weigh the finished pack and enter it here.",
    "connects": [
     [
      "pm07",
-     "XT90 connector, two 14 AWG wires per pole"
+     "XT90-S anti-spark connector, two 14 AWG wires per pole"
     ]
    ],
    "nodes": [
@@ -38,28 +38,28 @@
    "editLine": 28,
    "raw": {
     "id": "battery",
-    "name": "Battery: ready-made 6S6P pack of Molicel P50B cells (Upgrade Energy RED V3, 30 Ah, XT90)",
+    "name": "Battery: 6S6P pack of Molicel P50B cells, built by us",
     "system": "power",
     "qty": 1,
-    "status": "buy (ready-made pack)",
-    "price": 479,
+    "status": "buy cells, we build it",
+    "price": 359.6,
     "mass": 2720,
-    "size": "Store size not read yet. Our CAD block for 36 P50B cells (6 \u00d7 6, each 21.7 mm wide \u00d7 70.4 mm tall): 140 \u00d7 135 \u00d7 75 mm with strip, BMS and wrap. Check the store size fits the battery bay before ordering.",
+    "size": "36 P50B cells (6 \u00d7 6, each 21.7 mm wide \u00d7 70.4 mm tall) in a printed holder: must fit the 140 \u00d7 135 \u00d7 75 mm battery bay",
     "buy": [
      {
-      "store": "Upgrade Energy (RED V3 6S6P 30 Ah P50B, XT90)",
-      "link": "https://www.upgradeenergytech.com/products/red-6s6p-30000mah-molicel-p50b",
-      "price": "$479 (seen in a search listing 19 Nov; the store blocks our page reader, so open the page and confirm price and weight)"
+      "store": "Liion Wholesale (40 cells: 36 + 4 spares, $8.99 each)",
+      "link": "https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor",
+      "price": "$359.60"
      }
     ],
     "job": "Powers the drone: an estimated {flights_pack} survey flights per charge. Six cells in series give 21.6 V under load; six in parallel give 30 Ah.",
-    "why": "648 Wh in about 2.72 kg. In a hot-day hover each cell carries {Icell_hot} A, against a 60 A rating. It gives {tloit_sl} min of loiter with 20 % left, or {flights_pack} survey flights per charge. Bought ready-made: about the same cost as building it (cells, BMS, strip, spot welder), without a first-time pack build.",
-    "instead": "Build it ourselves from 36 loose P50B cells: $323.64 at Liion Wholesale (https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor) plus about $50 for BMS, nickel strip and wrap, plus a spot welder; plan and safety steps in the team's battery-build notes. Samsung 50S cells ($6.99 each) need a voltage-sag bench test first. Samsung 50E: 9.8 A rating, too low. A LiPo pack of the same mass would hold about 40 % less energy.",
-    "source": "Sheet 04, Battery_Options and Mission_Energy. Mass 2,720 g = 36 cells \u00d7 70 g \u00d7 1.08 [A] until the store weight is read.",
+    "why": "648 Wh in about 2.72 kg. In a hot-day hover each cell carries {Icell_hot} A, against a 60 A rating. It gives {tloit_sl} min of loiter with 20 % left, or {flights_pack} survey flights per charge. We build it ourselves (spot-welded, no BMS in the power path); a practice 6S3P pack from 18 cells we already own comes first.",
+    "instead": "Buy it ready-made: Upgrade Energy RED V3 6S6P P50B, about $479 (https://www.upgradeenergytech.com/products/red-6s6p-30000mah-molicel-p50b, price from a search listing). Samsung 50S cells ($6.99 each) need a voltage-sag bench test first. Samsung 50E: 9.8 A rating, too low. A LiPo pack of the same mass would hold about 40 % less energy.",
+    "source": "Sheet 04, Battery_Options and Mission_Energy. Mass 2,720 g = 36 cells \u00d7 70 g \u00d7 1.08 [A]: weigh the finished pack and enter it here.",
     "connects": [
      [
       "pm07",
-      "XT90 connector, two 14 AWG wires per pole"
+      "XT90-S anti-spark connector, two 14 AWG wires per pole"
      ]
     ],
     "nodes": [
@@ -93,6 +93,95 @@
    "heldBy": [
     "battery_sled"
    ]
+  },
+  {
+   "id": "pack_build",
+   "name": "Battery build supplies: nickel strip, insulation, welder battery",
+   "system": "materials",
+   "qty": 1,
+   "status": "buy",
+   "price": 155.71,
+   "mass": 0,
+   "buy": [
+    [
+     "IMR Batteries (21700 2P nickel strip 0.15 \u00d7 23 mm, 5 m)",
+     "https://imrbatteries.com/products/21700-2p-pure-nickel-strip-roll-0-15mm-x-23mm-5m-16-4-feet",
+     "$44.99"
+    ],
+    [
+     "IMR Batteries (18650 2P nickel strip 0.15 \u00d7 20.2 mm, 5 m, practice pack)",
+     "https://imrbatteries.com/products/18650-2p-pure-nickel-strip-roll-0-15mm-x-20-2mm-5m-16-4-feet",
+     "$39.99"
+    ],
+    [
+     "IMR Batteries (fish-paper rings 21700 \u00d72, 18650 \u00d71; fish paper 70 mm; Kapton 25 mm)",
+     "https://imrbatteries.com/collections/battery-pack-building-supplies",
+     "$28.95"
+    ],
+    [
+     "HobbyKing (Turnigy Graphene Panther 3S 5000 75C, powers the welder)",
+     "https://hobbyking.com/en_us/graphene-5000mah-3s-75c.html",
+     "$41.78"
+    ]
+   ],
+   "where": "any",
+   "job": "Everything needed to weld the cells into packs, apart from the welder.",
+   "why": "Pure nickel only (plated steel heats up). The spot welder is not in this price: kWeld kit from keenlab, Germany, 169 to 177 euros plus shipping, unless a lab lends one.",
+   "source": "Store pages read 20 Nov",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Materials, wiring and hardware",
+   "color": "#7d7466",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 47,
+   "raw": {
+    "id": "pack_build",
+    "name": "Battery build supplies: nickel strip, insulation, welder battery",
+    "system": "materials",
+    "qty": 1,
+    "status": "buy",
+    "price": 155.71,
+    "mass": 0,
+    "buy": [
+     {
+      "store": "IMR Batteries (21700 2P nickel strip 0.15 \u00d7 23 mm, 5 m)",
+      "link": "https://imrbatteries.com/products/21700-2p-pure-nickel-strip-roll-0-15mm-x-23mm-5m-16-4-feet",
+      "price": "$44.99"
+     },
+     {
+      "store": "IMR Batteries (18650 2P nickel strip 0.15 \u00d7 20.2 mm, 5 m, practice pack)",
+      "link": "https://imrbatteries.com/products/18650-2p-pure-nickel-strip-roll-0-15mm-x-20-2mm-5m-16-4-feet",
+      "price": "$39.99"
+     },
+     {
+      "store": "IMR Batteries (fish-paper rings 21700 \u00d72, 18650 \u00d71; fish paper 70 mm; Kapton 25 mm)",
+      "link": "https://imrbatteries.com/collections/battery-pack-building-supplies",
+      "price": "$28.95"
+     },
+     {
+      "store": "HobbyKing (Turnigy Graphene Panther 3S 5000 75C, powers the welder)",
+      "link": "https://hobbyking.com/en_us/graphene-5000mah-3s-75c.html",
+      "price": "$41.78"
+     }
+    ],
+    "where": "any",
+    "job": "Everything needed to weld the cells into packs, apart from the welder.",
+    "why": "Pure nickel only (plated steel heats up). The spot welder is not in this price: kWeld kit from keenlab, Germany, 169 to 177 euros plus shipping, unless a lab lends one.",
+    "source": "Store pages read 20 Nov",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "pack_build",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": []
   },
   {
    "id": "pm07",
@@ -145,7 +234,7 @@
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 47,
+   "editLine": 68,
    "raw": {
     "id": "pm07",
     "name": "Power module: Holybro PM07",
@@ -252,7 +341,7 @@
    "systemName": "Power",
    "color": "#8a5a2b",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 68,
+   "editLine": 89,
    "raw": {
     "id": "servo_reg",
     "name": "Servo regulator, 5\u20136 V, at least 5 A",
@@ -349,7 +438,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 86,
+   "editLine": 107,
    "raw": {
     "id": "motor_lift",
     "name": "Lift motor: T-Motor MN5008 KV340",
@@ -459,7 +548,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 109,
+   "editLine": 130,
    "raw": {
     "id": "prop_lift",
     "name": "Lift propeller: T-Motor P18x6.1 (pair)",
@@ -564,7 +653,7 @@
    "systemName": "Lift (hover)",
    "color": "#22221f",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 130,
+   "editLine": 151,
    "raw": {
     "id": "esc_lift",
     "name": "Speed controller: T-Motor ALPHA 40A 6S",
@@ -679,7 +768,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 150,
+   "editLine": 171,
    "raw": {
     "id": "motor_pusher",
     "name": "Pusher motor: T-Motor AT3520 KV550",
@@ -778,7 +867,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 172,
+   "editLine": 193,
    "raw": {
     "id": "prop_pusher",
     "name": "Pusher propeller: APC 12x6E",
@@ -861,7 +950,7 @@
    "systemName": "Cruise (pusher)",
    "color": "#6b6b66",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 191,
+   "editLine": 212,
    "raw": {
     "id": "esc_pusher",
     "name": "Pusher speed controller: ALPHA 40A 6S",
@@ -981,7 +1070,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 210,
+   "editLine": 231,
    "raw": {
     "id": "pixhawk",
     "name": "Flight controller: CubePilot Cube Orange on its carrier board (ours)",
@@ -1080,7 +1169,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 230,
+   "editLine": 251,
    "raw": {
     "id": "gnss",
     "name": "GPS and compass: Holybro M10",
@@ -1158,7 +1247,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 251,
+   "editLine": 272,
    "raw": {
     "id": "airspeed",
     "name": "Airspeed sensor: Holybro MS5525DSO with PT40 pitot tube",
@@ -1240,7 +1329,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 271,
+   "editLine": 292,
    "raw": {
     "id": "telemetry",
     "name": "Telemetry radios: Holybro SiK V3 915 MHz (pair)",
@@ -1322,7 +1411,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 292,
+   "editLine": 313,
    "raw": {
     "id": "rc_rx",
     "name": "RC receiver: RadioMaster RP2 V2 (ExpressLRS)",
@@ -1393,7 +1482,7 @@
    "systemName": "Flight control",
    "color": "#2f5d8a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 310,
+   "editLine": 331,
    "raw": {
     "id": "remote_id",
     "name": "Remote ID: Ruko R111S",
@@ -1477,7 +1566,7 @@
    "systemName": "Control surfaces",
    "color": "#4e7a3a",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 329,
+   "editLine": 350,
    "raw": {
     "id": "servos",
     "name": "Servo: KST X10 V2",
@@ -1573,7 +1662,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 349,
+   "editLine": 370,
    "raw": {
     "id": "wing",
     "name": "Wing: printed LW-ASA on carbon spars",
@@ -1666,7 +1755,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 367,
+   "editLine": 388,
    "raw": {
     "id": "booms",
     "name": "Booms: 30 mm carbon tubes with nacelles",
@@ -1752,7 +1841,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 385,
+   "editLine": 406,
    "raw": {
     "id": "fuselage",
     "name": "Fuselage: printed shell",
@@ -1832,7 +1921,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 401,
+   "editLine": 422,
    "raw": {
     "id": "tail",
     "name": "Arch tail",
@@ -1947,7 +2036,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 417,
+   "editLine": 438,
    "raw": {
     "id": "payload_computer",
     "name": "Payload computer: Raspberry Pi 5 (4 GB) with active cooler",
@@ -2085,7 +2174,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 442,
+   "editLine": 463,
    "raw": {
     "id": "payload_power",
     "name": "Payload regulator: Pololu D36V50F5, 5 V 5.5 A",
@@ -2224,7 +2313,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 466,
+   "editLine": 487,
    "raw": {
     "id": "thermal_cam",
     "name": "Thermal camera: FLIR Lepton 3.5 on a PureThermal 3 board",
@@ -2365,7 +2454,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 496,
+   "editLine": 517,
    "raw": {
     "id": "rgb_cam",
     "name": "Colour camera: Raspberry Pi Global Shutter Camera, 6 mm lens (lens not priced)",
@@ -2511,7 +2600,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 522,
+   "editLine": 543,
    "raw": {
     "id": "spot_sensor",
     "name": "1610 nm spot sensor (built by us): two InGaAs photodiodes behind 1610 nm filters",
@@ -2657,7 +2746,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 553,
+   "editLine": 574,
    "raw": {
     "id": "air_sensor",
     "name": "Air temperature and humidity: Sensirion SHT45",
@@ -2783,7 +2872,7 @@
    "systemName": "Mission sensors",
    "color": "#1f7a72",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 579,
+   "editLine": 600,
    "raw": {
     "id": "nir_channel",
     "name": "Near-infrared reference channel (850 nm) for the spot sensor",
@@ -2889,7 +2978,7 @@
    "systemName": "Ground equipment",
    "color": "#9a6b16",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 606,
+   "editLine": 627,
    "raw": {
     "id": "rc_tx",
     "name": "RC transmitter: RadioMaster Pocket (ExpressLRS), with two 18650 cells",
@@ -2963,7 +3052,7 @@
    "systemName": "Ground equipment",
    "color": "#9a6b16",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 625,
+   "editLine": 646,
    "raw": {
     "id": "charger",
     "name": "Battery charger: HOTA H6 Pro (200 W on wall power)",
@@ -3027,7 +3116,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 645,
+   "editLine": 666,
    "raw": {
     "id": "tubes_main",
     "name": "HaoZhong 1 m carbon tubes (13: booms, spars, rods, legs)",
@@ -3087,7 +3176,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 664,
+   "editLine": 685,
    "raw": {
     "id": "tubes_extra",
     "name": "HaoZhong 2 more 6/4 tubes",
@@ -3147,7 +3236,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 683,
+   "editLine": 704,
    "raw": {
     "id": "rods_3mm",
     "name": "HaoZhong 3 mm solid rod 500 mm, 5-pack",
@@ -3207,7 +3296,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 702,
+   "editLine": 723,
    "raw": {
     "id": "carbon_plates",
     "name": "Carbon plates 3 mm 100x300 + 1.5 mm 200x300",
@@ -3267,7 +3356,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 721,
+   "editLine": 742,
    "raw": {
     "id": "wire_pack",
     "name": "Wire Power Pack (Lumenier)",
@@ -3325,7 +3414,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 738,
+   "editLine": 759,
    "raw": {
     "id": "xt90",
     "name": "Amass XT90H",
@@ -3383,7 +3472,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 755,
+   "editLine": 776,
    "raw": {
     "id": "servo_ext",
     "name": "Servo extension 60 cm",
@@ -3435,7 +3524,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 772,
+   "editLine": 793,
    "raw": {
     "id": "bullets",
     "name": "3.5 mm bullet 3-packs",
@@ -3482,7 +3571,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 788,
+   "editLine": 809,
    "raw": {
     "id": "heat_shrink",
     "name": "Heat shrink 530 pc",
@@ -3529,7 +3618,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 804,
+   "editLine": 825,
    "raw": {
     "id": "xt60",
     "name": "XT60 pairs, 5-pack (removable-wing ESC feeds)",
@@ -3576,7 +3665,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 820,
+   "editLine": 841,
    "raw": {
     "id": "xt30",
     "name": "XT30 pairs, 5-pack (servo regulator, Jetson regulator)",
@@ -3623,7 +3712,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 836,
+   "editLine": 857,
    "raw": {
     "id": "balance_lead",
     "name": "JST-XH 7-pin balance lead",
@@ -3670,7 +3759,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 852,
+   "editLine": 873,
    "raw": {
     "id": "jst_gh",
     "name": "JST-GH cable set",
@@ -3717,7 +3806,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 868,
+   "editLine": 889,
    "raw": {
     "id": "solder",
     "name": "Solder, ties, sleeve",
@@ -3777,7 +3866,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 884,
+   "editLine": 905,
    "raw": {
     "id": "lw_asa",
     "name": "LW-ASA 650 g",
@@ -3829,7 +3918,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 902,
+   "editLine": 923,
    "raw": {
     "id": "petg_cf",
     "name": "Bambu PETG-CF 1 kg",
@@ -3881,7 +3970,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 919,
+   "editLine": 940,
    "raw": {
     "id": "small_spools",
     "name": "ASA, TPU, PETG small spools",
@@ -3928,7 +4017,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 935,
+   "editLine": 956,
    "raw": {
     "id": "m5_inserts",
     "name": "M5 heat-set inserts, 50",
@@ -3975,7 +4064,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 951,
+   "editLine": 972,
    "raw": {
     "id": "hardware",
     "name": "Other hardware (bolts, hinges, epoxy)",
@@ -4068,7 +4157,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 967,
+   "editLine": 988,
    "raw": {
     "id": "mount_hardware",
     "name": "Mount hardware: thumb screws, inserts, standoffs, straps, hatch magnets",
@@ -4184,7 +4273,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 992,
+   "editLine": 1013,
    "raw": {
     "id": "mount_avionics_tray",
     "name": "Avionics cassette (removable tray in the nose)",
@@ -4259,7 +4348,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1008,
+   "editLine": 1029,
    "raw": {
     "id": "mount_avionics_rails",
     "name": "Cassette rail blocks (bonded to frames F1 and F2)",
@@ -4318,7 +4407,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1024,
+   "editLine": 1045,
    "raw": {
     "id": "mount_battery_sled",
     "name": "Battery sled",
@@ -4376,7 +4465,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1040,
+   "editLine": 1061,
    "raw": {
     "id": "mount_battery_stop",
     "name": "Battery end stop and side guides",
@@ -4459,7 +4548,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1056,
+   "editLine": 1077,
    "raw": {
     "id": "mount_belly_plate",
     "name": "Belly sensor plate with the Pi deck (removable)",
@@ -4551,7 +4640,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1072,
+   "editLine": 1093,
    "raw": {
     "id": "mount_tail_panel",
     "name": "Tail-cone access panel (pusher ESC and servo regulator ride on it)",
@@ -4613,7 +4702,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1088,
+   "editLine": 1109,
    "raw": {
     "id": "mount_tail_insert_blocks",
     "name": "Tail-panel insert blocks (4, bonded)",
@@ -4671,7 +4760,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1104,
+   "editLine": 1125,
    "raw": {
     "id": "mount_esc_cradle",
     "name": "Lift ESC cradle (one in each boom nacelle)",
@@ -4734,7 +4823,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1120,
+   "editLine": 1141,
    "raw": {
     "id": "mount_gps_holder",
     "name": "GPS holder on the right wing pad",
@@ -4797,7 +4886,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1136,
+   "editLine": 1157,
    "raw": {
     "id": "mount_pitot_mount",
     "name": "Pitot and airspeed bulkhead in the nose",
