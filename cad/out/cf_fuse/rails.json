@@ -98,5 +98,51 @@
   "euler_N": 3228,
   "buckling_margin": 18.3,
   "span_mm": 205.0
- }
+ },
+ "torsion": [
+  {
+   "bay": "F1-F2",
+   "L_mm": 160.0,
+   "rails": 4,
+   "end": "one free rail end",
+   "torque_Nm": 5.0,
+   "k_Nm_per_deg": 3.22,
+   "twist_deg": 1.55,
+   "rail_stress_MPa": 44.5,
+   "margin": 13.0
+  },
+  {
+   "bay": "F2-F3",
+   "L_mm": 205.0,
+   "rails": 4,
+   "end": "held both ends",
+   "torque_Nm": 5.0,
+   "k_Nm_per_deg": 7.71,
+   "twist_deg": 0.65,
+   "rail_stress_MPa": 51.8,
+   "margin": 12.0
+  },
+  {
+   "bay": "F4-F5",
+   "L_mm": 172.0,
+   "rails": 4,
+   "end": "held both ends",
+   "torque_Nm": 0.93,
+   "k_Nm_per_deg": 10.28,
+   "twist_deg": 0.09,
+   "rail_stress_MPa": 8.8,
+   "margin": 68.0
+  },
+  {
+   "bay": "F5-FW",
+   "L_mm": 194.0,
+   "rails": 2,
+   "end": "one free rail end",
+   "torque_Nm": 0.93,
+   "k_Nm_per_deg": 0.47,
+   "twist_deg": 1.99,
+   "rail_stress_MPa": 18.6,
+   "margin": 32.0
+  }
+ ]
 }

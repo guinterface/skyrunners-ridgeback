@@ -128,8 +128,53 @@ def bending_check(n_g=4.0):
                 rail_force_N=round(F_rail), euler_N=round(P_cr), buckling_margin=round(P_cr / F_rail, 1), span_mm=L)
 
 
+def torsion_check():
+    """Torsion of the open frame (no shear skin: 3 mm foam + film carries ~nothing) bay by bay, 2026-11-20.
+    Mechanism: the bulkheads hold the rails in their own plane, so a relative twist theta of two bulkheads moves each rail
+    end sideways by delta = theta * r (r = distance from the rail group's centroid). The rail resists by bending
+    (k = c E I / L^3, c = 12 if both ends are held in rotation by the rail continuing into the next bay, 3 if one end is a
+    rail end: F1 at the nose, FW for the side rails) plus its own St Venant torsion G J / L. Rail end moment c/2 E I delta / L^2.
+    Load cases [A]: nose bays: 2 g sideways on the contents (battery 2.72 kg at z -62.5 = sled floor -100 + half of 75 mm;
+    cassette 0.60 kg at z -55) about the rail centroid, or 5 N m by hand (carrying it by the nose), whichever is larger;
+    aft bays: pusher torque at full throttle, 34.9 A x 21.6 V x 0.80 / (2 pi 154.2 rev/s) (sheet 04 Pusher C24/C25), x 1.5.
+    Tubes 8/6 mm: E 100 GPa, G 5 GPa (roll-wrapped 0/90, the low case on calculations.html#carbon) [A]."""
+    E, G = 100e3, 5e3                                                         # N/mm2
+    I_t = math.pi / 64 * (8 ** 4 - 6 ** 4); J = math.pi / 32 * (8 ** 4 - 6 ** 4)
+    def rails_at(st):
+        pts = []
+        for name, tab in RAILS.items():
+            if st in tab: y, z = tab[st]; pts += [(y, z), (-y, z)]
+        return pts
+    T_side = 2 * 9.81 * (2.72 * 0.0625 + 0.60 * 0.055)                     # N m about z 0; corrected to the centroid below
+    T_pusher = 1.5 * 34.89 * 21.6 * 0.80 / (2 * math.pi * 154.2)
+    bays = [("F1", "F2", 3, "nose"), ("F2", "F3", 12, "nose"), ("F4", "F5", 12, "aft"), ("F5", "FW", 3, "aft")]
+    out = []
+    for a, b, c, kind in bays:
+        ra, rb = rails_at(a), rails_at(b)
+        n = min(len(ra), len(rb)); R = [((p[0] + q[0]) / 2, (p[1] + q[1]) / 2) for p, q in zip(ra[:n], rb[:n])]
+        zc = sum(z for _, z in R) / n
+        r2 = [y * y + (z - zc) ** 2 for y, z in R]
+        L = BULKHEADS[b] - BULKHEADS[a]
+        k = sum(c * E * I_t * q / L ** 3 for q in r2) + n * G * J / L          # N mm per rad
+        if kind == "nose":
+            T = max(2 * 9.81 * (2.72 * abs(-62.5 - zc) + 0.60 * abs(-55.0 - zc)) / 1000, 5.0)
+        else:
+            T = T_pusher
+        th = T * 1000 / k
+        M_end = max(c / 2 * E * I_t * th * math.sqrt(q) / L ** 2 for q in r2)   # N mm
+        sig = M_end * 4.0 / I_t
+        out.append(dict(bay=f"{a}-{b}", L_mm=L, rails=n, end=("held both ends" if c == 12 else "one free rail end"),
+                        torque_Nm=round(T, 2), k_Nm_per_deg=round(k / 1000 * math.pi / 180, 2),
+                        twist_deg=round(math.degrees(th), 2), rail_stress_MPa=round(sig, 1), margin=round(600 / sig, 0)))
+    return out
+
+
 def main():
     bc = bending_check()
+    tc = torsion_check()
+    for t in tc:
+        print(f"torsion {t['bay']:6s} ({t['rails']} rails, {t['end']}, {t['L_mm']:.0f} mm): {t['torque_Nm']} N m -> twist {t['twist_deg']} deg, "
+              f"stiffness {t['k_Nm_per_deg']} N m/deg, rail stress {t['rail_stress_MPa']} MPa (margin {t['margin']:.0f})")
     print(f"open-U nose bay at F3, {bc['n_g']:.0f} g landing: M {bc['M_Nm']} N m, rail stress {bc['sigma_MPa']} MPa (margin {bc['strength_margin']:.0f}), "
           f"rail force {bc['rail_force_N']} N vs Euler {bc['euler_N']} N over {bc['span_mm']:.0f} mm (margin {bc['buckling_margin']})")
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
@@ -170,7 +215,7 @@ def main():
     axs[-1].text(0, 0.5, "grey: fuselage section\ngreen: where a rail centre may go\nred: keep-outs (hatches, battery,\n  cassette, belly plate, payload,\n  tail panel, ESC)\nblue: 8 mm carbon rails\ny across, z up, mm", fontsize=9, va="center")
     fig.suptitle("Carbon fuselage frame: free space for the rails at each station (cad/cf/fuse_rails.py)", fontsize=11)
     fig.tight_layout(); fig.savefig(OUT / "rails.png", dpi=120)
-    json.dump(dict(rails=res, total_length_m=tot_len / 1000, mass_g=g, bulkheads=BULKHEADS, bending=bc), open(OUT / "rails.json", "w"), indent=1)
+    json.dump(dict(rails=res, total_length_m=tot_len / 1000, mass_g=g, bulkheads=BULKHEADS, bending=bc, torsion=tc), open(OUT / "rails.json", "w"), indent=1)
 
 
 if __name__ == "__main__":
