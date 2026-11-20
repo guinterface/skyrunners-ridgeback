@@ -338,45 +338,87 @@ mission_body = f"""
 <p>We plan around an operating radius of about 1 km, set by the rule that the drone must stay in sight.
 So the motors and battery are sized for hover thrust and for time over the plants, not for distance.</p></section>
 <section id="explained"><h2>The mission, explained</h2>
-<h3 class="refh">What it does, and for whom</h3>
+<p>The Ridgeback Scout (Sky 3) is a 2.24 m drone that takes off and lands like a quadcopter and flies its survey like a plane. Its job: fly the same patch of chaparral at dawn and at midday and measure how much water the shrubs lose in between. This section covers the whole mission: who it is for, one field day from start to finish, how the sensors and the autopilot work, and how each number led to the size of the drone. Every one of our numbers links to the file that computes it.</p>
+
+<h3 class="refh">1. The question, and who uses the answer</h3>
+<table class="plain"><tbody>
+<tr><td>What it measures</td><td>How much water chaparral shrubs hold, and how much they lose between dawn and midday, on one survey plot.</td></tr>
+<tr><td>For whom</td><td>The people who plan prescribed burns. They pick burn days by how dry the living plants are (live fuel moisture). Today crews measure it by hand: they clip leaves, weigh them and oven-dry them (<a href="https://gacc.nifc.gov/rmcc/predictive/fuels_fire-danger/live_fm/Live_moisture_sampling_procedures.pdf" target="_blank" rel="noopener">NIFC procedure</a>). That gives a few points per site, with results days later.</td></tr>
+<tr><td>Are we predicting fire?</td><td>No. We do not forecast where or when a fire starts. We measure one thing fire behaviour depends on: chaparral fires grow much more when live fuel moisture drops below about 79 % (Dennison and Moritz 2009), and burned area in chamise rises sharply below 62 % (Park and others 2022). Burn planners, or a fire-spread model, can take our maps as an input.</td></tr>
+<tr><td>Same place every day?</td><td>The same plot, yes: one 2 ha chaparral plot at Jasper Ridge, within 1 km of take-off. We fly it three times on a field day, not every day. Field days repeat through the dry season so we see the plants dry out; how often is still to agree with the preserve.</td></tr>
+<tr><td>Why dawn and midday</td><td>Plants are fullest of water before dawn and driest at midday. Field studies already sample chaparral at that pair of times (Pratt and others 2014). At a forest site in southern California, 28 % of the pre-dawn canopy water was gone by the end of the day (Humphrey and Frankenberg 2023). How much chaparral changes within a day has not been measured. That is the gap we want to fill.</td></tr>
+</tbody></table>
+
+<h3 class="refh">2. One field day, from start to finish</h3>
+<table class="plain"><thead><tr><th>When</th><th>What happens</th></tr></thead><tbody>
+<tr><td>Night before</td><td>Charge the battery (about 3.5 to 4 h on the wall charger). Check the airspace and the wind forecast. Plan the survey in QGroundControl on the laptop: the plot outline becomes 18 lines of 240 m, 14 m apart, at 60 m height.</td></tr>
+<tr><td>Setup, before dawn</td><td>Three people: the pilot in command, a visual observer, and a sampler who clips plants. Lay out the ground targets (squares that show in both thermal and colour), the warm and cool water tubs for the thermal camera, the reference panel for the 1610 nm sensor and the weather meter on a tripod. Upload the mission to the drone over the telemetry radio.</td></tr>
+<tr><td>Flight 1, pre-dawn (about 6:15)</td><td>Thermal camera and air sensor only, because there is no sunlight yet. Because it is before sunrise, the FAA counts it as a night flight: strobes on and a night-trained pilot.</td></tr>
+<tr><td>Between flights</td><td>The sampler clips leaves from 5–10 tagged shrubs at each flight time. The samples are sealed, weighed and later oven-dried: the ground truth. The data person copies the flight's files off the drone. The battery stays in.</td></tr>
+<tr><td>Flight 2, mid-morning (about 9:45)</td><td>All sensors: thermal, 1610 nm, colour camera, air. Fly over the reference panel before and after.</td></tr>
+<tr><td>Flight 3, midday (about 12:45)</td><td>All sensors again, at the driest time of day, inside the 11:00–16:00 window agencies use for their samples, so ours can be compared with theirs.</td></tr>
+<tr><td>Evening</td><td>Samples go into the oven. All files are copied twice and checked.</td></tr>
+</tbody></table>
+<p><b>Inside one flight (about 15 minutes):</b></p>
+<ol class="chain">
+<li><b>Take-off.</b> The pilot arms it and switches to the mission. The four lift motors raise it straight up to 60 m.</li>
+<li><b>Transition.</b> Facing into the wind, the pusher speeds it up. Once the airspeed sensor reads a safe speed, the wing takes the weight and the lift motors stop.</li>
+<li><b>Survey.</b> It flies out up to 1 km, then the 18 lines at about 19 m/s, in skip order so every turn is wide enough. The sensors record the whole time.</li>
+<li><b>Return.</b> It comes back, slows down into the wind, the lift motors take over and it lands where it took off.</li>
+</ol>
+<p><b>What comes down to the ground:</b> during the flight, only flight data, over the telemetry radio to the laptop: position, height, speed, battery and warnings. The sensor data stays on the drone's computer and is copied off after landing.</p>
+<p><b>What we hand to burn planners:</b> a map of the plot with plant dryness at dawn and at midday, the change between them, and how close it is to the 79 % and 62 % thresholds above. That map is only worth handing over once the drone readings have been checked against the clipped samples. The first season is for building that check.</p>
+
+<h3 class="refh">3. How the payload works</h3>
+<p>Each sensor answers one question, and the computer ties every reading to where the drone was at that moment.</p>
+<table class="plain"><thead><tr><th>Part</th><th>What it records</th><th>When</th></tr></thead><tbody>
+<tr><td>Thermal camera (FLIR Lepton 3.5)</td><td>Leaf temperature. Plants short of water close their leaf pores and warm up compared with the air. At 60 m one pixel is about 0.4 m.</td><td>All three flights</td></tr>
+<tr><td>1610 nm spot sensor (built by us)</td><td>How much 1610 nm light the shrubs reflect. Water in leaves absorbs this wavelength, so less water means more reflected light. One reading per 21 m spot, plus the sunlight coming down.</td><td>Daylight flights</td></tr>
+<tr><td>Colour camera (Raspberry Pi Global Shutter)</td><td>Photos at 3.5 cm a pixel, 2 a second. Used to find each shrub, to tell plant from bare soil, and to build each shrub's 3D shape from the overlapping photos.</td><td>Daylight flights</td></tr>
+<tr><td>Air sensor (SHT45)</td><td>Air temperature and humidity at the drone, needed to read leaf temperature as stress.</td><td>All three flights</td></tr>
+<tr><td>Payload computer (Raspberry Pi 5)</td><td>Runs the sensors, triggers the camera, and writes every reading with the time and position it gets from the flight controller over a cable. A 50 ms timing error moves a reading about 1 m along the line.</td><td>Always</td></tr>
+<tr><td>5 V regulator (Pololu)</td><td>Turns the 18–25 V battery into a steady 5 V for the computer and sensors.</td><td>Always</td></tr>
+</tbody></table>
+<p>Together: {val('m_pay_g'):.0f} g and {val('P_payload'):.0f} W, counted in the drone's weight and energy budget. Prices, the evidence for each sensor and what we would lose without it are in <a href="index.html#sensors">What the drone carries</a>. The calibration gear on the ground (panel, water tubs, weather meter, targets) is listed there too.
+<b>Not done yet:</b> the logging software on the Pi is still to be written.</p>
+
+<h3 class="refh">4. How the autonomy works</h3>
 <ul class="plain">
-<li>The drone measures how much water chaparral shrubs hold, and how much they lose between dawn and midday, on one survey plot.</li>
-<li>It is for the people who plan prescribed burns. They choose burn days by how dry the living plants are.</li>
-<li>Today that is measured by hand. Crews clip leaves, weigh them and oven-dry them (<a href="https://gacc.nifc.gov/rmcc/predictive/fuels_fire-danger/live_fm/Live_moisture_sampling_procedures.pdf" target="_blank" rel="noopener">NIFC procedure</a>). That gives a few points per site, and the results take days.</li>
+<li><b>The flight controller flies.</b> PX4, the open-source autopilot, runs on our Cube Orange. It holds the hover, does the transition at the right airspeed, follows the survey lines at a set height and speed, and lands. It reads GPS, airspeed, three motion sensors and the battery current.</li>
+<li><b>The mission is planned before take-off</b> in QGroundControl on the laptop and uploaded over the telemetry radio. During the survey nobody steers.</li>
+<li><b>A safety pilot can always take over.</b> One switch on the RadioMaster transmitter changes to hover or manual control.</li>
+<li><b>Failsafes are automatic.</b> If the radio link is lost or the battery runs low, PX4 flies home and lands. If the airspeed sensor fails, it notices and flies on without it.</li>
+<li><b>The payload computer does not steer.</b> It only listens to the flight controller for time and position, and records.</li>
+<li><b>Settings we learned in simulation:</b> we flew PX4 in simulation on our earlier, larger design. To fly safely it needed transitions and landings planned into the wind, a 40° bank limit, a longer transition timeout, and hover only in wind up to about 6 m/s. We will redo the simulation for this size before the first flight.</li>
+<li><b>Rules:</b> the pilot or the observer must see the drone at all times (<a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-F/part-107/subpart-B/section-107.31" target="_blank" rel="noopener">14 CFR 107.31</a>), which is why we plan about 1 km. The Remote ID module broadcasts the drone's position, as the FAA requires.</li>
 </ul>
-<h3 class="refh">Are we predicting fire?</h3>
+
+<h3 class="refh">5. From the payload to the size of the drone, step by step</h3>
+<p>The order is the usual one for a new aircraft: payload, then mission energy, then battery and motors, then total mass, then wing. The full version with equations is <a href="calculations.html#sizing">How we chose the size</a>.</p>
+<table class="plain"><thead><tr><th>Step</th><th>Our number</th><th>Where it is computed</th></tr></thead><tbody>
+<tr><td>1. Payload mass and power</td><td>{val('m_pay_g'):.0f} g, {val('P_payload'):.0f} W</td><td>{sheet('02_Mass_and_CG', 'Mass_CG')} (payload rows), <a href="{GH}/blob/main/data/parts.toml" target="_blank" rel="noopener">data/parts.toml</a></td></tr>
+<tr><td>2. Energy per flight: hover, climb, 15 min survey, 1 km out and back</td><td>{val('E_flight'):.0f} Wh</td><td>{sheet('04_Propulsion_Battery_Energy', 'Mission_Energy')}</td></tr>
+<tr><td>3. Battery: three flights plus 20 % reserve</td><td>6S6P Molicel P50B, 648 Wh, {val('E_use'):.0f} Wh usable, {val('bat_pack_g')/1000:.2f} kg: {val('flights_pack'):.1f} flights per charge (target 3)</td><td>{sheet('04_Propulsion_Battery_Energy', 'Battery_Options')}</td></tr>
+<tr><td>4. Lift motors and propellers: lift 1.5 × the weight on a hot day at 800 m</td><td>T-Motor MN5008 KV340 with 18 inch props. Hover {val('Phov_sl'):,.0f} W ({val('Ipack_hot'):.0f} A on a hot day). Hot-day thrust {val('TW_hot'):.2f} × weight</td><td>{sheet('04_Propulsion_Battery_Energy', 'Lift_Hover')}</td></tr>
+<tr><td>5. Total mass</td><td>{val('m_to'):.2f} kg at take-off</td><td>{sheet('02_Mass_and_CG', 'Mass_CG')}</td></tr>
+<tr><td>6. Wing and airframe from the total mass</td><td>Wing {val('S'):.2f} m², span {val('b'):.2f} m. Stall {val('Vs_sl'):.1f} m/s, loiter {val('tloit_sl'):.0f} min (target 80)</td><td>{sheet('03_Aerodynamics', 'Aero_Cruise')}, <a href="{GH}/blob/main/analysis/mini_sizing.py" target="_blank" rel="noopener">analysis/mini_sizing.py</a></td></tr>
+</tbody></table>
+<p><b>Energy, in plain terms.</b> Watt-hours (Wh) are energy; milliamp-hours (mAh) are charge. Energy = voltage × charge, so 30,000 mAh at 21.6 V is 648 Wh. mAh only compares packs of the same voltage, so we compare in Wh. The power module measures voltage and current, and PX4 adds them up during the flight, which is how we know what each flight used. On hover alone the usable energy would last about {val('E_use')/val('Phov_sl')*60:.0f} minutes; the wing is what makes a 15-minute survey three times a day possible.</p>
+<p><b>Size and weight.</b> {val('m_to'):.2f} kg, 2.24 m wingspan, about 1.56 m long and 0.58 m tall (CAD). The battery is the heaviest part at {val('bat_pack_g')/1000:.2f} kg. Li-ion cells hold about 40 % more energy than a LiPo pack of the same mass. We build the pack ourselves from 36 cells; the reasons and the alternatives are in the battery's panel on the Drone page.</p>
+<p><b>How the electronics are held and reached.</b> The flight electronics and the battery sit under magnetic top hatches, and every connection between groups is a plug, so any group comes out without soldering. See <a href="index.html#access">How the electronics are held</a> (a design review is fixing some mounts; that section is marked as a draft).</p>
+
+<h3 class="refh">6. Later: a model, and what our AA 228 project adds</h3>
 <ul class="plain">
-<li>No. We do not forecast where or when a fire will start.</li>
-<li>We measure one thing that fire behaviour depends on: how dry the living plants are. Chaparral fires grow much more when it drops below about 79 % (Dennison and Moritz 2009), and burned area in chamise rises sharply below 62 % (Park and others 2022). Both are listed under Sources below.</li>
-<li>Burn planners, and fire-spread models, can take our maps as an input.</li>
-</ul>
-<h3 class="refh">Do we fly over the same place every day?</h3>
-<ul class="plain">
-<li>The same place, yes: one 2 ha chaparral plot at Jasper Ridge, within 1 km of the take-off point.</li>
-<li>On a field day we fly it three times, pre-dawn, mid-morning and midday, on one battery charge (current estimate {val('flights_pack'):.1f} flights per charge).</li>
-<li>Not every day, and not a whole region. Field days repeat through the dry season so we see the plants dry out; how often is still to plan with the preserve. One plot measured well comes first.</li>
-</ul>
-<h3 class="refh">What data do we collect?</h3>
-<ul class="plain">
-<li><b>Thermal camera:</b> leaf temperature. Plants short of water close their pores and warm up.</li>
-<li><b>1610 nm sensor:</b> water in leaves absorbs light at this wavelength, so the reflected light tracks leaf water.</li>
-<li><b>Colour camera:</b> photos to find each shrub and map its 3D shape.</li>
-<li><b>Air temperature and humidity:</b> needed to read the leaf temperatures correctly.</li>
-<li><b>On the ground:</b> clipped samples at the same times, weighed and oven-dried the way agencies do it. They are the ground truth we check the drone against.</li>
-<li>Details and costs of each sensor are in the "What the drone carries" section of the <a href="index.html#sensors">Drone page</a>.</li>
-</ul>
-<h3 class="refh">Will we train a model, like a neural network, later?</h3>
-<ul class="plain">
-<li>Later, yes. First we answer a simpler question: do the drone readings follow the clipped samples?</li>
-<li>If they do, we fit a model from drone readings to plant dryness. One season gives few samples, so we start with simple models. A neural network makes sense only once we have many more labelled samples.</li>
-<li>Small samples flatter results. In one 2026 drone study of 20 plots the score fell from R² 0.51 to 0.10–0.20 once it was checked fairly (<a href="https://doi.org/10.3390/drones10050390" target="_blank" rel="noopener">Reddig and others, Drones 10:390</a>). So we always test on plots and days the model has never seen.</li>
-</ul>
-<h3 class="refh">What research, and our AA 228 project, tell us</h3>
-<ul class="plain">
-<li>Plant dryness thresholds for chaparral fire are well established (79 % and 62 %, above).</li>
-<li>Field studies already sample chaparral at pre-dawn and midday, the same pair of times we fly (Pratt and others 2014).</li>
-<li>At a forest site in southern California, 28 % of the pre-dawn canopy water was gone by the end of the day (Humphrey and Frankenberg 2023). How much chaparral changes within a day has not been measured. That is the gap we want to fill.</li>
+<li>First we answer a simpler question: do the drone readings follow the clipped samples? If they do, we fit a model from drone readings to plant dryness.</li>
+<li>One season gives few samples, so we start with simple models. A neural network makes sense only once we have many more labelled samples. Small samples flatter results: in one 2026 drone study of 20 plots the score fell from R² 0.51 to 0.10–0.20 once it was checked fairly (<a href="https://doi.org/10.3390/drones10050390" target="_blank" rel="noopener">Reddig and others, Drones 10:390</a>). So we always test on plots and days the model has never seen.</li>
 <li>The AA 228 class project plans what wildfire drones should do when they cannot see everything (a partially observable decision problem). Fuel moisture is one of the conditions that make fire spread uncertain, and the planner cannot observe it directly. Measurements like ours are what would narrow that uncertainty.</li>
+</ul>
+
+<h3 class="refh">7. Where it falls short today</h3>
+<ul class="plain">
+<li>Loiter {val('tloit_sl'):.0f} min against the 80 min target, and {val('flights_pack'):.1f} flights per charge against 3. The drawn drone has more drag than the sizing assumed; motor fairings are the main fix (<a href="calculations.html#sizing">step 7</a>).</li>
+<li>The thermal camera needs about 90 % image overlap, and the plan has 75 %. More overlap means more survey time.</li>
+<li>The logging software, the hover simulation at this size and the first test flights are all still to do.</li>
 </ul>
 </section>
 <section class="mapsec"><h2>Where fire meets our flights</h2>
