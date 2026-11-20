@@ -432,18 +432,6 @@
 "id": "hardware"
 },
 {
-"group": "Aircraft",
-"name": "Prusa ObXidian 0.4 nozzle (only if needed)",
-"qty": 1,
-"unit": 52.9,
-"line": 52.9,
-"duty": 0.0,
-"store": "Prusa",
-"link": "https://www.prusa3d.com/product/prusa-nozzle-obxidian-4/",
-"note": "[V]; only if no hardened nozzle",
-"id": "nozzle"
-},
-{
 "group": "Shipping and fees",
 "name": "UnmannedRC express",
 "qty": 1,
