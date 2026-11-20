@@ -407,8 +407,29 @@ g = 9.80665
 m = val("m_to"); W = m * g; S = 0.5
 rho = val("rho_sl"); CLmax = val("CLmax"); Vs = val("Vs_sl"); K = val("K"); CD0 = val("CD0_build"); V = val("V_sl")
 CL = val("CL_sl"); CD = val("CD_sl"); D = val("D_sl"); Pcr = val("Pcr_sl")
+# how the size was chosen (payload -> mission energy -> motors -> sweep -> pick -> check the CAD)
+_sz = json.load(open(ROOT / "analysis/out/mini_sizing.json"))
+_best = _sz["best"]
+_row = lambda S_, P_: next(r for r in _sz["rows"] if abs(r["S"] - S_) < 1e-6 and r["P"] == P_)
+_r55, _r505 = _row(0.55, 6), _row(0.50, 5)
+_MC = f"'[{FN}]MASS_CG'!"
+_pay = [(VALS[f"{_MC}A{r}"], VALS[f"{_MC}G{r}"]) for r in range(93, 100) if VALS.get(f"{_MC}D{r}") == 1]
+_payl = "; ".join(f"{E(n.split(':')[0].split(' (')[0])} {g:.0f} g" for n, g in _pay)
+_gh = lambda p, t: f'<a href="{GH}/blob/main/{p}" target="_blank" rel="noopener">{E(t)}</a>'
+SIZING = f"""<section class="calc" id="sizing"><h2>How we chose the size</h2>
+<p>The order is the usual one: payload first, then the mission sets the energy, then motors and battery, then the total mass sets the wing. Each step links to the file that does it.</p>
+<ol class="steps">
+<li><b>Payload.</b> What the drone exists to carry: {_payl}. Now {val('m_pay_g'):.0f} g in total; the first sizing used 450 g to leave margin. {sheet("02_Mass_and_CG", "Mass_CG")} (payload rows), {_gh("data/parts.toml", "data/parts.toml")}.</li>
+<li><b>Mission, which fixes the energy.</b> Three flights on one charge (dawn, mid-morning, midday), 15 min over a 2 ha site, up to 1 km out, and at least 80 min of loiter with 20 % left in reserve. Distance never limits us: one charge flies about {val('range_km'):.0f} km against a 1 km radius, so endurance and hovering size the battery, not range. <a href="#inputs">Design numbers</a>, {sheet("04_Propulsion_Battery_Energy", "Mission_Energy")}.</li>
+<li><b>Lift motors and propellers</b> from the maker's own test table (T-Motor MN5008 KV340 with P18x6.1): power needed for each gram of thrust, and the most thrust it gives. The rule: four motors must lift at least 1.5 times the weight on a hot day at 800 m. <a href="#step-6">Step 6</a>, <a href="#step-7">step 7</a>, {sheet("04_Propulsion_Battery_Energy", "Lift_Hover")}.</li>
+<li><b>Sweep wing area and battery together.</b> For every wing from 0.40 to 0.70 m² and every pack from 6S3P to 6S6P: mass = structure (scaled by wing area from our earlier 3.35 m design) + battery (6 × P cells of 70 g, +8 %) + the fixed parts (payload, avionics, motors, ESCs, servos, wiring). Then stall speed, loiter time and hover thrust for each of the 24 options. {_gh("analysis/mini_sizing.py", "analysis/mini_sizing.py")} (the code), {_gh("analysis/out/mini_sizing.md", "mini_sizing.md")} (the full table).</li>
+<li><b>Pick the cheapest that passes</b> (stall ≤ 15 m/s, hot-day thrust ≥ 1.5 × weight, ≥ 80 min even with 40 % more drag than expected): wing {_best['S']:.2f} m², span {_best['b']:.2f} m, 6S{_best['P']}P, predicted {_best['m']:.2f} kg and {_best['t_lo']:.0f}–{_best['t_min']:.0f} min. One size up (0.55 m², 6S6P) is too heavy to hover on a hot day ({_r55['tw_800hot']:.2f}); one pack smaller (6S5P) gives only {_r505['t_lo']:.0f} min with the extra drag.</li>
+<li><b>Draw it, then check it with the drawn numbers</b> (steps 1 to 9 below). The CAD weighs {val('m_to'):.2f} kg with the payload, but its drag, summed part by part, is C<sub>D0</sub> = {val('CD0_build'):.3f}, well above the 0.025–0.035 the sweep assumed; the motors, landing feet and stopped propellers make about 45 % of it. So today: loiter {val('tloit_sl'):.0f} min (target 80), {val('flights_pack'):.1f} flights per charge (target 3), stall {val('Vs_sl'):.1f} m/s (target 15), hot-day thrust {val('TW_hot'):.2f} × weight (needs 1.5). {sheet("03_Aerodynamics", "Drag_Buildup")}, {_gh("sheets/build_sheet.py", "sheets/build_sheet.py")} (builds every sheet).</li>
+<li><b>Next:</b> run the sweep again with the drawn drag and mass, then choose between cutting drag (motor fairings), another wing or pack, or a shorter loiter target. The sheet's options are in {sheet("04_Propulsion_Battery_Energy", "Mission_Energy")} (lower rows).</li>
+</ol></section>"""
 calc_body = "".join([
-    '<section class="lead"><h1>Calculations</h1><p>Each step of the sizing, with the equation, our numbers and where the step lives in the sheets. Sea level, standard day, unless noted.</p></section>',
+    '<section class="lead"><h1>Calculations</h1><p>How we chose the size of the drone, then each check of the drawn design with the equation, our numbers and where it lives in the sheets. Sea level, standard day, unless noted.</p></section>',
+    SIZING,
     step("1. Weight", "Everything the rotors and the wing must carry: the CAD parts plus the sensor payload.",
          r"W = m\,g", rf"W = {m:.2f}\ \text{{kg}} \times 9.81\ \text{{m/s}}^2", f"W = {W:.1f} N", sheet("02_Mass_and_CG", "Mass_CG")),
     step("2. Stall speed", "The slowest the wing can fly. The wing's maximum lift coefficient is 0.9 times the SD7037 airfoil's (Raymer).",

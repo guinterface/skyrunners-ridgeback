@@ -7,6 +7,7 @@ import json, math
 from pathlib import Path
 G = 9.81
 OUT = Path(__file__).resolve().parent / "out"
+OUT.mkdir(exist_ok=True)
 
 # ---- lift motor table [V] MN5008 KV340, P18x6.1, about 23 V: thrust g, power W (electrical)
 MN5008 = [(996, 88), (1238, 120), (1541, 162), (1822, 208), (2120, 258), (2394, 311), (2675, 369), (2966, 432), (3262, 503),
