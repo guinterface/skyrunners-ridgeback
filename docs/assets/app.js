@@ -378,8 +378,11 @@ function showDetail(p) {
   window.RB?.decorate?.(document.getElementById('detail'));
 }
 document.querySelectorAll('tr[data-id]').forEach(r => {
-  const go = () => { if (window.RB?.isEditing?.()) return; select(r.dataset.id); el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); };   // while editing the list, stay on the list
-  r.addEventListener('click', go); r.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  const go = e => {
+    if (e?.target?.closest?.('.pen, .ostate, .smenu, .qedit, .loginpop, button, a, input, select, textarea, [data-f], [data-buy], [data-ref]') && e.type === 'click') return;   // editing a value or status: stay on the list
+    select(r.dataset.id); el.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+  };
+  r.addEventListener('click', go); r.addEventListener('keydown', e => { if (e.key === 'Enter') go(e); });
 });
 
 // ---------- picking and hover label
