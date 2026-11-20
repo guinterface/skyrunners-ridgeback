@@ -920,7 +920,7 @@ c1 = ws._r - 1
 section(ws, "Shipping and fees")
 s0 = ws._r
 for name, usd, src in (("UnmannedRC express", 29.80, "[V 10-30]"), ("HaoZhong expedited", 45.00, "[V 10-30] ($30 standard)"), ("Liion Wholesale UPS Ground", 11.03, "[V 10-31]"), ("Holybro (flight electronics, from China)", 30.00, "[A] shipping not read; check at checkout"),
-                       ("Other US stores (about 6 orders)", 45.00, "[A]"), ("Customs clearance fees (2 China parcels)", 40.00, "[A] $20-60")):
+                       ("Other US stores (about 9 orders: incl. SendCutSend, Horizon, Fiberglass Supply, foam)", 70.00, "[A] shipping not read"), ("Customs clearance fees (2 China parcels)", 40.00, "[A] $20-60")):
     r = ws._r
     put(ws, r, 1, name); put(ws, r, 2, 1, fill=INP, fmt="0"); put(ws, r, 3, usd, fill=INP, fmt="$#,##0.00"); put(ws, r, 4, f"=B{r}*C{r}", fill=CALC, fmt="$#,##0.00")
     put(ws, r, 10, src); ws._r += 1

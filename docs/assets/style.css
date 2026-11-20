@@ -309,3 +309,4 @@ ol.steps.tight{margin:2px 0 4px;line-height:1.45}ol.steps.tight li{margin:2px 0}
 #openhatches{margin-right:14px}#openhatches[aria-pressed="true"]{color:var(--purple);font-weight:700}
 
 .draftnote{border-left:3px solid #c2410c;padding:6px 10px;margin:8px 0;background:color-mix(in srgb,#c2410c 8%,transparent)}
+#carbon span.ok{color:var(--green);font-weight:600}#carbon span.bad{color:var(--red);font-weight:600}

@@ -292,10 +292,54 @@ board = f"""<section id="order"><h2>What to order</h2>
 <p class="small">Click a status to change it (ordered, arrived, have it), a ✎ to change a number, or a part's name to see it on the drone. Adding or removing a part here changes the sheets, the mass, the cost and the <a href="buy.html">buy list</a> (with duty and shipping) on the next rebuild.</p></div>
 <div class="tablewrap"><table class="parts board"><thead><tr><th>Status</th><th>Part</th><th class="num">Qty</th><th class="num">Each</th><th class="num">Line</th><th>Shop</th><th></th></tr></thead>
 {''.join(rows)}</table></div></section>"""
+
+# ------------------------------------------------------------------ carbon redesign (analysis/cf_redesign.py, 20 Nov)
+_CF = json.load(open(ROOT / "analysis/out/cf_redesign.json"))
+def cf_section():
+    b, t, req = _CF["base"], _CF["team"], _CF["req"]
+    def grp(d): return sum(v for k, v in d.items() if not k.startswith("_"))
+    rows = "".join(f"<tr><td>{E(name)}</td><td class=num>{grp(b['parts'][k]):,.0f} g</td></tr>" for k, name in
+                   (("wing", "Wing: tube spar, 25 carbon ribs, rod and strip edges, film"), ("fuselage", "Fuselage: carbon rails, bulkheads and floor, foam and film skin"),
+                    ("tail", "Tail: foam-core panels with a carbon strip, printed sockets kept"), ("booms", "Booms, legs, motor plates, carbon-plate clamps, foam nacelles")))
+    def yes(ok): return '<span class="ok">yes</span>' if ok else '<span class="bad">no</span>'
+    vcr = req["cruise_kmh"] / 3.6
+    rq = [("All-up weight", f"≤ {req['auw_kg']:.0f} kg", f"{t['m']:.2f} kg", f"{b['m']:.2f} kg", t["m"] <= req["auw_kg"]),
+          ("Endurance at 65 km/h", "≥ 60 min", f"{t['t_cr']:.0f} min", f"{b['t_cr']:.0f} min", t["t_cr"] >= 60),
+          ("Range", "≥ 5 km round trip", f"{t['range_km']:.0f} km", f"{b['range_km']:.0f} km", t["range_km"] >= 5),
+          ("Hover thrust / weight", "≥ 2.0", f"{t['tw_sl']:.2f} (hot day {t['tw_hot']:.2f})", f"{b['tw_sl']:.2f} (hot day {b['tw_hot']:.2f})", t["tw_sl"] >= 2),
+          ("Stall speed, so 65 km/h is 1.3 × stall (our derived limit, not in the team table)", f"≤ {vcr/1.3:.1f} m/s", f"{t['vs']:.1f} m/s", f"{b['vs']:.1f} m/s", vcr >= 1.3 * t["vs"])]
+    rqt = "".join(f"<tr><td>{a}</td><td>{c}</td><td class=num>{d}</td><td class=num>{e}</td><td>{yes(f)}</td></tr>" for a, c, d, e, f in rq)
+    pk = _CF["pick"]
+    return f"""<section id="carbon"><h2>Carbon redesign and the team's requirements (estimate)</h2>
+<p>On 20 Nov we decided to build the structure in carbon fibre instead of printing it, keeping printed parts only for connectors, feet and the electronics plate.
+These numbers come from <a href="{GH}/blob/main/analysis/cf_redesign.py" target="_blank" rel="noopener">analysis/cf_redesign.py</a> (results in
+<a href="{GH}/blob/main/analysis/out/cf_redesign.md" target="_blank" rel="noopener">cf_redesign.md</a>), using the same equations and inputs as the sheets.
+Every carbon mass is an estimate until parts are weighed. <b>The 3D view, the mass sheet and the mass and performance numbers at the top of this site still show the printed design</b> until the CAD is redrawn in carbon (the costs already include the carbon materials).</p>
+<h3>Structure mass</h3>
+<table class="plain"><tbody>{rows}<tr class="tot"><td>Carbon structure</td><td class=num>{b['struct_g']/1000:.2f} kg</td></tr>
+<tr><td>+ the same electronics mounts, small printed pads and horns, and other glue as the printed total</td><td class=num>{sum(_CF['same_g'].values()):,.0f} g</td></tr>
+<tr class="tot"><td>Carbon, like for like</td><td class=num>{_CF['new_like_g']/1000:.2f} kg</td></tr>
+<tr><td>Printed and tube structure today, with the same items</td><td class=num>{_CF['old_struct_g']/1000:.2f} kg</td></tr>
+<tr><td>Saving</td><td class=num>{(_CF['old_struct_g'] - _CF['new_like_g'])/1000:.2f} kg</td></tr></tbody></table>
+<p class="small">A closed box of carbon plates for the fuselage came out at about 1.6 kg, three times the printed one, so carbon goes only where the loads are and foam covers the rest.</p>
+<h3>The team's requirements (preliminary, 20 Nov)</h3>
+<p>Mission: mapping and drop. Wingspan: to be decided.</p>
+<p class="small">Endurance here means minutes of level flight at 65 km/h on the usable energy ({_CF['endurance_def']['soc']:.0%} of the pack, keeping a {_CF['endurance_def']['reserve']:.0%} reserve) after {_CF['endurance_def']['t_hov']:.0f} s of hover and the climb to {_CF['endurance_def']['h_climb']:.0f} m, as in sheet 04.</p>
+<div class="tablewrap"><table class="plain"><thead><tr><th>Requirement</th><th>Team</th><th class=num>With a 1.5 kg payload</th><th class=num>With today's 0.23 kg sensors</th><th>Met with 1.5 kg?</th></tr></thead><tbody>{rqt}</tbody></table></div>
+<ul class="plain">
+<li>No wing and battery size we swept meets every requirement with a 1.5 kg payload. Keeping 1.5 kg, 60 min and 65 km/h gives about {pk['m']:.1f} kg (wing {pk['S']:.2f} m², span {pk['b']:.2f} m, 6S{pk['P']}P).</li>
+<li>At 8 kg, 60 min and 65 km/h the payload can be at most about {_CF['max8']['payload_g']:,.0f} g (wing {_CF['max8']['S']:.2f} m², 6S{_CF['max8']['P']}P), and thrust/weight is then {_CF['max8']['tw_sl']:.2f}, still short of 2.0.</li>
+<li>Thrust/weight 2.0 needs about {_CF['need_tmax_g']/1000:.1f} kg of thrust from each lift motor; the MN5008 with 18 inch props gives 4.2 kg. Bigger lift motors or props are needed, and their extra mass is not counted yet.</li>
+<li>How much the wing twists with the tube spar alone depends on how the tube is wound, which the store does not say: {_CF['twist'][0]['g20']:.1f}° at 65 km/h and {_CF['twist'][2]['g20']:.1f}° at 30 m/s if it has ±45° plies, but {_CF['twist'][0]['g5']:.1f}° and {_CF['twist'][2]['g5']:.1f}° if it is a 0/90 weave or pultruded. Above about 2° the wing needs a molded carbon leading edge (D-box). <b>Still open:</b> ask HaoZhong for the layup, or twist-test one wing panel by hand.</li>
+<li>Not in the cost total: bigger lift motors for thrust/weight 2, the spot welder and battery tools. About $425 of the total is our estimate, not a quote (carbon cut parts $250 until SendCutSend quotes our DXF files, shop supplies $125, foam $50).</li>
+</ul>
+<p class="small">Open with the team: which requirement gives (weight, payload or endurance), what the 1.5 kg payload is, and whether they want tilt rotors (their table mentions it).</p></section>"""
+
 index_body = f"""
 <section class="lead"><h1>Inside the drone</h1>
 <p>Our own 2.24 m VTOL drone for measuring how much water chaparral shrubs lose between dawn and midday, for planning prescribed burns.
-Click any part on the drone or in the list to see what it does, why we chose it, what it connects to and where to buy it.</p></section>
+Click any part on the drone or in the list to see what it does, why we chose it, what it connects to and where to buy it.</p>
+<p class="draftnote"><b>Redesign under way (20 Nov):</b> the structure moves from printed parts to carbon fibre, and the team set new requirements (1.5 kg payload, 8 kg, 60 min at 65 km/h, thrust twice the weight). The 3D view still shows the printed design. Estimates and the requirement check: <a href="calculations.html#carbon">Carbon redesign</a>.</p></section>
 <section class="explorer">
   <div class="viewer"><div class="viewbar"><div class="mapbar" role="group" aria-label="Flight mode"><button type="button" data-mode="hover">Hover</button><button type="button" data-mode="cruise">Cruise</button><button type="button" data-mode="still">Still</button></div>
   <button type="button" id="openhatches" class="plainbtn" aria-pressed="false">Open the hatches</button><button type="button" id="reset" class="plainbtn">Whole drone</button></div>
@@ -537,6 +581,7 @@ SIZING = f"""<section class="calc" id="sizing"><h2>How we chose the size</h2>
 </ol></section>"""
 calc_body = "".join([
     '<section class="lead"><h1>Calculations</h1><p>How we chose the size of the drone, then each check of the drawn design with the equation, our numbers and where it lives in the sheets. Sea level, standard day, unless noted.</p></section>',
+    cf_section(),
     SIZING,
     step("1. Weight", "Everything the rotors and the wing must carry: the CAD parts plus the sensor payload.",
          r"W = m\,g", rf"W = {m:.2f}\ \text{{kg}} \times 9.81\ \text{{m/s}}^2", f"W = {W:.1f} N", sheet("02_Mass_and_CG", "Mass_CG")),
