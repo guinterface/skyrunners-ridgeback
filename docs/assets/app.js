@@ -349,7 +349,7 @@ const nameOf = id => esc((parts[id]?.name || id).split(':')[0]);
 function heldBlock(p) {
   const ids = p.mount ? [p.mount] : (p.heldBy || []);
   if (!ids.length) return '';
-  return '<h3>How it is held</h3>' + ids.map(id => {
+  return '<h3>How it is held</h3><p class="draftnote"><b>Draft: do not build from this yet.</b> Under review; fixes in progress.</p>' + ids.map(id => {
     const m = MOUNT[id]; if (!m) return '';
     const sec = m.time_to_remove_s || 0, when = !sec ? 'time not estimated' : sec < 90 ? `about ${sec} s` : `about ${Math.round(sec / 60)} min`;
     const con = (m.connectors || []).filter(c => p.mount || c.part === p.id);
