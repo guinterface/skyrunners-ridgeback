@@ -13,6 +13,48 @@
 <section class="lead"><h1>Mission and range</h1>
 <p>We plan around an operating radius of about 1 km, set by the rule that the drone must stay in sight.
 So the motors and battery are sized for hover thrust and for time over the plants, not for distance.</p></section>
+<section id="explained"><h2>The mission, explained</h2>
+<h3 class="refh">What it does, and for whom</h3>
+<ul class="plain">
+<li>The drone measures how much water chaparral shrubs hold, and how much they lose between dawn and midday, on one survey plot.</li>
+<li>It is for the people who plan prescribed burns. They choose burn days by how dry the living plants are.</li>
+<li>Today that is measured by hand. Crews clip leaves, weigh them and oven-dry them (<a href="https://gacc.nifc.gov/rmcc/predictive/fuels_fire-danger/live_fm/Live_moisture_sampling_procedures.pdf" target="_blank" rel="noopener">NIFC procedure</a>). That gives a few points per site, and the results take days.</li>
+</ul>
+<h3 class="refh">Are we predicting fire?</h3>
+<ul class="plain">
+<li>No. We do not forecast where or when a fire will start.</li>
+<li>We measure one thing that fire behaviour depends on: how dry the living plants are. Chaparral fires grow much more when it drops below about 79 % (Dennison and Moritz 2009), and burned area in chamise rises sharply below 62 % (Park and others 2022). Both are listed under Sources below.</li>
+<li>Burn planners, and fire-spread models, can take our maps as an input.</li>
+</ul>
+<h3 class="refh">Do we fly over the same place every day?</h3>
+<ul class="plain">
+<li>The same place, yes: one 2 ha chaparral plot at Jasper Ridge, within 1 km of the take-off point.</li>
+<li>On a field day we fly it three times, pre-dawn, mid-morning and midday, on one battery charge (current estimate 2.7 flights per charge).</li>
+<li>Not every day, and not a whole region. Field days repeat through the dry season so we see the plants dry out; how often is still to plan with the preserve. One plot measured well comes first.</li>
+</ul>
+<h3 class="refh">What data do we collect?</h3>
+<ul class="plain">
+<li><b>Thermal camera:</b> leaf temperature. Plants short of water close their pores and warm up.</li>
+<li><b>1610 nm sensor:</b> water in leaves absorbs light at this wavelength, so the reflected light tracks leaf water.</li>
+<li><b>Colour camera:</b> photos to find each shrub and map its 3D shape.</li>
+<li><b>Air temperature and humidity:</b> needed to read the leaf temperatures correctly.</li>
+<li><b>On the ground:</b> clipped samples at the same times, weighed and oven-dried the way agencies do it. They are the ground truth we check the drone against.</li>
+<li>Details and costs of each sensor are in the "What the drone carries" section of the <a href="index.html#sensors">Drone page</a>.</li>
+</ul>
+<h3 class="refh">Will we train a model, like a neural network, later?</h3>
+<ul class="plain">
+<li>Later, yes. First we answer a simpler question: do the drone readings follow the clipped samples?</li>
+<li>If they do, we fit a model from drone readings to plant dryness. One season gives few samples, so we start with simple models. A neural network makes sense only once we have many more labelled samples.</li>
+<li>Small samples flatter results. In one 2026 drone study of 20 plots the score fell from R² 0.51 to 0.10–0.20 once it was checked fairly (<a href="https://doi.org/10.3390/drones10050390" target="_blank" rel="noopener">Reddig and others, Drones 10:390</a>). So we always test on plots and days the model has never seen.</li>
+</ul>
+<h3 class="refh">What research, and our AA 228 project, tell us</h3>
+<ul class="plain">
+<li>Plant dryness thresholds for chaparral fire are well established (79 % and 62 %, above).</li>
+<li>Field studies already sample chaparral at pre-dawn and midday, the same pair of times we fly (Pratt and others 2014).</li>
+<li>At a forest site in southern California, 28 % of the pre-dawn canopy water was gone by the end of the day (Humphrey and Frankenberg 2023). How much chaparral changes within a day has not been measured. That is the gap we want to fill.</li>
+<li>The AA 228 class project plans what wildfire drones should do when they cannot see everything (a partially observable decision problem). Fuel moisture is one of the conditions that make fire spread uncertain, and the planner cannot observe it directly. Measurements like ours are what would narrow that uncertainty.</li>
+</ul>
+</section>
 <section class="mapsec"><h2>Where fire meets our flights</h2>
 <p>Every wildfire over 50 acres since 2000 within about 40 km of Stanford, and the prescribed burns on record, on the terrain they burned. In August 2020 the CZU Lightning Complex
 burned 86,553 acres of the Santa Cruz Mountains, about 25 km from Jasper Ridge. Prescribed burns are the tool for lowering that risk, and they
