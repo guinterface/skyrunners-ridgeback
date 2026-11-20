@@ -847,17 +847,19 @@ nodes = []
 
 [[part]]
 id = "cf_te_sheet"
-name = "0.5 mm carbon sheet for the wing trailing edge (cut into 26 mm strips; product not found yet)"
+name = "0.5 mm carbon sheet, 200 x 300 mm, 3K twill matte (cut into 26 mm strips for the wing trailing edge)"
 system = "materials"
-qty = 1
-status = "buy (estimate)"
-price = 30.0
+qty = 2
+status = "buy"
+price = 15.98
 mass = 0
-buy = []
-where = "carbon sheet store: not found yet"
-job = "The wing's trailing edge: a 26 x 0.5 mm carbon strip set flush into a step in every rib tail, about 2.24 m in total (5 strips of 500 mm)."
-why = "HaoZhong's 0.5 mm strips stop at 10 mm wide and its plates start at 1.0 mm [V store data, 20 Nov], so a 0.5 mm sheet at least 26 x 500 mm per strip is needed from another store. $30 is our estimate [A] until a listing is read. Narrower strips would shorten the bond in the rib step."
-source = "[A] estimate, 20 Nov; strip size from cad/cf/ribs.py"
+buy = [
+  { store = "Amazon (cncarbonfiber, 200x300x0.5mm option)", link = "https://www.amazon.com/dp/B07GCZXTCZ", price = "$15.98" },
+]
+where = "Amazon, cncarbonfiber listing, size option 200x300x0.5mm"
+job = "The wing's trailing edge: a 26 x 0.5 mm carbon strip set flush into a step in every rib tail, about 2.24 m in total. Each sheet gives 7 strips of 26 x 300 mm (200 mm / 26 mm, cut along the 300 mm side); 8 strips are needed, so 2 sheets (6 spare strips)."
+why = "HaoZhong's 0.5 mm strips stop at 10 mm wide and its plates start at 1.0 mm [V store data, 20 Nov]. On this listing 0.5 mm is offered only as 200 x 300 mm (the 300 x 400 and 400 x 500 sizes start at 1.0 mm) [V Amazon, 20 Nov], so the strips are 300 mm long: butt each joint on a rib tail (ribs are at most 100 mm apart) so every strip end sits in a rib step. Orders under $35 may pay Amazon shipping."
+source = "[V] Amazon B07GCZXTCZ, option 200x300x0.5mm $15.98 (list $16.95), read 2026-11-20; strip size from cad/cf/ribs.py"
 connects = []
 nodes = []
 

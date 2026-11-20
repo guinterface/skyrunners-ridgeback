@@ -325,14 +325,14 @@
 },
 {
 "group": "Aircraft",
-"name": "0.5 mm carbon sheet for the wing trailing edge (cut into 26 mm strips; product not found yet)",
-"qty": 1,
-"unit": 30.0,
-"line": 30.0,
+"name": "0.5 mm carbon sheet, 200 x 300 mm, 3K twill matte (cut into 26 mm strips for the wing trailing edge)",
+"qty": 2,
+"unit": 15.98,
+"line": 31.96,
 "duty": 0.0,
-"store": "carbon sheet store: not found yet",
-"link": "",
-"note": "[A] estimate, 20 Nov; strip size from cad/cf/ribs.py",
+"store": "Amazon",
+"link": "https://www.amazon.com/dp/B07GCZXTCZ",
+"note": "[V] Amazon B07GCZXTCZ, option 200x300x0.5mm $15.98 (list $16.95), read 2026-11-20; strip size from cad/cf/ribs.py",
 "id": "cf_te_sheet"
 },
 {

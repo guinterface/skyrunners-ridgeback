@@ -3682,17 +3682,23 @@
   },
   {
    "id": "cf_te_sheet",
-   "name": "0.5 mm carbon sheet for the wing trailing edge (cut into 26 mm strips; product not found yet)",
+   "name": "0.5 mm carbon sheet, 200 x 300 mm, 3K twill matte (cut into 26 mm strips for the wing trailing edge)",
    "system": "materials",
-   "qty": 1,
-   "status": "buy (estimate)",
-   "price": 30.0,
+   "qty": 2,
+   "status": "buy",
+   "price": 15.98,
    "mass": 0,
-   "buy": [],
-   "where": "carbon sheet store: not found yet",
-   "job": "The wing's trailing edge: a 26 x 0.5 mm carbon strip set flush into a step in every rib tail, about 2.24 m in total (5 strips of 500 mm).",
-   "why": "HaoZhong's 0.5 mm strips stop at 10 mm wide and its plates start at 1.0 mm [V store data, 20 Nov], so a 0.5 mm sheet at least 26 x 500 mm per strip is needed from another store. $30 is our estimate [A] until a listing is read. Narrower strips would shorten the bond in the rib step.",
-   "source": "[A] estimate, 20 Nov; strip size from cad/cf/ribs.py",
+   "buy": [
+    [
+     "Amazon (cncarbonfiber, 200x300x0.5mm option)",
+     "https://www.amazon.com/dp/B07GCZXTCZ",
+     "$15.98"
+    ]
+   ],
+   "where": "Amazon, cncarbonfiber listing, size option 200x300x0.5mm",
+   "job": "The wing's trailing edge: a 26 x 0.5 mm carbon strip set flush into a step in every rib tail, about 2.24 m in total. Each sheet gives 7 strips of 26 x 300 mm (200 mm / 26 mm, cut along the 300 mm side); 8 strips are needed, so 2 sheets (6 spare strips).",
+   "why": "HaoZhong's 0.5 mm strips stop at 10 mm wide and its plates start at 1.0 mm [V store data, 20 Nov]. On this listing 0.5 mm is offered only as 200 x 300 mm (the 300 x 400 and 400 x 500 sizes start at 1.0 mm) [V Amazon, 20 Nov], so the strips are 300 mm long: butt each joint on a rib tail (ribs are at most 100 mm apart) so every strip end sits in a rib step. Orders under $35 may pay Amazon shipping.",
+   "source": "[V] Amazon B07GCZXTCZ, option 200x300x0.5mm $15.98 (list $16.95), read 2026-11-20; strip size from cad/cf/ribs.py",
    "connects": [],
    "nodes": [],
    "instead": "",
@@ -3704,17 +3710,23 @@
    "editLine": 848,
    "raw": {
     "id": "cf_te_sheet",
-    "name": "0.5 mm carbon sheet for the wing trailing edge (cut into 26 mm strips; product not found yet)",
+    "name": "0.5 mm carbon sheet, 200 x 300 mm, 3K twill matte (cut into 26 mm strips for the wing trailing edge)",
     "system": "materials",
-    "qty": 1,
-    "status": "buy (estimate)",
-    "price": 30.0,
+    "qty": 2,
+    "status": "buy",
+    "price": 15.98,
     "mass": 0,
-    "buy": [],
-    "where": "carbon sheet store: not found yet",
-    "job": "The wing's trailing edge: a 26 x 0.5 mm carbon strip set flush into a step in every rib tail, about 2.24 m in total (5 strips of 500 mm).",
-    "why": "HaoZhong's 0.5 mm strips stop at 10 mm wide and its plates start at 1.0 mm [V store data, 20 Nov], so a 0.5 mm sheet at least 26 x 500 mm per strip is needed from another store. $30 is our estimate [A] until a listing is read. Narrower strips would shorten the bond in the rib step.",
-    "source": "[A] estimate, 20 Nov; strip size from cad/cf/ribs.py",
+    "buy": [
+     {
+      "store": "Amazon (cncarbonfiber, 200x300x0.5mm option)",
+      "link": "https://www.amazon.com/dp/B07GCZXTCZ",
+      "price": "$15.98"
+     }
+    ],
+    "where": "Amazon, cncarbonfiber listing, size option 200x300x0.5mm",
+    "job": "The wing's trailing edge: a 26 x 0.5 mm carbon strip set flush into a step in every rib tail, about 2.24 m in total. Each sheet gives 7 strips of 26 x 300 mm (200 mm / 26 mm, cut along the 300 mm side); 8 strips are needed, so 2 sheets (6 spare strips).",
+    "why": "HaoZhong's 0.5 mm strips stop at 10 mm wide and its plates start at 1.0 mm [V store data, 20 Nov]. On this listing 0.5 mm is offered only as 200 x 300 mm (the 300 x 400 and 400 x 500 sizes start at 1.0 mm) [V Amazon, 20 Nov], so the strips are 300 mm long: butt each joint on a rib tail (ribs are at most 100 mm apart) so every strip end sits in a rib step. Orders under $35 may pay Amazon shipping.",
+    "source": "[V] Amazon B07GCZXTCZ, option 200x300x0.5mm $15.98 (list $16.95), read 2026-11-20; strip size from cad/cf/ribs.py",
     "connects": [],
     "nodes": []
    },
@@ -3748,7 +3760,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 864,
+   "editLine": 866,
    "raw": {
     "id": "build_consumables",
     "name": "Shop supplies for the carbon build (estimate)",
@@ -3801,7 +3813,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 880,
+   "editLine": 882,
    "raw": {
     "id": "wire_pack",
     "name": "Wire Power Pack (Lumenier)",
@@ -3859,7 +3871,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 897,
+   "editLine": 899,
    "raw": {
     "id": "xt90",
     "name": "Amass XT90H",
@@ -3917,7 +3929,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 914,
+   "editLine": 916,
    "raw": {
     "id": "servo_ext",
     "name": "Servo extension 60 cm",
@@ -3969,7 +3981,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 931,
+   "editLine": 933,
    "raw": {
     "id": "bullets",
     "name": "3.5 mm bullet 3-packs",
@@ -4016,7 +4028,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 947,
+   "editLine": 949,
    "raw": {
     "id": "heat_shrink",
     "name": "Heat shrink 530 pc",
@@ -4063,7 +4075,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 963,
+   "editLine": 965,
    "raw": {
     "id": "xt60",
     "name": "XT60 pairs, 5-pack (removable-wing ESC feeds)",
@@ -4110,7 +4122,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 979,
+   "editLine": 981,
    "raw": {
     "id": "xt30",
     "name": "XT30 pairs, 5-pack (servo regulator, Jetson regulator)",
@@ -4157,7 +4169,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 995,
+   "editLine": 997,
    "raw": {
     "id": "balance_lead",
     "name": "JST-XH 7-pin balance lead",
@@ -4204,7 +4216,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1011,
+   "editLine": 1013,
    "raw": {
     "id": "jst_gh",
     "name": "JST-GH cable set",
@@ -4251,7 +4263,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1027,
+   "editLine": 1029,
    "raw": {
     "id": "solder",
     "name": "Solder, ties, sleeve",
@@ -4311,7 +4323,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1043,
+   "editLine": 1045,
    "raw": {
     "id": "lw_asa",
     "name": "LW-ASA 650 g",
@@ -4363,7 +4375,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1061,
+   "editLine": 1063,
    "raw": {
     "id": "petg_cf",
     "name": "Bambu PETG-CF 1 kg",
@@ -4415,7 +4427,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1078,
+   "editLine": 1080,
    "raw": {
     "id": "small_spools",
     "name": "ASA, TPU, PETG small spools",
@@ -4462,7 +4474,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1094,
+   "editLine": 1096,
    "raw": {
     "id": "m5_inserts",
     "name": "M5 heat-set inserts, 50",
@@ -4509,7 +4521,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1110,
+   "editLine": 1112,
    "raw": {
     "id": "hardware",
     "name": "Other hardware (bolts, hinges, epoxy)",
@@ -4602,7 +4614,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1126,
+   "editLine": 1128,
    "raw": {
     "id": "mount_hardware",
     "name": "Mount hardware: thumb screws, inserts, standoffs, straps, hatch magnets",
@@ -4718,7 +4730,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1151,
+   "editLine": 1153,
    "raw": {
     "id": "mount_avionics_tray",
     "name": "Avionics cassette (removable tray in the nose)",
@@ -4793,7 +4805,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1167,
+   "editLine": 1169,
    "raw": {
     "id": "mount_avionics_rails",
     "name": "Cassette rail blocks (bonded to frames F1 and F2)",
@@ -4852,7 +4864,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1183,
+   "editLine": 1185,
    "raw": {
     "id": "mount_battery_sled",
     "name": "Battery sled",
@@ -4910,7 +4922,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1199,
+   "editLine": 1201,
    "raw": {
     "id": "mount_battery_stop",
     "name": "Battery end stop and side guides",
@@ -4993,7 +5005,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1215,
+   "editLine": 1217,
    "raw": {
     "id": "mount_belly_plate",
     "name": "Belly sensor plate with the Pi deck (removable)",
@@ -5085,7 +5097,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1231,
+   "editLine": 1233,
    "raw": {
     "id": "mount_tail_panel",
     "name": "Tail-cone access panel (pusher ESC and servo regulator ride on it)",
@@ -5147,7 +5159,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1247,
+   "editLine": 1249,
    "raw": {
     "id": "mount_tail_insert_blocks",
     "name": "Tail-panel insert blocks (4, bonded)",
@@ -5205,7 +5217,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1263,
+   "editLine": 1265,
    "raw": {
     "id": "mount_esc_cradle",
     "name": "Lift ESC cradle (one in each boom nacelle)",
@@ -5268,7 +5280,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1279,
+   "editLine": 1281,
    "raw": {
     "id": "mount_gps_holder",
     "name": "GPS holder on the right wing pad",
@@ -5331,7 +5343,7 @@
    "systemName": "Airframe",
    "color": "#b9bcb4",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 1295,
+   "editLine": 1297,
    "raw": {
     "id": "mount_pitot_mount",
     "name": "Pitot and airspeed bulkhead in the nose",
