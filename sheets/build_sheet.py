@@ -343,7 +343,7 @@ TAGS = [("motor_MN5008", "[S] CAD uses 150 g; store page lists 135 g [V]: conser
         ("esc_alpha40", "[S] 54.5 g with cables (uav-en.tmotor.com)"), ("esc_pusher", "[S] 54.5 g"),
         ("motor_pusher_AT3520", "[V] 218 g incl. cable (store.tmotor.com 11-17); CAD 221 g"),
         ("prop_pusher", "[A] APC 12x6E ~28 g"), ("battery", "[C] = Battery_Options chosen pack"),
-        ("servo_regulator", "[A] 20 g, model not chosen"), ("pixhawk", "[A] CAD 59 g (alu case); the plastic one bought is 34.6 g [V Holybro], so this is conservative"),
+        ("servo_regulator", "[A] 20 g, model not chosen"), ("pixhawk", "[A] Cube Orange on its carrier, 75 g estimate: weigh ours"),
         ("remote_id", "[S] 13.5 g listing"), ("gnss", "[A] 32 g"), ("telemetry", "[A]"), ("rc_receiver", "[A]"),
         ("power_module", "[A]"), ("airspeed", "[A]"), ("servo_", "[A] 23 g; KST X10 mass not read"),
         ("tube_", "[C] CF density 1.6 g/cm³ x tube volume"), ("rod_", "[C] CF density x volume"),

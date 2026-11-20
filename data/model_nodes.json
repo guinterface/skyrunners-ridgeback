@@ -1,7 +1,7 @@
 {
  "airframe_faces": {
   "fuselage": 8000,
-  "shell": 8000,
+  "shell": 7998,
   "prop": 320,
   "wing": 61786,
   "booms": 37510,
@@ -383,7 +383,7 @@
    "group": "avionics",
    "mass_g": 20,
    "center_mm": [
-    392.0,
+    395.0,
     -0.0,
     -106.0
    ]
@@ -393,39 +393,39 @@
    "group": "battery",
    "mass_g": 2720,
    "center_mm": [
-    -58.0,
+    -47.6,
     -0.0,
-    -62.5
+    -60.5
    ]
   },
   {
    "node": "pixhawk_6C",
    "group": "avionics",
-   "mass_g": 59,
+   "mass_g": 75.0,
    "center_mm": [
-    -255.0,
-    0.0,
-    -50.8
+    -244.0,
+    -0.0,
+    -43.2
    ]
   },
   {
    "node": "telemetry_radio",
    "group": "avionics",
-   "mass_g": 30,
+   "mass_g": 23.5,
    "center_mm": [
-    -270.0,
-    0.0,
-    -101.0
+    -296.8,
+    -16.0,
+    -50.8
    ]
   },
   {
    "node": "rc_receiver",
    "group": "avionics",
-   "mass_g": 6,
+   "mass_g": 1.0,
    "center_mm": [
-    -215.0,
-    35.0,
-    -104.0
+    -195.8,
+    46.0,
+    -52.5
    ]
   },
   {
@@ -433,29 +433,29 @@
    "group": "avionics",
    "mass_g": 13.5,
    "center_mm": [
-    -215.0,
-    -35.0,
-    -102.0
+    -296.8,
+    36.0,
+    -54.0
    ]
   },
   {
    "node": "power_module_PM07",
    "group": "avionics",
-   "mass_g": 25,
+   "mass_g": 40.3,
    "center_mm": [
-    -130.0,
-    -0.0,
-    -111.5
+    -202.8,
+    0.0,
+    -36.0
    ]
   },
   {
    "node": "airspeed_sensor",
    "group": "avionics",
-   "mass_g": 15,
+   "mass_g": 17.4,
    "center_mm": [
-    -330.0,
+    -344.8,
     0.0,
-    -51.0
+    -50.0
    ]
   },
   {
@@ -465,7 +465,7 @@
    "center_mm": [
     125.0,
     200.0,
-    34.3
+    36.4
    ]
   },
   {

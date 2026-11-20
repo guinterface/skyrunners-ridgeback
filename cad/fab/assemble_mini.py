@@ -5,6 +5,8 @@ Buy list with store links: ridgeback/docs/BUY_LIST_2026-11-02.md.
 import math
 import numpy as np
 from build123d import *
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 from core import d, cyl_between, bx
 import f_wing as FW, f_fuse as FF, f_boom as FB, f_tail as FT
 
@@ -82,19 +84,25 @@ def purchased_mini():
     add("servo_regulator_PLACEHOLDER", "avionics", bx(R["x"] - lx/2, R["x"] + lx/2, -ly/2, ly/2, R["z"], R["z"] + lz), 20)   # [A] 20 g
     # battery
     B = FF.BAT
-    add("battery_6S6P_P50B", "battery", bx(B["x"] - B["l"]/2, B["x"] + B["l"]/2, -B["w"]/2, B["w"]/2, FF.TRAY["ztop"], FF.TRAY["ztop"] + B["h"]), d.BATTERY["g"])
-    # Sky4 avionics (reused) + new Remote ID; trays A (top -60) and B (top -110)
-    zA, zB = FF.AV_TRAYS["A"], FF.AV_TRAYS["B"]
-    av = [("pixhawk_6C", (84.8, 44.0, 12.4), (-255.0, 0, zA + 6.2 + 3), 59),        # [A] Holybro Pixhawk 6C, MEASURE the Sky4 unit
-          ("telemetry_radio", (55.0, 28.0, 12.0), (-270.0, 0, zB + 6 + 3), 30),       # [A]
-          ("rc_receiver", (25.0, 15.0, 6.0), (-215.0, 35, zB + 3 + 3), 6),           # [A]
-          ("remote_id_ruko_R111S", (32.0, 22.0, 10.0), (-215.0, -35, zB + 5 + 3), 13.5),   # 13.5 g [S listing]
-          ("power_module_PM07", (68.0, 50.0, 8.0), (-130.0, 0, FF.TRAY["ztop"] - FF.TRAY["t"] - 10), 25),   # [A] under the battery tray
-          ("airspeed_sensor", (30.0, 20.0, 12.0), (-330.0, 0, zA + 6 + 3), 15)]       # [A]
-    for n, dims, c, g in av:
-        add(n, "avionics", Box(*dims).moved(Location(c)), g)
+    zb = FF.TRAY["ztop"] + (2.0 if FF.MINI else 0.0)                                # 11-19: on the 2 mm m_battery_sled
+    add("battery_6S6P_P50B", "battery", bx(B["x"] - B["l"]/2, B["x"] + B["l"]/2, -B["w"]/2, B["w"]/2, zb, zb + B["h"]), d.BATTERY["g"])
+    # avionics on the removable cassette (m_av_cassette, positions in m_layout, 2026-11-19). Flight controller = CubePilot Cube
+    # Orange on its carrier (club lead 11-19, replaces the Pixhawk 6C); node name kept "pixhawk_6C" so data/parts.toml still maps.
+    import m_layout as ML
+    def lbox(dims, c):                     # m_layout gives the bottom z
+        return Box(*dims).moved(Location((c[0], c[1], c[2] + dims[2]/2)))
+    I = ML.AV_ITEMS
+    add("pixhawk_6C", "avionics", Compound([lbox(*I["cube_carrier"][:2]), lbox(*I["cube_orange"][:2])]),
+        I["cube_carrier"][2] + I["cube_orange"][2])                                    # [A] 75 g total, MEASURE
+    for n, k in (("telemetry_radio", "telemetry"), ("rc_receiver", "rc_rx"), ("remote_id_ruko_R111S", "remote_id")):
+        add(n, "avionics", lbox(*I[k][:2]), I[k][2])
+    P7 = ML.PM07
+    add("power_module_PM07", "avionics", bx(P7["x_back"] - P7["dims"][0], P7["x_back"], -P7["dims"][1]/2, P7["dims"][1]/2,
+                                            P7["zc"] - P7["dims"][2]/2, P7["zc"] + P7["dims"][2]/2), P7["g"])   # [V] 40.3 g, on the cassette aft wall
+    PT = ML.PITOT; bd = PT["board"]
+    add("airspeed_sensor", "avionics", bx(PT["x_plate"] + PT["t"] + 2, PT["x_plate"] + PT["t"] + 2 + bd[2], -bd[1]/2, bd[1]/2, -50 - bd[0]/2, -50 + bd[0]/2), 17.4)   # MS5525DSO on m_pitot_mount
     g_ = FW.z_bounds(200.0, 125.0)[1]
-    add("gnss_M9N", "avionics", Cylinder(25, 15, align=(Align.CENTER, Align.CENTER, Align.MIN)).moved(Location((125.0, 200.0, g_ + 4))), 32)   # [A]
+    add("gnss_M9N", "avionics", Cylinder(25, 14.4, align=(Align.CENTER, Align.CENTER, Align.MIN)).moved(Location((125.0, 200.0, g_ + 4 + 2.4))), 32)   # M10 dia 50 x 14.4, 32 g [V holybro.com], in m_gps_holder (2.4 base)
     # servos KST X10 (30 x 35.5 x 10 [S KST X10 V8 PDF]; mass [A] 23 g)
     c, _, xle, _ = FW.station(FW.SERVO_Y); xc = 0.5*(xle + FW.SPLIT*c + FW.HINGE_X - FW.AIL_GAP/2)
     for s in (1, -1):

@@ -181,6 +181,18 @@
 },
 {
 "group": "Aircraft",
+"name": "Mount hardware: thumb screws, inserts, standoffs, straps, hatch magnets",
+"qty": 1,
+"unit": 99.15,
+"line": 99.15,
+"duty": 0.0,
+"store": "Harfington",
+"link": "https://www.harfington.com/products/p-1479356",
+"note": "Mounts design 11-19 (data/mounts.json, MOUNTS.md); mass 60 g is our estimate [A]",
+"id": "mount_hardware"
+},
+{
+"group": "Aircraft",
 "name": "Pack BMS, nickel strip, wrap",
 "qty": 1,
 "unit": 50.0,
@@ -409,14 +421,14 @@
 },
 {
 "group": "Aircraft",
-"name": "Hardware (inserts, bolts, magnets, hinges, epoxy)",
+"name": "Other hardware (bolts, hinges, epoxy)",
 "qty": 1,
-"unit": 120.0,
-"line": 120.0,
+"unit": 70.0,
+"line": 70.0,
 "duty": 0.0,
 "store": "hardware store",
 "link": "",
-"note": "[A] check club/lab stock",
+"note": "[A] check club/lab stock; was $120 before the mount hardware got its own store-priced row (11-19)",
 "id": "hardware"
 },
 {

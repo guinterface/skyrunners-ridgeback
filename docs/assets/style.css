@@ -303,3 +303,7 @@ form.qedit .icon{width:22px;height:22px;padding:0;border-radius:4px;font:600 13p
 form.qedit .ok.icon{background:var(--purple);color:#fff;border:0}
 form.qedit .no.icon{background:none;color:var(--quiet);border:1px solid var(--hair)}
 form.qedit.inline .err{position:absolute;white-space:nowrap;margin-top:28px;font-size:12px}
+.held{border-left:3px solid var(--hair);padding:2px 0 2px 12px;margin:4px 0 8px}
+.held p{margin:4px 0}.held ul{margin:2px 0 6px;padding-left:18px}
+ol.steps.tight{margin:2px 0 4px;line-height:1.45}ol.steps.tight li{margin:2px 0}
+#openhatches{margin-right:14px}#openhatches[aria-pressed="true"]{color:var(--purple);font-weight:700}

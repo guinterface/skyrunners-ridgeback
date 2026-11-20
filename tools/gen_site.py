@@ -99,7 +99,38 @@ for p in PARTS:
         q["calc"] = [list(x) for x in c["lines"]]
         q["calcStep"] = c["step"]; q["calcSheet"] = LINKS.get(c["sheet"][0]); q["calcSheetName"] = f"Sheet {c['sheet'][0][:2]}, tab {c['sheet'][1]}"
     pj.append(q)
-(ROOT / "docs/assets/parts.json").write_text(json.dumps(dict(parts=pj, systems={k: {"name": a, "color": b} for k, (a, b) in SYSTEMS.items()}), indent=1))
+# realistic part models (docs/assets/models/<id>.glb; source, licence and size of each in data/model_sources.json)
+import hashlib as _hlm
+MODEL_SRC = json.load(open(ROOT / "data/model_sources.json"))
+MODELS = {}
+for _id, _m in MODEL_SRC.items():
+    _f = ROOT / "docs" / _m["file"]
+    assert _f.exists(), f"model_sources.json lists {_m['file']} but the file is missing"
+    for _k in ("method", "source_url", "license"): assert _m.get(_k), f"model {_id}: no {_k} in data/model_sources.json"
+    if _id in PBYID: MODELS[_id] = _hlm.sha1(_f.read_bytes()).hexdigest()[:8]
+_need = [p["id"] for p in PARTS if (p["nodes"] or p.get("box")) and p["system"] not in ("airframe", "materials", "ground") and not made(p) or p["id"] == "spot_sensor"]
+_miss = [i for i in _need if i not in MODELS]
+assert not _miss, f"parts drawn in 3D without a model and a source entry in data/model_sources.json: {_miss}"
+# how each electronics group is held and taken out (data/mounts.json, from tools/export_mounts.py)
+MOUNTS = json.load(open(ROOT / "data/mounts.json"))
+MKEEP = ("id", "name", "kind", "holds", "fastening", "remove_steps", "tools", "time_to_remove_s", "time_note", "connectors", "wiring_route", "motion", "nodes", "carries_nodes", "fixed")
+FIXTXT = [("the existing misc_gnss_pad_R", "the existing GPS pad on the right wing"), ("misc_gnss_pad_R", "the right-wing GPS pad")]
+def _tidy(t):
+    if not isinstance(t, str): return t
+    for a_, b_ in FIXTXT: t = t.replace(a_, b_)
+    return t[:1].upper() + t[1:]
+for m in MOUNTS["mounts"]:
+    for k in ("fastening", "wiring_route"):
+        if m.get(k): m[k] = _tidy(m[k])
+    m["remove_steps"] = [_tidy(x) for x in m.get("remove_steps", [])]
+MOUNTS["mounts"] = [m for m in MOUNTS["mounts"] if m["kind"] != "existing"]   # servos and motors: unchanged existing CAD, described in their own part panels
+MJ = [{k: m[k] for k in MKEEP if k in m} for m in MOUNTS["mounts"]]
+for q in pj:
+    q["heldBy"] = [m["id"] for m in MJ if q["id"] in (m.get("holds") or []) and m["kind"] != "hatch"]
+    if q["id"].startswith("mount_") and any(m["id"] == q["id"][6:] for m in MJ): q["mount"] = q["id"][6:]
+_mh = _hlm.sha1((ROOT / "docs/assets/mounts.glb").read_bytes()).hexdigest()[:8]
+(ROOT / "docs/assets/parts.json").write_text(json.dumps(dict(parts=pj, systems={k: {"name": a, "color": b} for k, (a, b) in SYSTEMS.items()},
+                                                          models=MODELS, mounts=MJ, mountsV=_mh, openings=MOUNTS["openings"]), indent=1))
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">')
@@ -201,29 +232,21 @@ A SWIR camera or centimetre GPS would make the readings better; see "Not decided
 
 
 def access_section():
-    """How each electronics group is held and reached (CAD: cad/fab/f_fuse.py MINI block; build guide section 6-7)."""
-    rows = [
-        ("Flight controller, receiver, telemetry radio, Remote ID", "Nose, top tray (tray A) between frames F1 and F2, x −330 to −170 mm",
-         "Screwed to a printed plate with a 20 mm grid of M3 holes; the plate is held by 4 M3 screws in heat-set inserts. Flight controller on rubber vibration mounts.",
-         "Lift the top hatch (held by 4 magnets, no tools). Mount the flight controller with its USB and microSD side toward the opening, so setup and log download need nothing removed.", "good"),
-        ("Power module", "Nose, lower tray (tray B), under tray A", "Same grid plate, 4 M3 screws.",
-         "Top hatch, then take out tray A (4 screws) because tray B sits under it. Fine for a part that is rarely touched.", "ok"),
-        ("Battery", "Under the wing, on a 1.5 mm carbon tray, centre at x −58 mm", "3 straps and a printed stop at the back; the XT90 plug faces the hatch.",
-         "Second magnetic hatch (x −165 to −15 mm): unplug, undo the straps, slide forward and out. No tools.", "good"),
-        ("Lift speed controllers", "In each boom nacelle, under the tube, behind the motor", "Printed clips in the nacelle hold it; the two nacelle halves close around it.", "Open the nacelle halves. The build guide allows tape or glue to close them: use tape (or two small screws), never glue, so they can be opened again.", "ok"),
-        ("Pusher speed controller and servo regulator", "Tail cone (fuselage segment 4)", "Glued trays on the tail-cone floor, cable ties.",
-         "Problem: the tail cone has no opening, so they cannot be reached after it is bonded. Fix: a small screwed belly panel under the tail cone, or move the regulator to tray B.", "fix"),
-        ("Mission sensors and the Raspberry Pi", "Belly, behind the battery, x +40 to +160 mm, looking down",
-         "Not drawn yet: today there is only a reserved space.",
-         "Problem: the space is under the wing, so as planned it is reachable only with the wing off. Fix: all sensors and the Pi on one removable belly plate (4 thumb screws, one power plug and one cable to the flight controller), so the whole sensor set comes off from below, can be tested on the bench and swapped between flights.", "fix"),
-    ]
-    tag = {"good": "easy", "ok": "fine", "fix": "to fix"}
-    tr = "".join(f'<tr class="acc-{k}"><td><b>{E(a)}</b><br><span class=quiet>{E(b)}</span></td><td>{E(c)}</td><td>{E(d_)}</td><td class="acctag">{tag[k]}</td></tr>' for a, b, c, d_, k in rows)
-    return f"""<section id="access"><h2>How the electronics are held, and how you reach them</h2>
-<p>Everything sits on printed plates screwed into heat-set inserts, so parts can be moved without new holes, and every link between groups is a plug
-(JST-GH for signals, XT30/XT60/XT90 for power), so a group can come out without cutting or soldering. Two places are not good yet; their fixes are the next CAD change.</p>
-<div class="tablewrap"><table class="plain access"><thead><tr><th>What</th><th>How it is held</th><th>How you reach it</th><th></th></tr></thead><tbody>{tr}</tbody></table></div>
-<p class="small">From the CAD (cad/fab/f_fuse.py) and the build guide. Hatches are printed (radio-transparent), so the GPS and radios work through them.</p></section>"""
+    """How each electronics group is held and taken out: data/mounts.json (cad/fab/m_*.py, tools/export_mounts.py)."""
+    nm = lambda pid: PBYID[pid]["name"].split(":")[0] if pid in PBYID else pid
+    def when(sec): return "" if not sec else f"about {sec} s" if sec < 90 else f"about {round(sec / 60)} min"
+    tr = []
+    for m in MOUNTS["mounts"]:
+        if m["kind"] == "hatch" or m.get("fixed") or not m.get("holds"): continue
+        steps = "".join(f"<li>{E(x)}</li>" for x in m.get("remove_steps", []))
+        held = ", ".join(E(nm(h)) for h in m["holds"])
+        btn = f'<button type="button" class="plainbtn" data-access="{m["id"]}">Show it in 3D</button>' if m.get("motion") else ""
+        tr.append(f'<tr><td><b>{E(m["name"])}</b><br><span class=quiet>{held}</span></td><td>{E(m["fastening"])}</td>'
+                  f'<td><ol class="steps tight">{steps}</ol><span class="small">{(when(m.get("time_to_remove_s")) + ", ") if m.get("time_to_remove_s") else ""}tools: {E(m.get("tools") or "none")}</span> {btn}</td></tr>')
+    return f"""<section id="access"><h2>How the electronics are held, and how you take them out</h2>
+<p>Each group sits on its own printed mount that comes out as one piece: the electronics in the nose on a cassette under a magnetic hatch, the battery on a sled, the sensors and the Pi on a belly plate, the pusher speed controller on a tail panel. Every link between groups is a plug (JST-GH for signals, XT30/XT60/XT90 for power), so nothing is cut or soldered to take a group out. Press <b>Open the hatches</b> above the 3D to watch each one come out.</p>
+<div class="tablewrap"><table class="plain access"><thead><tr><th>What</th><th>How it is held</th><th>How you take it out</th></tr></thead><tbody>{"".join(tr)}</tbody></table></div>
+<p class="small">From the CAD (cad/fab/m_*.py, data/mounts.json): every removal path was checked for collisions in CAD. Times are our estimates, not yet timed on the real parts. Hatches are printed (radio-transparent), so the GPS and radios work through them. Still open: the 1610 nm sensor's upward diode cannot see the sky from the belly and needs a small diffuser on top; the Cube carrier's hole pattern and port sides are to be measured on ours.</p></section>"""
 
 
 # ------------------------------------------------------------------ index: the drone explorer
@@ -274,11 +297,11 @@ index_body = f"""
 Click any part on the drone or in the list to see what it does, why we chose it, what it connects to and where to buy it.</p></section>
 <section class="explorer">
   <div class="viewer"><div class="viewbar"><div class="mapbar" role="group" aria-label="Flight mode"><button type="button" data-mode="hover">Hover</button><button type="button" data-mode="cruise">Cruise</button><button type="button" data-mode="still">Still</button></div>
-  <button type="button" id="reset" class="plainbtn">Whole drone</button></div>
+  <button type="button" id="openhatches" class="plainbtn" aria-pressed="false">Open the hatches</button><button type="button" id="reset" class="plainbtn">Whole drone</button></div>
   <div class="picks" role="group" aria-label="Show a part"><span>Show:</span><button type="button" data-pick="battery">Battery</button><button type="button" data-pick="motor_lift">Lift motors</button><button type="button" data-pick="motor_pusher">Pusher</button><button type="button" data-pick="pixhawk">Flight controller</button><button type="button" data-pick="wing">Wing</button><button type="button" data-pick="thermal_cam" class="sens">Thermal camera</button><button type="button" data-pick="spot_sensor" class="sens">1610 nm sensor</button><button type="button" data-pick="rgb_cam" class="sens">Colour camera</button></div>
   <div class="viewwrap"><div id="view" aria-label="3D model of the drone. Drag to turn, scroll to zoom, click a part."></div><div id="tip" class="tip" hidden></div></div>
   <div class="legend">{''.join(f'<span><i style="--c:{c}"></i>{E(n)}</span>' for k, (n, c) in SYSTEMS.items())}</div>
-  <p class="hint">Drag to turn, scroll to zoom. Hover spins the lift propellers; Cruise parks them along the booms and runs the pusher. Every part sits at its CAD position and size.</p></div>
+  <p class="hint">Drag to turn, scroll to zoom. Hover spins the lift propellers; Cruise parks them along the booms and runs the pusher. Every part sits at its CAD position and size; bought parts are drawn from the maker's own CAD where there is one (sources on the Files page). Open the hatches shows how each group comes out.</p></div>
   <aside id="detail" class="detail" aria-live="polite"><h2>Eight groups</h2>
   <p>Pick a part on the drone or below; it turns purple and lines show what it is wired or bolted to.</p>
   {''.join(f'<h3><span class="key" style="--c:{SYSTEMS[k][1]}"></span>{E(SYSTEMS[k][0])}</h3><p>{E(t)}</p>' for k, t in [
@@ -521,6 +544,11 @@ files_body = f"""
 <tr><td><a href="cad/Ridgeback_print_pack_STL.zip">Print pack, STL (5 MB)</a></td><td>Every printed part in print orientation, with print settings.</td></tr>
 <tr><td><a href="https://github.com/guinterface/skyrunners-ridgeback/releases">STEP pack for Fusion 360 (82 MB)</a></td><td>Every part and sub-assembly, attached to the latest release.</td></tr>
 <tr><td><a href="assets/ridgeback.glb">3D model, GLB</a></td><td>The model on the drone page, viewable in any glTF viewer.</td></tr>
+<tr><td><a href="assets/mounts.glb">Electronics mounts, GLB</a></td><td>The cassette, sled, belly plate, tail panel and hatches, with how each comes out (<a href="{GH}/blob/main/data/mounts.json">data/mounts.json</a>).</td></tr>
+</tbody></table>
+<h3>Where the part models come from</h3>
+<p class="small">Each bought part on the drone page is its own model in <a href="{GH}/tree/main/docs/assets/models">docs/assets/models</a>. Models marked "official CAD" are the maker's own published file (T-Motor, Holybro, CubePilot and Pololu publish theirs with no licence text; Raspberry Pi and Adafruit files are MIT); the rest we drew from the maker's drawing or photos (CC0). Size and source of every one: <a href="{GH}/blob/main/data/model_sources.json">data/model_sources.json</a>.</p>
+<div class="tablewrap"><table class="plain"><thead><tr><th>Part</th><th>Made from</th><th>Licence</th></tr></thead><tbody>{"".join(f'<tr><td>{E(PBYID[i]["name"].split(":")[0] if i in PBYID else i)}</td><td><a href="{E(m["source_url"])}" target="_blank" rel="noopener">{E(m["method"])}</a></td><td class="small">{E(m["license"])}</td></tr>' for i, m in MODEL_SRC.items())}
 </tbody></table></section>
 <section><h2>Rebuild on your own computer</h2>
 <pre>pip install openpyxl formulas

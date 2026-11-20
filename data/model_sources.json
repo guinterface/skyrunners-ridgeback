@@ -1,0 +1,430 @@
+{
+ "motor_lift": {
+  "method": "official CAD",
+  "source_url": "https://cn.tmotor.com/uploadfile/downloads/tmotor-mn5008-motor-3d-model.step",
+  "file": "assets/models/motor_lift.glb",
+  "license": "T-Motor public download (no licence text given; published by the maker for customers)",
+  "dims_mm": [
+   55.6,
+   55.6,
+   31.9
+  ],
+  "maker_dims_mm": [
+   55.6,
+   55.6,
+   31.9
+  ],
+  "maker_dims_src": "https://cn.tmotor.com/uploadfile/downloads/tmotor-mn5008-motor-2d-drawings.pdf (linked from https://uav-en.tmotor.com/2020/Antigravity_0422/340.html)",
+  "notes": "Housing, bell, base and shaft from the official STEP (MN5008; the file is the same for all KVs). The STEP has no stator, so a 24-tooth wound stator + magnet ring were added inside, sized to the bell, so the copper shows through the spokes as in the photos. Colours from photos (black anodised)."
+ },
+ "prop_lift": {
+  "method": "official CAD",
+  "source_url": "https://en.tmotor.com/uploadfile/downloads/tmotor-p18-propeller-3d-model.step",
+  "file": "assets/models/prop_lift.glb",
+  "license": "T-Motor public download (no licence text given)",
+  "dims_mm": [
+   457.2,
+   58.1,
+   17.1
+  ],
+  "maker_dims_mm": [
+   457.2,
+   null,
+   null
+  ],
+  "maker_dims_src": "18 in = 457.2 mm (T-Motor P18x6.1)",
+  "notes": "Official P18 blade STEP (the P18 \"polish\" carbon prop is the same shape). Origin at the hub centre (not bbox centre, per prop rule); one rotation hand only."
+ },
+ "esc_lift": {
+  "method": "modelled from drawing",
+  "source_url": "https://uav-en.tmotor.com/2018/alpha_0502/159.html",
+  "file": "assets/models/esc_lift.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   87.5,
+   29.4,
+   14.7
+  ],
+  "maker_dims_mm": [
+   64.5,
+   29.4,
+   14.7
+  ],
+  "maker_dims_src": "https://uav-en.tmotor.com/2018/alpha_0502/159.html (64.5*29.4*14.7mm)",
+  "notes": "No CAD published for the ALPHA 40A. Case is 64.5 x 29.4 x 14.7 mm; X extent 87.5 mm includes 12 mm wire stubs at each end (3 orange phase wires, red/black power + signal lead). Heat-sink pin array and screw layout from the T-Motor renders."
+ },
+ "motor_pusher": {
+  "method": "official CAD",
+  "source_url": "https://en.tmotor.com/uploadfile/downloads/tmotor-at3520-motor-3d-model.step",
+  "file": "assets/models/motor_pusher.glb",
+  "license": "T-Motor public download (no licence text given)",
+  "dims_mm": [
+   43.0,
+   43.0,
+   65.0
+  ],
+  "maker_dims_mm": [
+   43.0,
+   43.0,
+   65.0
+  ],
+  "maker_dims_src": "https://en.tmotor.com/uploadfile/downloads/tmotor-at3520-motor-2d-drawings.pdf (diameter 43, 65 overall with the long shaft)",
+  "notes": "Official AT3520 STEP, long-shaft version (matches the 2D drawing). parts.toml says 42 x 52 mm, the maker drawing says 43 x 65 incl. shaft. Shell only in the STEP: a 12-slot wound stator + magnets were added. Black sleeve / gunmetal ends from photos. Shaft +Z, mount base -Z."
+ },
+ "prop_pusher": {
+  "method": "modelled from drawing",
+  "source_url": "https://www.apcprop.com/technical-information/file-downloads/ (PE0-FILES_WEB-202602.zipx, 12x6E-PERF.PE0)",
+  "file": "assets/models/prop_pusher.glb",
+  "license": "own model built from APC published geometry data",
+  "dims_mm": [
+   304.8,
+   28.0,
+   16.1
+  ],
+  "maker_dims_mm": [
+   304.8,
+   null,
+   null
+  ],
+  "maker_dims_src": "12x6E-PERF.PE0: radius 6.00 in, hub radius 0.40 in, chord/twist/sweep/rake/thickness per station",
+  "notes": "Blade lofted from APC's own station table (chord, LE-TE twist, sweep, rake, max thickness) with a flat-bottom section; hub per HUBRAD. Airfoil shape between those numbers is generic. Tan colour of APC E props. Origin at hub centre."
+ },
+ "esc_pusher": {
+  "method": "modelled from drawing",
+  "source_url": "https://uav-en.tmotor.com/2018/alpha_0502/159.html",
+  "file": "assets/models/esc_pusher.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   87.5,
+   29.4,
+   14.7
+  ],
+  "maker_dims_mm": [
+   64.5,
+   29.4,
+   14.7
+  ],
+  "maker_dims_src": "https://uav-en.tmotor.com/2018/alpha_0502/159.html",
+  "notes": "Same model as esc_lift."
+ },
+ "pixhawk": {
+  "method": "official CAD",
+  "source_url": "https://docs.cubepilot.org/3d-printing/cubepilot-product-3d-model (Cube.STEP.zip, Standard Carrier Board.STEP.zip from github.com/CubePilot/cubepilot-docs)",
+  "file": "assets/models/pixhawk.glb",
+  "license": "CubePilot public docs download (repo has no explicit licence; published by the maker)",
+  "dims_mm": [
+   94.5,
+   44.3,
+   23.7
+  ],
+  "maker_dims_mm": [
+   94.5,
+   44.3,
+   null
+  ],
+  "maker_dims_src": "https://docs.px4.io/main/en/flight_controller/cubepilot_cube_orange (carrier 94.5 x 44.3 x 17.3, Cube 38.25 x 38.25 x 22.3)",
+  "notes": "Now the CubePilot Cube Orange (club already owns it). Official Cube STEP (38.2 x 38.2 x 22.1) seated in the cradle of the official Standard Carrier Board STEP (94.46 x 44.29 x 17.25 = the ADS-B carrier footprint). CubePilot publishes no ADS-B-carrier STEP, so the top layout is the Standard carrier, not the ADS-B one (the ADS-B carrier has its own connector layout and a wire antenna, not modelled). Total height 23.7 mm. Orange anodised lid, black carrier; JST-GH housings added in the case windows and a 3 x 14 servo rail behind the comb (the STEP has openings only)."
+ },
+ "pixhawk_6c": {
+  "method": "official CAD",
+  "source_url": "https://docs.holybro.com/autopilot/pixhawk-6c/download (Pixhawk6C-3D-CAD.stp)",
+  "file": "assets/models/pixhawk_6c.glb",
+  "license": "Holybro public docs download (no licence text given)",
+  "dims_mm": [
+   84.0,
+   44.0,
+   12.4
+  ],
+  "maker_dims_mm": [
+   84.8,
+   44.0,
+   12.4
+  ],
+  "maker_dims_src": "Holybro Pixhawk 6C spec (84.8 x 44 x 12.4 mm)",
+  "notes": "Alternative flight controller (kept from before the switch to the Cube Orange). Official case STEP; the STEP has no connectors, so cream JST-GH housings were added in the 15 case openings (layout matches the product photo)."
+ },
+ "pm07": {
+  "method": "official CAD",
+  "source_url": "https://docs.holybro.com/power-module-and-pdb/power-module/download (pm07-pcba.stp)",
+  "file": "assets/models/pm07.glb",
+  "license": "Holybro public docs download (no licence text given)",
+  "dims_mm": [
+   88.0,
+   68.0,
+   9.2
+  ],
+  "maker_dims_mm": [
+   68.0,
+   50.0,
+   8.0
+  ],
+  "maker_dims_src": "parts.toml / Holybro: 68 x 50 x 8 mm",
+  "notes": "Official PCBA STEP: board 68 x 50, JST-GH connectors, right-angle 2.54 headers. Bounding box 88 x 68 x 9.2 because the headers stick out of both long sides and the battery-lead stubs leave at +X (as on the real board). Gold ESC pads along the edges were added from the photo; components fused into the board solid are shown dark grey."
+ },
+ "gnss": {
+  "method": "official CAD",
+  "source_url": "https://docs.holybro.com/gps-and-rtk-system/m8n-m9n-m10-gps/standard-m10-m9n-m8n-gps/download (GPS-M8N-M9N-full_asm.stp)",
+  "file": "assets/models/gnss.glb",
+  "license": "Holybro public docs download (no licence text given)",
+  "dims_mm": [
+   50.0,
+   54.1,
+   14.3
+  ],
+  "maker_dims_mm": [
+   50.0,
+   50.0,
+   14.4
+  ],
+  "maker_dims_src": "https://docs.holybro.com/gps-and-rtk-system/m8n-m9n-m10-gps/standard-m10-m9n-m8n-gps/overview (M10 V1: 50 x 14.4 mm)",
+  "notes": "Holybro shares one case for the standard M8N/M9N/M10; the STEP is that shared assembly. 54 mm in Y includes the cable grommet; the cable inside the STEP was cut at the grommet. If ours is the V2 (51 x 18.5 mm) the case differs slightly."
+ },
+ "airspeed": {
+  "method": "modelled from drawing",
+  "source_url": "https://holybro.com/products/digital-air-speed-sensor-standard (dimensioned photo)",
+  "file": "assets/models/airspeed.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   113.0,
+   27.0,
+   32.8
+  ],
+  "maker_dims_mm": [
+   92.0,
+   27.0,
+   30.0
+  ],
+  "maker_dims_src": "Holybro product image: probe 92 long, diameters 14 / 12.5 / 7.5, bracket 30 high, foot 27",
+  "notes": "PT40 probe revolved from the dimensioned photo, L-bracket, static ports. MS5525DSO board placed behind the probe with clear tubes; that board size (18 x 15 mm) is estimated from photos. Tip toward -X."
+ },
+ "telemetry": {
+  "method": "modelled from drawing",
+  "source_url": "https://docs.holybro.com/radio/sik-telemetry-radio-v3/dimension-and-pinout",
+  "file": "assets/models/telemetry.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   73.3,
+   27.8,
+   93.2
+  ],
+  "maker_dims_mm": [
+   53.2,
+   27.8,
+   10.4
+  ],
+  "maker_dims_src": "https://docs.holybro.com/radio/sik-telemetry-radio-v3/dimension-and-pinout (47.3 x 27.8 x 10.4 case, 53.2 with RP-SMA)",
+  "notes": "Holybro only publishes a STEP of the 1 W radio (66.5 x 32 mm), not our 100 mW one, so this is modelled from the 100 mW drawing. The stock antenna (hinge + whip, folded up to +Z) is a separate material named \"antenna\" so it can be hidden; without it the size matches the drawing."
+ },
+ "rc_rx": {
+  "method": "modelled from drawing",
+  "source_url": "https://radiomasterrc.com/products/rp2-expresslrs-2-4ghz-nano-receiver",
+  "file": "assets/models/rc_rx.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   13.0,
+   11.0,
+   7.0
+  ],
+  "maker_dims_mm": [
+   13.0,
+   11.0,
+   7.0
+  ],
+  "maker_dims_src": "retailer spec 13 x 11 x 7 mm (e.g. https://flyfive33.com/products/radiomaster-rp2-v2-elrs-receiver); no maker drawing",
+  "notes": "Board outline, pad row, chip layout and ceramic antenna block from photos."
+ },
+ "remote_id": {
+  "method": "modelled from drawing",
+  "source_url": "https://www.ruko.net/products/ruko-r111-remote-id-module",
+  "file": "assets/models/remote_id.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   32.0,
+   22.0,
+   10.1
+  ],
+  "maker_dims_mm": [
+   32.0,
+   22.0,
+   10.0
+  ],
+  "maker_dims_src": "parts.toml (Ruko listing): 32 x 22 x 10 mm",
+  "notes": "Rounded shell, LED light pipes, logo plate, buzzer holes and USB-C from photos."
+ },
+ "servos": {
+  "method": "modelled from drawing",
+  "source_url": "https://www.boomerangrcjets.com/products/kst-x10-v2-wing-servo",
+  "file": "assets/models/servos.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   46.7,
+   45.3,
+   10.2
+  ],
+  "maker_dims_mm": [
+   35.5,
+   30.0,
+   10.0
+  ],
+  "maker_dims_src": "KST X10 spec sheet: case 30*10*35.5 mm (https://www.hyperflight.co.uk/getfile.asp?code=KST-X10&code2=1)",
+  "notes": "Case is to spec; the mounting ears (not dimensioned by KST) are estimated from photos and make X 46.7 mm (Y 45.3 includes the lead stub). Output spline: on this wing servo the shaft axis is parallel to the 35.5 mm side, so with the long side on X the spline points +X, not +Z (rotate if the CAD expects otherwise)."
+ },
+ "servo_reg": {
+  "method": "modelled from drawing",
+  "source_url": "https://keycityhobby.com/products/castle-010-0154-00",
+  "file": "assets/models/servo_reg.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   69.0,
+   20.0,
+   10.0
+  ],
+  "maker_dims_mm": null,
+  "maker_dims_src": "no maker dimensions found (Castle page lists none)",
+  "notes": "Body 45 x 20 x 9 mm ESTIMATED from the product photo (not verified). Clear shrink with label, input capacitor on the lead, input and output lead stubs."
+ },
+ "battery": {
+  "method": "modelled from drawing",
+  "source_url": "https://www.molicel.com (P50B 21700: 21.7 x 70.4 mm)",
+  "file": "assets/models/battery.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   208.0,
+   135.0,
+   75.0
+  ],
+  "maker_dims_mm": [
+   140.0,
+   135.0,
+   75.0
+  ],
+  "maker_dims_src": "parts.toml (our pack design: 36 cells 21.7 x 70.4 mm in 6 x 6)",
+  "notes": "Our pack: 36 cells standing on Z, nickel series strips top/bottom, fish paper, BMS on +X face, translucent blue wrap (alpha 0.45, so cells show). X extent includes the 10 AWG leads + XT90 at +X and the balance lead; the wrapped block itself is 140 x 135 x 75."
+ },
+ "payload_computer": {
+  "method": "official CAD",
+  "source_url": "https://datasheets.raspberrypi.com/rpi5/RaspberryPi5-step.zip",
+  "file": "assets/models/payload_computer.glb",
+  "license": "MIT (Raspberry Pi Ltd, LICENSE.txt in the zip)",
+  "dims_mm": [
+   88.7,
+   57.6,
+   19.0
+  ],
+  "maker_dims_mm": [
+   85.0,
+   56.0,
+   20.0
+  ],
+  "maker_dims_src": "Raspberry Pi 5 board 85 x 56 mm; Active Cooler 63.5 x 42.5 x 13.7 (https://datasheets.raspberrypi.com/cooling/raspberry-pi-active-cooler-product-brief.pdf)",
+  "notes": "Pi 5 board and connectors from the official STEP (no colours in the file: coloured by part type; parts under 2.2 mm dropped). Active Cooler is modelled from the product-brief drawing (no official STEP found)."
+ },
+ "payload_power": {
+  "method": "official CAD",
+  "source_url": "https://www.pololu.com/file/0J1733/d36v50fx-step-down-voltage-regulator.step",
+  "file": "assets/models/payload_power.glb",
+  "license": "Pololu public download (no licence text given)",
+  "dims_mm": [
+   25.4,
+   25.4,
+   9.5
+  ],
+  "maker_dims_mm": [
+   25.4,
+   25.4,
+   9.5
+  ],
+  "maker_dims_src": "https://www.pololu.com/file/0J1732/d36v50fx-step-down-voltage-regulator-dimensions.pdf",
+  "notes": "Official STEP with its colours; mask green adjusted to the photo."
+ },
+ "thermal_cam": {
+  "method": "modelled from drawing",
+  "source_url": "https://groupgets-files.s3.amazonaws.com/PT3/PT3%20Datasheet%20Rev2%20Oct%202022.pdf",
+  "file": "assets/models/thermal_cam.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   30.1,
+   25.8,
+   10.0
+  ],
+  "maker_dims_mm": [
+   28.9,
+   25.8,
+   null
+  ],
+  "maker_dims_src": "PT3 datasheet p.3 drawing: 25.8 x 28.9 x 1.6 board, holes 2.2 on 20.7 x 23.9; Lepton 3.5 11.8 x 12.7 x 7.2 (FLIR)",
+  "notes": "Board outline, holes, breakout pads, Lepton socket + module, USB-C, button from the drawing and photos (pink mask). X 30.1 because the USB-C overhangs the edge as on the drawing. Lens looks -Z. Not the printed case (40 x 30 x 22 box in parts.toml)."
+ },
+ "rgb_cam": {
+  "method": "modelled from drawing",
+  "source_url": "https://datasheets.raspberrypi.com/gs-camera/gs-camera-mechanical-drawing.pdf",
+  "file": "assets/models/rgb_cam.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   39.5,
+   56.0,
+   55.1
+  ],
+  "maker_dims_mm": [
+   38.0,
+   38.0,
+   25.07
+  ],
+  "maker_dims_src": "RPi GS camera drawing: board 38 x 38, rear plate 39.5, CS mount 36 ring, 25.07 deep without lens",
+  "notes": "Includes the 6 mm CS lens (Raspberry Pi 6 mm lens, ~30 mm dia, body length approximate) so Z is 55 mm; Y 56 mm includes the tripod block below the board (from the drawing). Lens looks -Z. No official STEP found."
+ },
+ "air_sensor": {
+  "method": "official CAD",
+  "source_url": "https://github.com/adafruit/Adafruit_CAD_Parts/tree/main/5665%20SHT45%20Sensor",
+  "file": "assets/models/air_sensor.glb",
+  "license": "MIT (Adafruit_CAD_Parts repo)",
+  "dims_mm": [
+   25.4,
+   17.8,
+   4.6
+  ],
+  "maker_dims_mm": [
+   25.4,
+   17.8,
+   4.6
+  ],
+  "maker_dims_src": "Adafruit 5665 STEP / product page (1.0 x 0.7 in)",
+  "notes": "Official Adafruit STEP; plated hole rings added (the STEP has plain holes). Sun shield not included."
+ },
+ "spot_sensor": {
+  "method": "modelled from drawing",
+  "source_url": "data/parts.toml (our design)",
+  "file": "assets/models/spot_sensor.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   63.0,
+   40.0,
+   45.0
+  ],
+  "maker_dims_mm": [
+   50.0,
+   40.0,
+   45.0
+  ],
+  "maker_dims_src": "parts.toml: 50 x 40 x 45 mm printed head with 20 deg view tubes",
+  "notes": "Our own build: printed ASA housing, two view tubes looking -Z with 12.5 mm 1610 nm filters, PTFE diffuser dome on top, cable gland. Concept geometry, not a fabricated part."
+ },
+ "nir_channel": {
+  "method": "modelled from drawing",
+  "source_url": "data/parts.toml (our design)",
+  "file": "assets/models/nir_channel.glb",
+  "license": "own model (CC0 for this repo)",
+  "dims_mm": [
+   20.0,
+   16.0,
+   30.5
+  ],
+  "maker_dims_mm": [
+   20.0,
+   16.0,
+   30.0
+  ],
+  "maker_dims_src": "parts.toml box 20 x 16 x 30",
+  "notes": "Same style as spot_sensor: one view tube with a 12.5 mm 850 nm filter, looking -Z."
+ }
+}

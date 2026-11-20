@@ -79,8 +79,14 @@ if MINI:
     # pusher ESC + servo regulator in the tail cone (11-03). ESC = T-Motor ALPHA 40A 6S 64.5 x 29.4 x 14.7 [S], flat, wires aft to the AT3520.
     # Regulator model unknown: 45 x 25 x 12 PLACEHOLDER (MEASURE). Belly inlet under the ESC, side outlets aft of it.
     PUSH_ESC = dict(x=472.0, z=-100.0, dims=(64.5, 29.4, 14.7))      # x = centre, z = deck top
-    SREG = dict(x=392.0, z=-112.0, dims=(45.0, 25.0, 12.0))
+    SREG = dict(x=395.0, z=-112.0, dims=(45.0, 25.0, 12.0))           # 11-19: +3 so its deck sits inside the tail-panel opening
     MINI_VENTS = dict(inlet=(450.0, 490.0, 6.0), outlet=(512.0, 540.0, -84.0, -77.0))
+    # 2026-11-19 electronics access (m_layout.py): plane-cut hatches, removable belly sensor plate, tail-cone panel.
+    import m_layout as ML
+    HATCHES = {k: (o["x0"], o["x1"], 80.0) for k, o in ML.OPENINGS.items() if k in ("avionics", "battery")}
+    TRAY = dict(TRAY, x1=52.0)                             # ends just aft of the F3 lugs: the Pi deck and sensors sit aft of it
+    HATCH_GAP = ML.HATCH_GAP
+    BAT = dict(BAT, x=ML.BAT_X)                            # battery position now from m_layout (end stop sets it)
 
 # ------------------------------------------------------------------ sections
 def params(x):
@@ -108,12 +114,41 @@ def half_width(x, z, off):
     g = LineString([(-500, z), (500, z)]).intersection(P)
     return (g.length/2) if not g.is_empty else 0.0
 
+def _ztop_at(x, y, off):
+    """MINI: z of the shell's inner BOTTOM surface (inset `off`) at (x, y)."""
+    from shapely.geometry import LineString
+    g = LineString([(y, -500), (y, 500)]).intersection(sec(x, off))
+    return g.bounds[1]
+
 def top_z(x, off=0.0):
     w, h, zt, n = params(x)
     return zt - off
 
 # ------------------------------------------------------------------ openings
+def opening_region(name, g=0.0, ge=None):
+    """MINI: solid removed from the shell for opening `name` (m_layout.OPENINGS). g > 0 moves the cut plane into the
+    fuselage by g and widens the x range by ge (default g x rim_end/rim): used for the rims (+rim / -rim) and hatches (-gap)."""
+    import math as _m
+    from build123d import Box as _Box, Location as _Loc, Axis as _Ax
+    o = ML.OPENINGS[name]
+    if ge is None:
+        ge = g if o["rim"] == 0 else g*o["rim_end"]/o["rim"]
+    x0, x1 = o["x0"] - ge, o["x1"] + ge
+    if o["kind"] == "top":
+        return bx(x0, x1, -300, 300, o["z"] - g, 200)
+    if o["kind"] == "bottom":
+        return bx(x0, x1, -300, 300, -500, o["z"] + g)
+    (xa, za), (xb, zb) = o["a"], o["b"]
+    th = _m.atan2(zb - za, xb - xa)
+    n = (-_m.sin(th), 0.0, _m.cos(th))
+    half = _Box(3000, 600, 1000).moved(_Loc((0, 0, -500))).rotate(_Ax.Y, -_m.degrees(th)).moved(_Loc((xa + g*n[0], 0, za + g*n[2])))
+    return half & bx(x0, x1, -300, 300, -500, 200)
+
 def opening_boxes(gap=0.0):
+    if MINI:
+        x0, x1, hw = WING_OPEN
+        zt = max(top_z(x0), top_z(x1), top_z((x0 + x1)/2))
+        return [opening_region(k, -gap) for k in ML.OPENINGS] + [bx(x0 + gap, x1 - gap, -hw + gap, hw - gap, zt - 60, zt + 20)]
     out = []
     for x0, x1, hw in [*HATCHES.values(), WING_OPEN]:
         zt = max(top_z(x0), top_z(x1), top_z((x0 + x1)/2))
@@ -127,6 +162,28 @@ def band(lo, hi, off, t):
 
 def rims(x_range=(-1e9, 1e9)):
     out = []
+    if MINI:
+        for k, o in ML.OPENINGS.items():
+            lo, hi = o["x0"] - max(o["rim"], o["rim_end"]) - 2, o["x1"] + max(o["rim"], o["rim_end"]) + 2
+            if hi < x_range[0] or lo > x_range[1]:
+                continue
+            r = isect(band(lo, hi, SKIN, RIM["t"]), opening_region(k, o["rim"], ge=max(o["rim_end"], 1.0)) - opening_region(k, -o["rim"]))   # >= 1 mm past the ends so it fuses
+            if r is None:
+                continue
+            slabs = [bx(fx - FRAME_T/2 - 0.3, fx + FRAME_T/2 + 0.3, -300, 300, -400, 200) for fx in FRAMES.values() if lo - 5 < fx < hi + 5]
+            if slabs:
+                r = r.cut(*slabs)
+            out.append(r)
+        x0, x1, hw = WING_OPEN
+        x_range_ok = not (x1 + RIM["w"] < x_range[0] or x0 - RIM["w"] > x_range[1])
+        if x_range_ok:
+            lo, hi = x0 - RIM["w"], x1 + RIM["w"]
+            zt = max(top_z(x0), top_z(x1), top_z((x0 + x1)/2))
+            ring = bx(lo, hi, -hw - RIM["w"], hw + RIM["w"], zt - 60, zt + 20) - bx(x0 + RIM["w"], x1 - RIM["w"], -hw + RIM["w"], hw - RIM["w"], zt - 70, zt + 30)
+            r = isect(band(lo, hi, SKIN, RIM["t"]), ring)
+            if r is not None:
+                out.append(r)
+        return out
     for x0, x1, hw in [*HATCHES.values(), WING_OPEN]:
         lo, hi = x0 - RIM["w"], x1 + RIM["w"]
         if hi < x_range[0] or lo > x_range[1]:
@@ -146,6 +203,8 @@ def bottom_cuts():
         cuts = [bx(x0, x1, -hw, hw, zb(x1) - 20, zb(x0) + 12)]                          # belly inlet between the mount webs
         x0, x1, z0, z1 = MINI_VENTS["outlet"]
         cuts += [bx(x0, x1, -60, 60, z0, z1)]                                           # outlets, both side walls
+        P = ML.PITOT                                                                    # 11-19: pitot tube through the nose tip
+        cuts += [cyl_between((d.FUSE_X0 - 10, 0, P["tube_z"]), (P["x_plate"], 0, P["tube_z"]), P["tube_d"]/2 + 0.3)]
         return cuts
     if SCOUT:
         A = ALTUM; wl, ww = A["win"]
@@ -178,6 +237,13 @@ def make_segment(i):
     return biggest(body)
 
 def make_hatch(name):
+    if MINI:                                                            # avionics, battery (top), belly, tail (m_belly_plate / m_tail_panel use it)
+        o = ML.OPENINGS[name]
+        sh = band(o["x0"] - 4, o["x1"] + 4, 0.0, SKIN)
+        h = sh & opening_region(name, -HATCH_GAP)
+        if name in ("belly", "tail"):
+            h = h.cut(*bottom_cuts())
+        return biggest(h)
     x0, x1, hw = HATCHES[name]
     sh = band(x0 - 2, x1 + 2, 0.0, SKIN)
     zt = max(top_z(x0), top_z(x1), top_z((x0 + x1)/2))
@@ -212,7 +278,7 @@ def make_frame(fid):
         side = (-1, 1) if fid == "F3" else (1,)
         for s in side:
             lugs.append((x + s*FRAME_T/2, x + s*(FRAME_T/2 + 12), zt - 6, zt, 52.0))
-    if fid in ("F1", "F2"):
+    if fid in ("F1", "F2") and not MINI:                   # MINI: the avionics cassette rides on m_av_rail blocks instead
         s = 1 if fid == "F1" else -1
         for zt in AV_TRAYS.values():
             lugs.append((x + s*FRAME_T/2, x + s*(FRAME_T/2 + 12), zt - AV_T - 6, zt - AV_T, 42.0))
@@ -221,8 +287,19 @@ def make_frame(fid):
             lug = isect(bx(min(xa, xb) - (FRAME_T if xb > xa else -FRAME_T)*0 - 0.01, max(xa, xb) + 0.01, *sorted((sy*yin, sy*150)), z0, z1), interior)
             if lug is not None:
                 parts.append(lug)
+    if MINI and fid in ("F3", "F4"):                   # belly plate thumb-screw bosses (M3 insert from below), on the plate side of the ring
+        sx = 1 if fid == "F3" else -1
+        for bxp, byp in ML.BELLY_SCREWS:
+            if abs(bxp - x) > 15:
+                continue
+            zb_ = min(_ztop_at(xx, byp + dy, SKIN) for xx in (bxp - 4, bxp + 4) for dy in (-4, 4))
+            parts.append(isect(bx(min(x, bxp - 4.5), max(x, bxp + 4.5), byp - 4.5, byp + 4.5, zb_ + 0.2, zb_ + 10.0), interior))
     s = parts[0].fuse(*[p for p in parts[1:] if p is not None]).clean()
     holes = []
+    if MINI and fid in ("F3", "F4"):
+        for bxp, byp in ML.BELLY_SCREWS:
+            if abs(bxp - x) <= 15:
+                holes.append(cyl_between((bxp, byp, -200), (bxp, byp, _ztop_at(bxp, byp, SKIN) + 7.2), 2.0))   # M3 insert 4.0 x 7
     if fid in ("F3", "F4"):
         for wx, wy in FW.WING_BOLTS:
             if abs(wx - x) < 1:
@@ -256,8 +333,8 @@ def battery_tray():
     if MINI:
         F2, F3 = FRAMES["F2"], FRAMES["F3"]
         holes = [(x, sy*60.0, 1.65) for x in (F2 + 9.0, F3 - 10.5, F3 + 10.5) for sy in (1, -1)]
-        holes += [(BAT["x"] + BAT["l"]/2 + 8, dy, 1.65) for dy in (-30, 30)]
-        holes += [(x, 0.0, 20.0) for x in (-120.0, -50.0, 90.0)]
+        holes += [(ML.STOP["holes_x"], dy, 1.65) for dy in (-30, 30)]                 # m_battery_stop, 2x M3
+        holes += [(x, 0.0, 20.0) for x in (-120.0, -50.0)]
     else:
         holes = [(x, sy*60.0, 1.65) for x in (-241.0, 40.0 - 10.5, 40.0 + 10.5) for sy in (1, -1)]     # lug inserts (M3 clearance 3.3)
         holes += [(-150.0 + dx, dy, 1.65) for dx in (-50, 50) for dy in (-32, 32)]                       # repeater radio standoffs
@@ -265,7 +342,7 @@ def battery_tray():
         holes += [(x, 0.0, 22.5) for x in (-210.0, -60.0, 60.0, 170.0)]                                   # lightening
     if SCOUT:
         holes += [(x, y, 1.65) for x, y in FC_HOLES]                                                  # FC isolator frame (hangs under the tray)
-    slots = [(xs, sy*62.0, 3.2, 25.0) for xs in ((-90.0, 40.0, 150.0) if MINI else (-120.0, 0.0, 150.0)) for sy in (1, -1)]   # strap slots
+    slots = [(xs, sy*62.0, 3.2, 25.0) for xs in (ML.STRAP_X if MINI else (-120.0, 0.0, 150.0)) for sy in (1, -1)]   # strap slots
     f = tray_face(T["x0"], T["x1"], T["ztop"] - T["t"], T["w"], holes, slots)
     return extrude(f, T["t"]), f
 
@@ -319,15 +396,20 @@ def tail_mount(spec, tie_dx):
     cable-tie slots each side of the item, a vent cut-out under it."""
     (lx, ly, lz) = spec["dims"]; x, zdeck = spec["x"], spec["z"]
     x0, x1 = x - lx/2 - 4, x + lx/2 + 4
-    hw = ly/2 + 6.0
+    hw = ly/2 + (3.0 if MINI else 6.0)                 # MINI 11-19: narrower so it drops out through the tail-panel opening
     deck = bx(x0, x1, -hw, hw, zdeck - 2.4, zdeck)
     inner = shell_loft(x0 - 2, x1 + 2, SKIN + 0.2)
     webs = [isect(bx(x0 + 2, x1 - 2, sy*9.0 - 1.2, sy*9.0 + 1.2, -400, zdeck), inner) for sy in (-1, 1)]
-    feet = [isect(bx(xx - 4, xx + 4, -hw, hw, -400, zdeck), inner) for xx in (x0 + 6, x1 - 6)]
+    fi = 7.0 if MINI else 6.0                          # MINI 11-19: 1 mm further in, clear of the tail-panel end ledges
+    feet = [isect(bx(xx - 4, xx + 4, -hw, hw, -400, zdeck), inner) for xx in (x0 + fi, x1 - fi)]
     s = deck.fuse(*[w for w in webs + feet if w is not None]).clean()
     cuts = [bx(x + dx - 2.2, x + dx + 2.2, sy*(ly/2 + 2.6) - 1.1, sy*(ly/2 + 2.6) + 1.1, zdeck - 3, zdeck + 1)
             for dx in tie_dx for sy in (-1, 1)]                                       # 4.4 x 2.2 slots for 3.6 mm ties
     cuts += [bx(x - lx/2 + 10, x + lx/2 - 10, -6.5, 6.5, zdeck - 3, zdeck + 1)]       # vent under the item (between the webs)
+    if MINI:                                            # 11-19: bonded to the tail panel; keep 0.5 mm off the panel ledge (rim) so it drops out
+        o = ML.OPENINGS["tail"]
+        cuts.append(isect(band(x0 - 6, x1 + 6, SKIN - 0.1, RIM["t"] + 0.6), opening_region("tail", o["rim"] + 0.5) - opening_region("tail", -o["rim"] - 0.5)))
+        cuts = [c for c in cuts if c is not None]
     return biggest(s.cut(*cuts).clean())
 
 
@@ -336,8 +418,8 @@ JOBS = [f"seg{i}" for i in range(6)] + list(HATCHES) + list(FRAMES) + ["tray_bat
 if SCOUT:       # relay payload out; tray B is replaced by the Altum-PT deck (f_elec)
     JOBS = [j for j in JOBS if j not in ("tray_B", "relay_cradle", "turret_mount")]
 if MINI:
-    JOBS = [f"seg{i}" for i in range(len(BOUNDS) - 1)] + list(HATCHES) + list(FRAMES) + ["tray_bat", "tray_A", "tray_B", "bat_stop", "firewall",
-                                                                                     "push_esc_tray", "sreg_mount"]
+    JOBS = [f"seg{i}" for i in range(len(BOUNDS) - 1)] + list(HATCHES) + list(FRAMES) + ["tray_bat", "firewall", "push_esc_tray", "sreg_mount"]
+    # 11-19: tray_A/tray_B -> m_av_cassette (removable), bat_stop -> m_battery_stop; belly plate / tail panel in m_belly_plate / m_tail_panel
 
 def build(job):
     if job.startswith("seg"):

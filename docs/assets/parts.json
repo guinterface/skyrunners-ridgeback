@@ -21,8 +21,8 @@
      "$9.99 each"
     ]
    ],
-   "job": "Powers the drone: an estimated 2.8 survey flights per charge. Six cells in series give 21.6 V under load; six in parallel give 30 Ah.",
-   "why": "648 Wh in 2.72 kg. In a hot-day hover each cell carries 9.2 A, against a 60 A rating. It gives 60 min of loiter with 20 % left, or 2.8 survey flights per charge.",
+   "job": "Powers the drone: an estimated 2.7 survey flights per charge. Six cells in series give 21.6 V under load; six in parallel give 30 Ah.",
+   "why": "648 Wh in 2.72 kg. In a hot-day hover each cell carries 9.5 A, against a 60 A rating. It gives 57 min of loiter with 20 % left, or 2.7 survey flights per charge.",
    "instead": "Samsung 50S ($6.99 a cell, $72 cheaper): voltage sag at our current not measured, so it needs a bench test first. Samsung 50E: 9.8 A rating, too low. A LiPo pack of the same mass would hold about 40 % less energy.",
    "source": "Sheet 04, Battery_Options and Mission_Energy",
    "connects": [
@@ -85,21 +85,24 @@
    },
    "calc": [
     [
-     "E_{flight} = E_{hover} + E_{climb} + P\\,(t_{survey} + t_{transit}) = 160\\ \\text{Wh}",
+     "E_{flight} = E_{hover} + E_{climb} + P\\,(t_{survey} + t_{transit}) = 165\\ \\text{Wh}",
      "energy for one 15-minute survey, 1 km out and back"
     ],
     [
-     "E_{pack,\\,needed} = \\dfrac{3 \\times 160}{0.85 \\times 0.8} = 706\\ \\text{Wh}",
+     "E_{pack,\\,needed} = \\dfrac{3 \\times 165}{0.85 \\times 0.8} = 729\\ \\text{Wh}",
      "three flights, keeping the cells between 95 % and 10 % and 20 % in reserve"
     ],
     [
-     "706\\ \\text{Wh needed} \\;>\\; 648\\ \\text{Wh in 6S6P}",
-     "so the pack covers 2.8 flights, not 3; a 7P pack would fail the hover-thrust rule (Battery_Options)"
+     "729\\ \\text{Wh needed} \\;>\\; 648\\ \\text{Wh in 6S6P}",
+     "so the pack covers 2.7 flights, not 3; a 7P pack would fail the hover-thrust rule (Battery_Options)"
     ]
    ],
    "calcStep": "step-8",
    "calcSheet": "https://docs.google.com/spreadsheets/d/1EvHCUPGKqOd5r_C8Ovc0WE_cAtYYX4ChRldxYAXIioo/edit",
-   "calcSheetName": "Sheet 04, tab Mission_Energy"
+   "calcSheetName": "Sheet 04, tab Mission_Energy",
+   "heldBy": [
+    "battery_sled"
+   ]
   },
   {
    "id": "pm07",
@@ -120,7 +123,7 @@
     ]
    ],
    "job": "Splits battery power to the five speed controllers and tells the flight controller the battery voltage and current.",
-   "why": "Rated 90 A continuous. Hot-day hover draws 55 A. Its stock 30 A input wire is replaced by two 14 AWG wires and an XT90.",
+   "why": "Rated 90 A continuous. Hot-day hover draws 57 A. Its stock 30 A input wire is replaced by two 14 AWG wires and an XT90.",
    "instead": "PM08D (higher rating) if the wiring tests run hot.",
    "source": "Holybro PM07 page (90 A continuous, 140 A for 60 s; $43.99 on its own), read 19 Nov; sheet 04 Lift_Hover. The Cube's own Power Brick Mini is not used: our hot-day hover current is too high for a small brick.",
    "connects": [
@@ -210,13 +213,16 @@
    },
    "calc": [
     [
-     "I_{pack} = \\dfrac{P_{hover}}{V} = \\dfrac{1195\\ \\text{W}}{21.6\\ \\text{V}} = 55\\ \\text{A} \\;<\\; 90\\ \\text{A}",
+     "I_{pack} = \\dfrac{P_{hover}}{V} = \\dfrac{1237\\ \\text{W}}{21.6\\ \\text{V}} = 57\\ \\text{A} \\;<\\; 90\\ \\text{A}",
      "hot-day hover through the power module"
     ]
    ],
    "calcStep": "step-6",
    "calcSheet": "https://docs.google.com/spreadsheets/d/1EvHCUPGKqOd5r_C8Ovc0WE_cAtYYX4ChRldxYAXIioo/edit",
-   "calcSheetName": "Sheet 04, tab Lift_Hover"
+   "calcSheetName": "Sheet 04, tab Lift_Hover",
+   "heldBy": [
+    "avionics_tray"
+   ]
   },
   {
    "id": "servo_reg",
@@ -296,7 +302,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "tail_panel"
+   ]
   },
   {
    "id": "motor_lift",
@@ -327,7 +336,7 @@
     ]
    ],
    "job": "Lifts the drone straight up for take-off and landing, and holds it in a hover.",
-   "why": "T-Motor's own test table for this motor with an 18 inch prop on 6 cells: 4.2 kg of thrust at full throttle. Our drone weighs 8.7 kg, so each motor carries 2,178 g in a hover, about 55% throttle at sea level and 64% on a hot day at 800 m. Total thrust is 1.57 times the weight on that hot day, above the 1.5 we require for control in gusts. Each motor draws 13.5 A in a hot hover and 33.5 A at full throttle, inside the 40 A speed controller.",
+   "why": "T-Motor's own test table for this motor with an 18 inch prop on 6 cells: 4.2 kg of thrust at full throttle. Our drone weighs 8.9 kg, so each motor carries 2,230 g in a hover, about 56% throttle at sea level and 65% on a hot day at 800 m. Total thrust is 1.54 times the weight on that hot day, above the 1.5 we require for control in gusts. Each motor draws 14.0 A in a hot hover and 33.5 A at full throttle, inside the 40 A speed controller.",
    "instead": "SunnySky V4014 KV330 (Sky4's motors, which we do not have): only 1.20 times the weight on a hot day anyway, below the 1.5 rule.",
    "source": "store.tmotor.com MN5008 test table (read 30 Oct); sheet 04 Lift_Hover",
    "connects": [
@@ -409,17 +418,18 @@
    },
    "calc": [
     [
-     "T_{hover} = \\dfrac{m g}{4} = \\dfrac{8.71 \\times 9.81}{4} = 21.4\\ \\text{N per motor}",
+     "T_{hover} = \\dfrac{m g}{4} = \\dfrac{8.92 \\times 9.81}{4} = 21.9\\ \\text{N per motor}",
      "thrust each motor holds in a hover"
     ],
     [
-     "\\dfrac{T}{W} = \\dfrac{4\\,T_{max}}{m g} = \\dfrac{4 \\times 33.6}{85.4} = 1.57 \\;\\geq\\; 1.5",
+     "\\dfrac{T}{W} = \\dfrac{4\\,T_{max}}{m g} = \\dfrac{4 \\times 33.6}{87.5} = 1.54 \\;\\geq\\; 1.5",
      "hot day at 800 m, from T-Motor's test table"
     ]
    ],
    "calcStep": "step-7",
    "calcSheet": "https://docs.google.com/spreadsheets/d/1EvHCUPGKqOd5r_C8Ovc0WE_cAtYYX4ChRldxYAXIioo/edit",
-   "calcSheetName": "Sheet 04, tab Lift_Hover"
+   "calcSheetName": "Sheet 04, tab Lift_Hover",
+   "heldBy": []
   },
   {
    "id": "prop_lift",
@@ -504,13 +514,14 @@
    },
    "calc": [
     [
-     "\\dfrac{T}{W} = 1.57 \\;\\text{on a hot day}",
+     "\\dfrac{T}{W} = 1.54 \\;\\text{on a hot day}",
      "the maker's thrust figures are for this exact propeller"
     ]
    ],
    "calcStep": "step-7",
    "calcSheet": "https://docs.google.com/spreadsheets/d/1EvHCUPGKqOd5r_C8Ovc0WE_cAtYYX4ChRldxYAXIioo/edit",
-   "calcSheetName": "Sheet 04, tab Lift_Hover"
+   "calcSheetName": "Sheet 04, tab Lift_Hover",
+   "heldBy": []
   },
   {
    "id": "esc_lift",
@@ -623,13 +634,16 @@
      "full throttle, from the motor test table"
     ],
     [
-     "I_{hover} = 13.5\\ \\text{A}",
+     "I_{hover} = 14.0\\ \\text{A}",
      "hot-day hover, per motor"
     ]
    ],
    "calcStep": "step-6",
    "calcSheet": "https://docs.google.com/spreadsheets/d/1EvHCUPGKqOd5r_C8Ovc0WE_cAtYYX4ChRldxYAXIioo/edit",
-   "calcSheetName": "Sheet 04, tab Lift_Hover"
+   "calcSheetName": "Sheet 04, tab Lift_Hover",
+   "heldBy": [
+    "esc_cradle"
+   ]
   },
   {
    "id": "motor_pusher",
@@ -641,7 +655,7 @@
    "china": 1,
    "duty": 0.415,
    "mass": 218,
-   "size": "\u00d8 42 \u00d7 52 mm with the long shaft",
+   "size": "\u00d8 43 \u00d7 65 mm with the long shaft (T-Motor drawing and CAD)",
    "buy": [
     [
      "UnmannedRC",
@@ -655,7 +669,7 @@
     ]
    ],
    "job": "Pushes the drone forward once the wing carries it.",
-   "why": "Maker's test on 6 cells with a 13 inch prop: 3.6 kg static thrust at 34.9 A. In cruise we need 10.1 N; our estimate of the thrust left at 20 m/s is about 19 N, so level flight uses about half of it. Winged climb is limited, so we climb gently or on the rotors.",
+   "why": "Maker's test on 6 cells with a 13 inch prop: 3.6 kg static thrust at 34.9 A. In cruise we need 10.4 N; our estimate of the thrust left at 20 m/s is about 19 N, so level flight uses about half of it. Winged climb is limited, so we climb gently or on the rotors.",
    "instead": "",
    "source": "store.tmotor.com AT3520 test table (read 17 Nov); sheet 04 Pusher",
    "connects": [
@@ -686,7 +700,7 @@
     "china": 1,
     "duty": 0.415,
     "mass": 218,
-    "size": "\u00d8 42 \u00d7 52 mm with the long shaft",
+    "size": "\u00d8 43 \u00d7 65 mm with the long shaft (T-Motor drawing and CAD)",
     "buy": [
      {
       "store": "UnmannedRC",
@@ -726,17 +740,18 @@
    },
    "calc": [
     [
-     "D = \\tfrac12 \\rho V^2 S\\, C_D = 10.1\\ \\text{N}",
+     "D = \\tfrac12 \\rho V^2 S\\, C_D = 10.4\\ \\text{N}",
      "drag at the loiter speed of 20 m/s"
     ],
     [
-     "\\dfrac{D}{T(V)} = \\dfrac{10.1}{19} = 0.52",
+     "\\dfrac{D}{T(V)} = \\dfrac{10.4}{19} = 0.54",
      "share of the pusher's thrust used in level flight (estimate)"
     ]
    ],
    "calcStep": "step-4",
    "calcSheet": "https://docs.google.com/spreadsheets/d/1EvHCUPGKqOd5r_C8Ovc0WE_cAtYYX4ChRldxYAXIioo/edit",
-   "calcSheetName": "Sheet 04, tab Pusher"
+   "calcSheetName": "Sheet 04, tab Pusher",
+   "heldBy": []
   },
   {
    "id": "prop_pusher",
@@ -810,7 +825,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "esc_pusher",
@@ -900,7 +916,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "tail_panel"
+   ]
   },
   {
    "id": "pixhawk",
@@ -1031,7 +1050,10 @@
      "pixhawk_6C"
     ],
     "order": "have it"
-   }
+   },
+   "heldBy": [
+    "avionics_tray"
+   ]
   },
   {
    "id": "gnss",
@@ -1107,7 +1129,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "gps_holder"
+   ]
   },
   {
    "id": "airspeed",
@@ -1181,7 +1206,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "pitot_mount"
+   ]
   },
   {
    "id": "telemetry",
@@ -1265,7 +1293,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "avionics_tray"
+   ]
   },
   {
    "id": "rc_rx",
@@ -1337,7 +1368,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "avionics_tray"
+   ]
   },
   {
    "id": "remote_id",
@@ -1401,7 +1435,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "avionics_tray"
+   ]
   },
   {
    "id": "servos",
@@ -1508,7 +1545,8 @@
    ],
    "calcStep": null,
    "calcSheet": "https://docs.google.com/spreadsheets/d/1rwso5gjQF-HLo9VCYDpsfytdDkggvcBscgzXu6QdlQI/edit",
-   "calcSheetName": "Sheet 05, tab Structure_Stability"
+   "calcSheetName": "Sheet 05, tab Structure_Stability",
+   "heldBy": []
   },
   {
    "id": "wing",
@@ -1585,17 +1623,18 @@
    },
    "calc": [
     [
-     "V_s = \\sqrt{\\dfrac{2W}{\\rho S C_{L,\\max}}} = 15.3\\ \\text{m/s}",
+     "V_s = \\sqrt{\\dfrac{2W}{\\rho S C_{L,\\max}}} = 15.5\\ \\text{m/s}",
      "stall speed with 0.50 m\u00b2 and the SD7037 airfoil"
     ],
     [
-     "V_{loiter} = 1.3\\,V_s = 19.9\\ \\text{m/s}",
+     "V_{loiter} = 1.3\\,V_s = 20.2\\ \\text{m/s}",
      "loiter speed, kept above stall for turns and gusts"
     ]
    ],
    "calcStep": "step-2",
    "calcSheet": "https://docs.google.com/spreadsheets/d/1I8fQDjtHoa6atwBaMcrL3A-_c-dVePUDLHclCbcTErg/edit",
-   "calcSheetName": "Sheet 03, tab Aero_Cruise"
+   "calcSheetName": "Sheet 03, tab Aero_Cruise",
+   "heldBy": []
   },
   {
    "id": "booms",
@@ -1679,7 +1718,8 @@
     "label": "To make",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "fuselage",
@@ -1696,12 +1736,20 @@
    "source": "CAD",
    "connects": [
     [
-     "battery",
-     "tray"
+     "mount_avionics_tray",
+     "nose bay under the top hatch"
     ],
     [
-     "pixhawk",
-     "tray A"
+     "mount_battery_sled",
+     "battery bay under the top hatch"
+    ],
+    [
+     "mount_belly_plate",
+     "belly opening"
+    ],
+    [
+     "mount_tail_panel",
+     "tail-cone opening"
     ]
    ],
    "nodes": [
@@ -1730,12 +1778,20 @@
     "source": "CAD",
     "connects": [
      [
-      "battery",
-      "tray"
+      "mount_avionics_tray",
+      "nose bay under the top hatch"
      ],
      [
-      "pixhawk",
-      "tray A"
+      "mount_battery_sled",
+      "battery bay under the top hatch"
+     ],
+     [
+      "mount_belly_plate",
+      "belly opening"
+     ],
+     [
+      "mount_tail_panel",
+      "tail-cone opening"
      ]
     ],
     "nodes": [
@@ -1749,7 +1805,8 @@
     "label": "To make",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "tail",
@@ -1821,7 +1878,8 @@
     "label": "To make",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "payload_computer",
@@ -1838,7 +1896,7 @@
     "c": [
      110,
      0,
-     -90
+     -87
     ],
     "dims": [
      85,
@@ -1915,7 +1973,7 @@
      "c": [
       110,
       0,
-      -90
+      -87
      ],
      "dims": [
       85,
@@ -1977,7 +2035,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "belly_plate"
+   ]
   },
   {
    "id": "payload_power",
@@ -1993,8 +2054,8 @@
    "box": {
     "c": [
      150,
-     40,
-     -100
+     42,
+     -95.25
     ],
     "dims": [
      25.4,
@@ -2049,8 +2110,8 @@
     "box": {
      "c": [
       150,
-      40,
-      -100
+      42,
+      -95.25
      ],
      "dims": [
       25.4,
@@ -2091,7 +2152,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "belly_plate"
+   ]
   },
   {
    "id": "thermal_cam",
@@ -2106,7 +2170,7 @@
    "power_w": 1,
    "box": {
     "c": [
-     60,
+     65,
      -35,
      -126
     ],
@@ -2184,7 +2248,7 @@
     "power_w": 1,
     "box": {
      "c": [
-      60,
+      65,
       -35,
       -126
      ],
@@ -2249,7 +2313,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "belly_plate"
+   ]
   },
   {
    "id": "rgb_cam",
@@ -2264,7 +2331,7 @@
    "power_w": 1,
    "box": {
     "c": [
-     60,
+     65,
      30,
      -124
     ],
@@ -2322,7 +2389,7 @@
     "power_w": 1,
     "box": {
      "c": [
-      60,
+      65,
       30,
       -124
      ],
@@ -2367,7 +2434,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "belly_plate"
+   ]
   },
   {
    "id": "spot_sensor",
@@ -2535,7 +2605,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "belly_plate"
+   ]
   },
   {
    "id": "air_sensor",
@@ -2550,9 +2623,9 @@
    "power_w": 0,
    "box": {
     "c": [
-     -40,
-     0,
-     -150
+     58,
+     -4,
+     -156
     ],
     "dims": [
      25,
@@ -2608,9 +2681,9 @@
     "power_w": 0,
     "box": {
      "c": [
-      -40,
-      0,
-      -150
+      58,
+      -4,
+      -156
      ],
      "dims": [
       25,
@@ -2653,7 +2726,10 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "belly_plate"
+   ]
   },
   {
    "id": "nir_channel",
@@ -2781,7 +2857,10 @@
     "label": "Option",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": [
+    "belly_plate"
+   ]
   },
   {
    "id": "rc_tx",
@@ -2859,7 +2938,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "charger",
@@ -2927,7 +3007,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "pack_bms",
@@ -2973,7 +3054,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "tubes_main",
@@ -3032,7 +3114,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "tubes_extra",
@@ -3091,7 +3174,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "rods_3mm",
@@ -3150,7 +3234,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "carbon_plates",
@@ -3209,7 +3294,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "wire_pack",
@@ -3266,7 +3352,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "xt90",
@@ -3323,7 +3410,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "servo_ext",
@@ -3380,7 +3468,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "bullets",
@@ -3426,7 +3515,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "heat_shrink",
@@ -3472,7 +3562,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "xt60",
@@ -3518,7 +3609,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "xt30",
@@ -3564,7 +3656,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "balance_lead",
@@ -3610,7 +3703,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "jst_gh",
@@ -3656,7 +3750,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "solder",
@@ -3702,7 +3797,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "lw_asa",
@@ -3760,7 +3856,8 @@
     "connects": [],
     "nodes": [],
     "order": "have it"
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "petg_cf",
@@ -3817,7 +3914,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "small_spools",
@@ -3863,7 +3961,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "m5_inserts",
@@ -3909,21 +4008,22 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   },
   {
    "id": "hardware",
-   "name": "Hardware (inserts, bolts, magnets, hinges, epoxy)",
+   "name": "Other hardware (bolts, hinges, epoxy)",
    "system": "materials",
    "qty": 1,
    "status": "buy",
-   "price": 120.0,
+   "price": 70.0,
    "mass": 0,
    "buy": [],
    "where": "hardware store",
-   "job": "Inserts, bolts, magnets, hinges and epoxy for assembly.",
+   "job": "Bolts, hinges and epoxy for assembly. Inserts, magnets, standoffs and straps for the electronics mounts are the \"Mount hardware\" row.",
    "why": "",
-   "source": "[A] check club/lab stock",
+   "source": "[A] check club/lab stock; was $120 before the mount hardware got its own store-priced row (11-19)",
    "connects": [],
    "nodes": [],
    "instead": "",
@@ -3935,17 +4035,17 @@
    "editLine": 969,
    "raw": {
     "id": "hardware",
-    "name": "Hardware (inserts, bolts, magnets, hinges, epoxy)",
+    "name": "Other hardware (bolts, hinges, epoxy)",
     "system": "materials",
     "qty": 1,
     "status": "buy",
-    "price": 120.0,
+    "price": 70.0,
     "mass": 0,
     "buy": [],
     "where": "hardware store",
-    "job": "Inserts, bolts, magnets, hinges and epoxy for assembly.",
+    "job": "Bolts, hinges and epoxy for assembly. Inserts, magnets, standoffs and straps for the electronics mounts are the \"Mount hardware\" row.",
     "why": "",
-    "source": "[A] check club/lab stock",
+    "source": "[A] check club/lab stock; was $120 before the mount hardware got its own store-priced row (11-19)",
     "connects": [],
     "nodes": []
    },
@@ -3955,7 +4055,838 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
+  },
+  {
+   "id": "mount_hardware",
+   "name": "Mount hardware: thumb screws, inserts, standoffs, straps, hatch magnets",
+   "system": "airframe",
+   "qty": 1,
+   "status": "buy",
+   "price": 99.15,
+   "mass": 60,
+   "buy": [
+    [
+     "Harfington (uxcell): M3 x 12 knurled thumb screw, 5-pack (\u00d72)",
+     "https://www.harfington.com/products/p-1479356",
+     "$7.77 each"
+    ],
+    [
+     "Micro Fasteners WRT04: nylon retaining washer #4 (50)",
+     "https://www.microfasteners.com/products/wrt04",
+     "$2.40"
+    ],
+    [
+     "CNC Kitchen: heat-set insert M3 x 5.7 (100)",
+     "https://cnckitchen.store/products/heat-set-insert-m3-x-5-7-100-pieces",
+     "$10.90"
+    ],
+    [
+     "Harfington (uxcell): M3 nylon standoff kit, 260 pcs",
+     "https://www.harfington.com/products/p-1498270",
+     "$9.79"
+    ],
+    [
+     "RaceDayQuads: RDQ Kevlar micro strap 180 x 10 mm",
+     "https://www.racedayquads.com/products/rdq-180mm-kevlar-micro-battery-strap-w-woven-rubber-grip-metal-buckle-3pk",
+     "$6.99"
+    ],
+    [
+     "RaceDayQuads: Lumenier Kevlar battery strap 20 x 500 mm",
+     "https://www.racedayquads.com/products/lumenier-indestructible-kevlar-lipo-strap-20x500mm-2pcs",
+     "$10.49"
+    ],
+    [
+     "Micro Fasteners SBMS3008: M3 x 8 stainless button-head screw (20)",
+     "https://www.microfasteners.com/products/sbms3008",
+     "$3.30"
+    ],
+    [
+     "Adafruit: Adafruit 3299 M2.5 nylon screw and standoff set",
+     "https://www.adafruit.com/product/3299",
+     "$16.95"
+    ],
+    [
+     "Total Element: 1/4 x 1/8 in N42 disc magnets (100)",
+     "https://www.totalelement.com/products/1-4-x-1-8-inch-neodymium-rare-earth-permanent-disc-magnets-n42-100-pack",
+     "$22.79"
+    ]
+   ],
+   "job": "Holds the electronics mounts in place so each group comes out by hand: captive thumb screws, heat-set inserts, nylon standoffs for the boards, battery straps and the hatch magnets.",
+   "why": "Every price read on the store page on 19 Nov. Two 5-packs of thumb screws (6 needed).",
+   "source": "Mounts design 11-19 (data/mounts.json, MOUNTS.md); mass 60 g is our estimate [A]",
+   "connects": [],
+   "nodes": [],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 985,
+   "raw": {
+    "id": "mount_hardware",
+    "name": "Mount hardware: thumb screws, inserts, standoffs, straps, hatch magnets",
+    "system": "airframe",
+    "qty": 1,
+    "status": "buy",
+    "price": 99.15,
+    "mass": 60,
+    "buy": [
+     {
+      "store": "Harfington (uxcell): M3 x 12 knurled thumb screw, 5-pack (\u00d72)",
+      "link": "https://www.harfington.com/products/p-1479356",
+      "price": "$7.77 each"
+     },
+     {
+      "store": "Micro Fasteners WRT04: nylon retaining washer #4 (50)",
+      "link": "https://www.microfasteners.com/products/wrt04",
+      "price": "$2.40"
+     },
+     {
+      "store": "CNC Kitchen: heat-set insert M3 x 5.7 (100)",
+      "link": "https://cnckitchen.store/products/heat-set-insert-m3-x-5-7-100-pieces",
+      "price": "$10.90"
+     },
+     {
+      "store": "Harfington (uxcell): M3 nylon standoff kit, 260 pcs",
+      "link": "https://www.harfington.com/products/p-1498270",
+      "price": "$9.79"
+     },
+     {
+      "store": "RaceDayQuads: RDQ Kevlar micro strap 180 x 10 mm",
+      "link": "https://www.racedayquads.com/products/rdq-180mm-kevlar-micro-battery-strap-w-woven-rubber-grip-metal-buckle-3pk",
+      "price": "$6.99"
+     },
+     {
+      "store": "RaceDayQuads: Lumenier Kevlar battery strap 20 x 500 mm",
+      "link": "https://www.racedayquads.com/products/lumenier-indestructible-kevlar-lipo-strap-20x500mm-2pcs",
+      "price": "$10.49"
+     },
+     {
+      "store": "Micro Fasteners SBMS3008: M3 x 8 stainless button-head screw (20)",
+      "link": "https://www.microfasteners.com/products/sbms3008",
+      "price": "$3.30"
+     },
+     {
+      "store": "Adafruit: Adafruit 3299 M2.5 nylon screw and standoff set",
+      "link": "https://www.adafruit.com/product/3299",
+      "price": "$16.95"
+     },
+     {
+      "store": "Total Element: 1/4 x 1/8 in N42 disc magnets (100)",
+      "link": "https://www.totalelement.com/products/1-4-x-1-8-inch-neodymium-rare-earth-permanent-disc-magnets-n42-100-pack",
+      "price": "$22.79"
+     }
+    ],
+    "job": "Holds the electronics mounts in place so each group comes out by hand: captive thumb screws, heat-set inserts, nylon standoffs for the boards, battery straps and the hatch magnets.",
+    "why": "Every price read on the store page on 19 Nov. Two 5-packs of thumb screws (6 needed).",
+    "source": "Mounts design 11-19 (data/mounts.json, MOUNTS.md); mass 60 g is our estimate [A]",
+    "connects": [],
+    "nodes": []
+   },
+   "order": {
+    "key": "mount_hardware",
+    "state": "to order",
+    "label": "To order",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": []
+  },
+  {
+   "id": "mount_avionics_tray",
+   "name": "Avionics cassette (removable tray in the nose)",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 53.0,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Holds the Cube Orange flight controller, the PM07 power module, the RC receiver, the telemetry radio and the Remote ID module so they can come out quickly, by hand where possible.",
+   "why": "2 tongues slide down vertical grooves in 2 rail blocks (F1, F2); 2 captive M3 thumb screws through the end-wall tabs into heat-set inserts in the rail blocks. Cube carrier hard-mounted on 4 M3 nylon standoffs (the Cube isolates its IMUs inside); radios and Remote ID on hook-and-loop through deck slots; PM07 on 4 M3 standoffs on the aft wall.",
+   "source": "cad/fab/m_avionics_cassette.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [
+    [
+     "pixhawk",
+     "holds"
+    ],
+    [
+     "pm07",
+     "holds"
+    ],
+    [
+     "rc_rx",
+     "holds"
+    ],
+    [
+     "telemetry",
+     "holds"
+    ],
+    [
+     "remote_id",
+     "holds"
+    ]
+   ],
+   "nodes": [
+    "mount_avionics_cassette"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1010,
+   "raw": {
+    "id": "mount_avionics_tray",
+    "name": "Avionics cassette (removable tray in the nose)",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 53.0,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Holds the Cube Orange flight controller, the PM07 power module, the RC receiver, the telemetry radio and the Remote ID module so they can come out quickly, by hand where possible.",
+    "why": "2 tongues slide down vertical grooves in 2 rail blocks (F1, F2); 2 captive M3 thumb screws through the end-wall tabs into heat-set inserts in the rail blocks. Cube carrier hard-mounted on 4 M3 nylon standoffs (the Cube isolates its IMUs inside); radios and Remote ID on hook-and-loop through deck slots; PM07 on 4 M3 standoffs on the aft wall.",
+    "source": "cad/fab/m_avionics_cassette.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [
+     [
+      "pixhawk",
+      "holds"
+     ],
+     [
+      "pm07",
+      "holds"
+     ],
+     [
+      "rc_rx",
+      "holds"
+     ],
+     [
+      "telemetry",
+      "holds"
+     ],
+     [
+      "remote_id",
+      "holds"
+     ]
+    ],
+    "nodes": [
+     "mount_avionics_cassette"
+    ]
+   },
+   "order": {
+    "key": "mount_avionics_tray",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "avionics_tray"
+  },
+  {
+   "id": "mount_avionics_rails",
+   "name": "Cassette rail blocks (bonded to frames F1 and F2)",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 34.2,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Fixed part that the removable mounts screw or slide into.",
+   "why": "Epoxy to the F1 aft face / F2 front face and to the shell, before the shell segments are joined; 1 M3 heat-set insert each",
+   "source": "cad/fab/m_av_rail_aft.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [],
+   "nodes": [
+    "mount_av_rail_aft",
+    "mount_av_rail_fwd"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1026,
+   "raw": {
+    "id": "mount_avionics_rails",
+    "name": "Cassette rail blocks (bonded to frames F1 and F2)",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 34.2,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Fixed part that the removable mounts screw or slide into.",
+    "why": "Epoxy to the F1 aft face / F2 front face and to the shell, before the shell segments are joined; 1 M3 heat-set insert each",
+    "source": "cad/fab/m_av_rail_aft.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [],
+    "nodes": [
+     "mount_av_rail_aft",
+     "mount_av_rail_fwd"
+    ]
+   },
+   "order": {
+    "key": "mount_avionics_rails",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "avionics_rails"
+  },
+  {
+   "id": "mount_battery_sled",
+   "name": "Battery sled",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 42.5,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Holds the battery so it can come out quickly, by hand where possible.",
+   "why": "Sled + pack sit on the carbon tray against the aft end stop (sets the CG every time), between 2 side guides; 2 straps through the tray slots at x -87.6 and -11.6",
+   "source": "cad/fab/m_battery_sled.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [
+    [
+     "battery",
+     "holds"
+    ]
+   ],
+   "nodes": [
+    "mount_battery_sled"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1042,
+   "raw": {
+    "id": "mount_battery_sled",
+    "name": "Battery sled",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 42.5,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Holds the battery so it can come out quickly, by hand where possible.",
+    "why": "Sled + pack sit on the carbon tray against the aft end stop (sets the CG every time), between 2 side guides; 2 straps through the tray slots at x -87.6 and -11.6",
+    "source": "cad/fab/m_battery_sled.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [
+     [
+      "battery",
+      "holds"
+     ]
+    ],
+    "nodes": [
+     "mount_battery_sled"
+    ]
+   },
+   "order": {
+    "key": "mount_battery_sled",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "battery_sled"
+  },
+  {
+   "id": "mount_battery_stop",
+   "name": "Battery end stop and side guides",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 12.8,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Fixed part that the removable mounts screw or slide into.",
+   "why": "2 M3 x 8 screws + nylon nuts through the carbon tray (holes at x 33.9, y +/-30)",
+   "source": "cad/fab/m_battery_stop.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [],
+   "nodes": [
+    "mount_battery_stop"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1058,
+   "raw": {
+    "id": "mount_battery_stop",
+    "name": "Battery end stop and side guides",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 12.8,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Fixed part that the removable mounts screw or slide into.",
+    "why": "2 M3 x 8 screws + nylon nuts through the carbon tray (holes at x 33.9, y +/-30)",
+    "source": "cad/fab/m_battery_stop.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [],
+    "nodes": [
+     "mount_battery_stop"
+    ]
+   },
+   "order": {
+    "key": "mount_battery_stop",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "battery_stop"
+  },
+  {
+   "id": "mount_belly_plate",
+   "name": "Belly sensor plate with the Pi deck (removable)",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 82.3,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Holds the Raspberry Pi, its 5 V regulator, the thermal camera, the colour camera, the 1610 nm sensor, the air sensor and the 850 nm channel so they can come out quickly, by hand where possible.",
+   "why": "4 captive M3 thumb screws up into heat-set inserts in bosses on frames F3 and F4; sensors on corner posts with 1 zip tie each; Pi 5 on 4 M2.5 nylon standoffs on the deck; deck on 4 legs, M3 screws from below into inserts. Open: the 1610 nm sensor's upward diode cannot see the sky from the belly (the wing is above it); it needs a diffuser puck on top and a third payload plug, not drawn yet.",
+   "source": "cad/fab/m_belly_plate.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [
+    [
+     "payload_computer",
+     "holds"
+    ],
+    [
+     "payload_power",
+     "holds"
+    ],
+    [
+     "thermal_cam",
+     "holds"
+    ],
+    [
+     "rgb_cam",
+     "holds"
+    ],
+    [
+     "spot_sensor",
+     "holds"
+    ],
+    [
+     "air_sensor",
+     "holds"
+    ],
+    [
+     "nir_channel",
+     "holds"
+    ]
+   ],
+   "nodes": [
+    "mount_belly_plate",
+    "mount_belly_deck"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1074,
+   "raw": {
+    "id": "mount_belly_plate",
+    "name": "Belly sensor plate with the Pi deck (removable)",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 82.3,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Holds the Raspberry Pi, its 5 V regulator, the thermal camera, the colour camera, the 1610 nm sensor, the air sensor and the 850 nm channel so they can come out quickly, by hand where possible.",
+    "why": "4 captive M3 thumb screws up into heat-set inserts in bosses on frames F3 and F4; sensors on corner posts with 1 zip tie each; Pi 5 on 4 M2.5 nylon standoffs on the deck; deck on 4 legs, M3 screws from below into inserts. Open: the 1610 nm sensor's upward diode cannot see the sky from the belly (the wing is above it); it needs a diffuser puck on top and a third payload plug, not drawn yet.",
+    "source": "cad/fab/m_belly_plate.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [
+     [
+      "payload_computer",
+      "holds"
+     ],
+     [
+      "payload_power",
+      "holds"
+     ],
+     [
+      "thermal_cam",
+      "holds"
+     ],
+     [
+      "rgb_cam",
+      "holds"
+     ],
+     [
+      "spot_sensor",
+      "holds"
+     ],
+     [
+      "air_sensor",
+      "holds"
+     ],
+     [
+      "nir_channel",
+      "holds"
+     ]
+    ],
+    "nodes": [
+     "mount_belly_plate",
+     "mount_belly_deck"
+    ]
+   },
+   "order": {
+    "key": "mount_belly_plate",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "belly_plate"
+  },
+  {
+   "id": "mount_tail_panel",
+   "name": "Tail-cone access panel (pusher ESC and servo regulator ride on it)",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 21.7,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Holds the pusher ESC and the servo regulator so they can come out quickly, by hand where possible.",
+   "why": "4 M3 x 8 button-head screws into heat-set inserts in 4 small blocks bonded on the end ledges; the existing ESC tray and regulator mount are bonded to the panel instead of the shell floor; ESC and regulator on 2 cable ties each",
+   "source": "cad/fab/m_tail_panel.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [
+    [
+     "esc_pusher",
+     "holds"
+    ],
+    [
+     "servo_reg",
+     "holds"
+    ]
+   ],
+   "nodes": [
+    "mount_tail_panel"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1090,
+   "raw": {
+    "id": "mount_tail_panel",
+    "name": "Tail-cone access panel (pusher ESC and servo regulator ride on it)",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 21.7,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Holds the pusher ESC and the servo regulator so they can come out quickly, by hand where possible.",
+    "why": "4 M3 x 8 button-head screws into heat-set inserts in 4 small blocks bonded on the end ledges; the existing ESC tray and regulator mount are bonded to the panel instead of the shell floor; ESC and regulator on 2 cable ties each",
+    "source": "cad/fab/m_tail_panel.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [
+     [
+      "esc_pusher",
+      "holds"
+     ],
+     [
+      "servo_reg",
+      "holds"
+     ]
+    ],
+    "nodes": [
+     "mount_tail_panel"
+    ]
+   },
+   "order": {
+    "key": "mount_tail_panel",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "tail_panel"
+  },
+  {
+   "id": "mount_tail_insert_blocks",
+   "name": "Tail-panel insert blocks (4, bonded)",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 3.2,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Fixed part that the removable mounts screw or slide into.",
+   "why": "Epoxy on the end ledges of fuse_seg4",
+   "source": "cad/fab/m_tail_insert_block_0.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [],
+   "nodes": [
+    "mount_tail_insert_block_*"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1106,
+   "raw": {
+    "id": "mount_tail_insert_blocks",
+    "name": "Tail-panel insert blocks (4, bonded)",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 3.2,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Fixed part that the removable mounts screw or slide into.",
+    "why": "Epoxy on the end ledges of fuse_seg4",
+    "source": "cad/fab/m_tail_insert_block_0.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [],
+    "nodes": [
+     "mount_tail_insert_block_*"
+    ]
+   },
+   "order": {
+    "key": "mount_tail_insert_blocks",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "tail_insert_blocks"
+  },
+  {
+   "id": "mount_esc_cradle",
+   "name": "Lift ESC cradle (one in each boom nacelle)",
+   "system": "airframe",
+   "qty": 4,
+   "status": "print",
+   "price": 0,
+   "mass": 4.4,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Holds one lift ESC so it can come out quickly, by hand where possible.",
+   "why": "2 C-clips snap on the 30 mm boom tube; ESC on its side on the floor, 2 zip ties; nacelle halves closed with tape (never glue)",
+   "source": "cad/fab/m_esc_cradle.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [
+    [
+     "esc_lift",
+     "holds"
+    ]
+   ],
+   "nodes": [
+    "mount_esc_cradle"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1122,
+   "raw": {
+    "id": "mount_esc_cradle",
+    "name": "Lift ESC cradle (one in each boom nacelle)",
+    "system": "airframe",
+    "qty": 4,
+    "status": "print",
+    "price": 0,
+    "mass": 4.4,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Holds one lift ESC so it can come out quickly, by hand where possible.",
+    "why": "2 C-clips snap on the 30 mm boom tube; ESC on its side on the floor, 2 zip ties; nacelle halves closed with tape (never glue)",
+    "source": "cad/fab/m_esc_cradle.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [
+     [
+      "esc_lift",
+      "holds"
+     ]
+    ],
+    "nodes": [
+     "mount_esc_cradle"
+    ]
+   },
+   "order": {
+    "key": "mount_esc_cradle",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "esc_cradle"
+  },
+  {
+   "id": "mount_gps_holder",
+   "name": "GPS holder on the right wing pad",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 9.0,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Holds the GPS so it can come out quickly, by hand where possible.",
+   "why": "Cup screwed to the existing GPS pad on the right wing with 4 M3 x 8 into its inserts; puck on one VHB pad, arrow forward (front notch)",
+   "source": "cad/fab/m_gps_holder.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [
+    [
+     "gnss",
+     "holds"
+    ]
+   ],
+   "nodes": [
+    "mount_gps_holder"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1138,
+   "raw": {
+    "id": "mount_gps_holder",
+    "name": "GPS holder on the right wing pad",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 9.0,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Holds the GPS so it can come out quickly, by hand where possible.",
+    "why": "Cup screwed to the existing GPS pad on the right wing with 4 M3 x 8 into its inserts; puck on one VHB pad, arrow forward (front notch)",
+    "source": "cad/fab/m_gps_holder.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [
+     [
+      "gnss",
+      "holds"
+     ]
+    ],
+    "nodes": [
+     "mount_gps_holder"
+    ]
+   },
+   "order": {
+    "key": "mount_gps_holder",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "gps_holder"
+  },
+  {
+   "id": "mount_pitot_mount",
+   "name": "Pitot and airspeed bulkhead in the nose",
+   "system": "airframe",
+   "qty": 1,
+   "status": "print",
+   "price": 0,
+   "mass": 23.3,
+   "size": "CF-PETG, printed",
+   "buy": [],
+   "job": "Holds the airspeed sensor so it can come out quickly, by hand where possible.",
+   "why": "Bulkhead bonded inside the nose cap at x -352; PT40 tube through the nose tip and the bulkhead; MS5525 board on 2 M2.5 inserts on the aft face",
+   "source": "cad/fab/m_pitot_bulkhead.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+   "connects": [
+    [
+     "airspeed",
+     "holds"
+    ]
+   ],
+   "nodes": [
+    "mount_pitot_bulkhead"
+   ],
+   "instead": "",
+   "where": "",
+   "china": 0,
+   "duty": 0,
+   "systemName": "Airframe",
+   "color": "#b9bcb4",
+   "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
+   "editLine": 1154,
+   "raw": {
+    "id": "mount_pitot_mount",
+    "name": "Pitot and airspeed bulkhead in the nose",
+    "system": "airframe",
+    "qty": 1,
+    "status": "print",
+    "price": 0,
+    "mass": 23.3,
+    "size": "CF-PETG, printed",
+    "buy": [],
+    "job": "Holds the airspeed sensor so it can come out quickly, by hand where possible.",
+    "why": "Bulkhead bonded inside the nose cap at x -352; PT40 tube through the nose tip and the bulkhead; MS5525 board on 2 M2.5 inserts on the aft face",
+    "source": "cad/fab/m_pitot_bulkhead.py; mass from CAD volume \u00d7 density \u00d7 infill [C] (cad/fab/mounts_mass.py)",
+    "connects": [
+     [
+      "airspeed",
+      "holds"
+     ]
+    ],
+    "nodes": [
+     "mount_pitot_bulkhead"
+    ]
+   },
+   "order": {
+    "key": "mount_pitot_mount",
+    "state": "to order",
+    "label": "To make",
+    "date": "",
+    "by": ""
+   },
+   "heldBy": [],
+   "mount": "pitot_mount"
   },
   {
    "id": "nozzle",
@@ -3984,7 +4915,7 @@
    "systemName": "Materials, wiring and hardware",
    "color": "#7d7466",
    "edit": "https://github.com/guinterface/skyrunners-ridgeback/edit/main/data/parts.toml",
-   "editLine": 985,
+   "editLine": 1170,
    "raw": {
     "id": "nozzle",
     "name": "Prusa ObXidian 0.4 nozzle (only if needed)",
@@ -4012,7 +4943,8 @@
     "label": "To order",
     "date": "",
     "by": ""
-   }
+   },
+   "heldBy": []
   }
  ],
  "systems": {
@@ -4051,6 +4983,590 @@
   "materials": {
    "name": "Materials, wiring and hardware",
    "color": "#7d7466"
+  }
+ },
+ "models": {
+  "motor_lift": "08ce97e9",
+  "prop_lift": "7339dd17",
+  "esc_lift": "7aa13381",
+  "motor_pusher": "be1c09a6",
+  "prop_pusher": "93e85225",
+  "esc_pusher": "7aa13381",
+  "pixhawk": "ab984d10",
+  "pm07": "28a16cba",
+  "gnss": "167e7b9c",
+  "airspeed": "05bfff22",
+  "telemetry": "83a6fa93",
+  "rc_rx": "bc5f44dc",
+  "remote_id": "08f93a76",
+  "servos": "9b173206",
+  "servo_reg": "d60c67b0",
+  "battery": "7ee20ecd",
+  "payload_computer": "93c1dfd3",
+  "payload_power": "6fd45980",
+  "thermal_cam": "c24a135d",
+  "rgb_cam": "efa604c1",
+  "air_sensor": "b208529f",
+  "spot_sensor": "a24d330c",
+  "nir_channel": "0fd5a992"
+ },
+ "mounts": [
+  {
+   "id": "avionics_tray",
+   "name": "Avionics cassette (removable tray in the nose)",
+   "kind": "mount",
+   "holds": [
+    "pixhawk",
+    "pm07",
+    "rc_rx",
+    "telemetry",
+    "remote_id"
+   ],
+   "fastening": "2 tongues slide down vertical grooves in 2 rail blocks (F1, F2); 2 captive M3 thumb screws through the end-wall tabs into heat-set inserts in the rail blocks. Cube carrier hard-mounted on 4 M3 nylon standoffs (the Cube isolates its IMUs inside); radios and Remote ID on hook-and-loop through deck slots; PM07 on 4 M3 standoffs on the aft wall.",
+   "remove_steps": [
+    "Lift the avionics hatch off (magnets).",
+    "Unplug the battery XT90 in the battery bay (or keep the battery out).",
+    "Unplug at the cassette: 5 ESC feeds (XT60) and 2 XT30 (servo regulator, payload) from the PM07 leads; servo/ESC signal leads from the carrier servo rail (9 x 3-pin, labelled M1-M5, A1-A4); GPS (GPS1), airspeed (I2C), payload MAVLink (TELEM2).",
+    "Undo the 2 thumb screws (they stay in the tabs).",
+    "Lift the cassette straight up by its two end-wall handles (110 mm)."
+   ],
+   "tools": "none",
+   "time_to_remove_s": 240,
+   "time_note": "estimate [A]: ~20 plugs at ~8 s + screws + hatch; not timed on hardware. USB and microSD of the Cube are reachable with the hatch off, without removing anything.",
+   "connectors": [
+    {
+     "part": "pm07",
+     "connector": "XT90H (battery input)",
+     "goes_to": "battery",
+     "faces": "hatch side (mated pair lies on top of the pack front in the battery bay)"
+    },
+    {
+     "part": "pm07",
+     "connector": "XT60 x 5 (14 AWG feeds)",
+     "goes_to": "esc_lift x4, esc_pusher",
+     "faces": "hatch side (pigtails out of the aft cable window)"
+    },
+    {
+     "part": "pm07",
+     "connector": "XT30 x 2",
+     "goes_to": "servo_reg, payload_power",
+     "faces": "hatch side"
+    },
+    {
+     "part": "pm07",
+     "connector": "6-pin power cable",
+     "goes_to": "pixhawk (Cube carrier POWER1)",
+     "faces": "hatch side"
+    },
+    {
+     "part": "pixhawk",
+     "connector": "servo rail 0.1 in headers (MAIN 1-5 ESCs, AUX 1-4 servos)",
+     "goes_to": "esc_lift, esc_pusher, servos",
+     "faces": "hatch side (+y end of the carrier, turned 90 deg) [A: MEASURE on the ADS-B carrier]"
+    },
+    {
+     "part": "pixhawk",
+     "connector": "JST-GH 10-pin GPS1",
+     "goes_to": "gnss",
+     "faces": "hatch side"
+    },
+    {
+     "part": "pixhawk",
+     "connector": "JST-GH 4-pin I2C",
+     "goes_to": "airspeed",
+     "faces": "hatch side"
+    },
+    {
+     "part": "pixhawk",
+     "connector": "JST-GH 6-pin TELEM1",
+     "goes_to": "telemetry (on the cassette)",
+     "faces": "hatch side"
+    },
+    {
+     "part": "pixhawk",
+     "connector": "JST-GH 6-pin TELEM2",
+     "goes_to": "payload_computer",
+     "faces": "hatch side"
+    },
+    {
+     "part": "pixhawk",
+     "connector": "RCIN (3-pin) / serial",
+     "goes_to": "rc_rx (on the cassette)",
+     "faces": "hatch side"
+    },
+    {
+     "part": "pixhawk",
+     "connector": "JST-GH serial",
+     "goes_to": "remote_id (on the cassette)",
+     "faces": "hatch side"
+    }
+   ],
+   "wiring_route": "Power: battery XT90 in the battery bay -> PM07 lead over the F2 ring (frames are open rings) -> PM07 on the cassette aft wall; 5 ESC feeds + 2 XT30 leave by the aft cable windows with a 100 mm slack loop each, then run aft along the left fuselage wall beside the battery (y 68..83 gap) to the wing root. Signals: carrier servo rail leads run aft along the right wall; GPS lead up into the wing root; airspeed I2C forward through F1. Labels: every lead gets a printed label in heat shrink at both ends (M1..M5, A1..A4, GPS, I2C, TEL2, BAT, ESC1..5, SREG, PAY).",
+   "motion": {
+    "type": "lift",
+    "vector_mm": [
+     0,
+     0,
+     1
+    ],
+    "distance_mm": 110,
+    "after": [
+     "hatch:avionics"
+    ],
+    "frame": "CAD mm, x aft, y right, z up; vector_mm is a unit direction, distance_mm the travel"
+   },
+   "nodes": [
+    "mount:avionics_tray"
+   ],
+   "carries_nodes": [
+    "part:pixhawk_6C",
+    "part:power_module_PM07",
+    "part:telemetry_radio",
+    "part:rc_receiver",
+    "part:remote_id_ruko_R111S"
+   ]
+  },
+  {
+   "id": "avionics_rails",
+   "name": "Cassette rail blocks (bonded to frames F1 and F2)",
+   "kind": "mount",
+   "holds": [],
+   "fastening": "Epoxy to the F1 aft face / F2 front face and to the shell, before the shell segments are joined; 1 M3 heat-set insert each",
+   "remove_steps": [
+    "Not removable (bonded)."
+   ],
+   "tools": "none",
+   "time_to_remove_s": null,
+   "connectors": [],
+   "wiring_route": "",
+   "motion": null,
+   "nodes": [
+    "mount:avionics_rails"
+   ],
+   "carries_nodes": [],
+   "fixed": true
+  },
+  {
+   "id": "battery_sled",
+   "name": "Battery sled",
+   "kind": "mount",
+   "holds": [
+    "battery"
+   ],
+   "fastening": "Sled + pack sit on the carbon tray against the aft end stop (sets the CG every time), between 2 side guides; 2 straps through the tray slots at x -87.6 and -11.6",
+   "remove_steps": [
+    "Lift the battery hatch off (magnets).",
+    "Unplug the XT90 (on top of the pack front) and the balance lead.",
+    "Open the 2 straps.",
+    "Pull the front loop: the sled slides 36 mm forward.",
+    "Lift the pack and sled out."
+   ],
+   "tools": "none",
+   "time_to_remove_s": 40,
+   "time_note": "estimate [A], not timed",
+   "connectors": [
+    {
+     "part": "battery",
+     "connector": "XT90H",
+     "goes_to": "pm07",
+     "faces": "hatch side (on top of the pack, front end)"
+    },
+    {
+     "part": "battery",
+     "connector": "JST-XH 7-pin balance lead",
+     "goes_to": "charger (ground) - tucked on the pack top",
+     "faces": "hatch side"
+    }
+   ],
+   "wiring_route": "Pack lead exits the front top of the pack; the PM07 input lead comes back over F2 from the cassette; the mated XT90 lies on the pack top under the hatch.",
+   "motion": {
+    "type": "slide",
+    "vector_mm": [
+     -1,
+     0,
+     0
+    ],
+    "distance_mm": 36.0,
+    "then": {
+     "type": "lift",
+     "vector_mm": [
+      0,
+      0,
+      1
+     ],
+     "distance_mm": 120
+    },
+    "after": [
+     "hatch:battery"
+    ],
+    "frame": "CAD mm, x aft, y right, z up; vector_mm is a unit direction, distance_mm the travel"
+   },
+   "nodes": [
+    "mount:battery_sled"
+   ],
+   "carries_nodes": [
+    "part:battery_6S6P_P50B"
+   ]
+  },
+  {
+   "id": "battery_stop",
+   "name": "Battery end stop and side guides",
+   "kind": "mount",
+   "holds": [],
+   "fastening": "2 M3 x 8 screws + nylon nuts through the carbon tray (holes at x 33.9, y +/-30)",
+   "remove_steps": [
+    "Stays in (2 screws if it must come out)."
+   ],
+   "tools": "2 mm hex key (only to remove the stop)",
+   "time_to_remove_s": null,
+   "connectors": [],
+   "wiring_route": "",
+   "motion": null,
+   "nodes": [
+    "mount:battery_stop"
+   ],
+   "carries_nodes": [],
+   "fixed": true
+  },
+  {
+   "id": "belly_plate",
+   "name": "Belly sensor plate (removable, with the Pi deck)",
+   "kind": "mount",
+   "holds": [
+    "payload_computer",
+    "payload_power",
+    "thermal_cam",
+    "rgb_cam",
+    "spot_sensor",
+    "air_sensor",
+    "nir_channel"
+   ],
+   "fastening": "4 captive M3 thumb screws up into heat-set inserts in bosses on frames F3 and F4; sensors on corner posts with 1 zip tie each; Pi 5 on 4 M2.5 nylon standoffs on the deck; deck on 4 legs, M3 screws from below into inserts.",
+   "remove_steps": [
+    "Turn the drone over (or reach under it on its stand).",
+    "Undo the 4 thumb screws (they stay in the plate).",
+    "Lower the plate ~60 mm on its pigtails.",
+    "Unplug the 2 plugs: XT30 power and JST-GH 6-pin MAVLink.",
+    "Take the whole sensor set to the bench."
+   ],
+   "tools": "none",
+   "time_to_remove_s": 60,
+   "time_note": "estimate [A], not timed",
+   "connectors": [
+    {
+     "part": "payload_power",
+     "connector": "XT30",
+     "goes_to": "pm07",
+     "faces": "inside, on a 150 mm pigtail (reach it with the plate lowered)"
+    },
+    {
+     "part": "payload_computer",
+     "connector": "JST-GH 6-pin (UART on the Pi GPIO via adapter)",
+     "goes_to": "pixhawk TELEM2",
+     "faces": "inside, on a 150 mm pigtail"
+    }
+   ],
+   "wiring_route": "Both airframe leads come from the cassette along the fuselage floor under the battery tray (z -102..-165 is empty now) to x ~40, slack loop at the plate. All sensor cables (USB to the PureThermal, CSI ribbon, I2C to the spot sensor and SHT45) stay on the plate.",
+   "motion": {
+    "type": "slide",
+    "vector_mm": [
+     0,
+     0,
+     -1
+    ],
+    "distance_mm": 100,
+    "after": [],
+    "frame": "CAD mm, x aft, y right, z up; vector_mm is a unit direction, distance_mm the travel"
+   },
+   "nodes": [
+    "hatch:belly",
+    "mount:belly_plate"
+   ],
+   "carries_nodes": [
+    "payload_computer",
+    "payload_power",
+    "thermal_cam",
+    "rgb_cam",
+    "spot_sensor",
+    "air_sensor",
+    "nir_channel"
+   ]
+  },
+  {
+   "id": "tail_panel",
+   "name": "Tail-cone access panel (pusher ESC + servo regulator ride on it)",
+   "kind": "mount",
+   "holds": [
+    "esc_pusher",
+    "servo_reg"
+   ],
+   "fastening": "4 M3 x 8 button-head screws into heat-set inserts in 4 small blocks bonded on the end ledges; the existing ESC tray and regulator mount are bonded to the panel instead of the shell floor; ESC and regulator on 2 cable ties each",
+   "remove_steps": [
+    "Undo the 4 screws (2 mm hex key).",
+    "Lower the panel ~50 mm: ESC and regulator come with it on their leads.",
+    "To take them off: unplug XT60 (ESC feed), XT30 (regulator in), 2 servo leads, and the 3 motor bullets."
+   ],
+   "tools": "2 mm hex key",
+   "time_to_remove_s": 90,
+   "time_note": "estimate [A], not timed",
+   "connectors": [
+    {
+     "part": "esc_pusher",
+     "connector": "XT60",
+     "goes_to": "pm07",
+     "faces": "panel side (reach after lowering)"
+    },
+    {
+     "part": "esc_pusher",
+     "connector": "3 x 3.5 mm bullets",
+     "goes_to": "motor_pusher",
+     "faces": "aft, at the firewall"
+    },
+    {
+     "part": "esc_pusher",
+     "connector": "servo lead",
+     "goes_to": "pixhawk MAIN 5",
+     "faces": "panel side"
+    },
+    {
+     "part": "servo_reg",
+     "connector": "XT30 in, servo lead out",
+     "goes_to": "pm07 / carrier servo rail power",
+     "faces": "panel side"
+    }
+   ],
+   "wiring_route": "Feeds come aft along the left fuselage wall from the cassette over the battery bay floor and through F4; 150 mm slack each at the panel so it drops without unplugging.",
+   "motion": {
+    "type": "slide",
+    "vector_mm": [
+     0,
+     0,
+     -1
+    ],
+    "distance_mm": 50,
+    "after": [],
+    "frame": "CAD mm, x aft, y right, z up; vector_mm is a unit direction, distance_mm the travel"
+   },
+   "nodes": [
+    "hatch:tail",
+    "mount:tail_panel"
+   ],
+   "carries_nodes": [
+    "part:esc_pusher_alpha40",
+    "part:servo_regulator_PLACEHOLDER"
+   ]
+  },
+  {
+   "id": "tail_insert_blocks",
+   "name": "Tail-panel insert blocks (bonded, 4)",
+   "kind": "mount",
+   "holds": [],
+   "fastening": "Epoxy on the end ledges of fuse_seg4",
+   "remove_steps": [
+    "Not removable."
+   ],
+   "tools": "none",
+   "time_to_remove_s": null,
+   "connectors": [],
+   "wiring_route": "",
+   "motion": null,
+   "nodes": [
+    "mount:tail_insert_blocks"
+   ],
+   "carries_nodes": [],
+   "fixed": true
+  },
+  {
+   "id": "esc_cradle",
+   "name": "Lift ESC cradle (one per boom nacelle, 4)",
+   "kind": "mount",
+   "holds": [
+    "esc_lift"
+   ],
+   "fastening": "2 C-clips snap on the 30 mm boom tube; ESC on its side on the floor, 2 zip ties; nacelle halves closed with tape (never glue)",
+   "remove_steps": [
+    "Peel the tape and open the outboard nacelle half.",
+    "Cut the 2 zip ties.",
+    "Unplug the 3 motor bullets, the 14 AWG feed (XT60 at the wing root) and the signal lead."
+   ],
+   "tools": "side cutters (zip ties)",
+   "time_to_remove_s": 120,
+   "time_note": "estimate [A], not timed",
+   "connectors": [
+    {
+     "part": "esc_lift",
+     "connector": "3 x 3.5 mm bullets",
+     "goes_to": "motor_lift",
+     "faces": "forward, up the pylon"
+    },
+    {
+     "part": "esc_lift",
+     "connector": "14 AWG feed + signal lead",
+     "goes_to": "pm07 / carrier servo rail",
+     "faces": "inboard, along the boom bore"
+    }
+   ],
+   "wiring_route": "Feed and signal run inside the boom tube to the wing saddle, then through the wing to the root junction (existing XT60 wing-break pairs).",
+   "motion": null,
+   "nodes": [
+    "mount:esc_cradle"
+   ],
+   "carries_nodes": [
+    "part:esc_alpha40_0",
+    "part:esc_alpha40_1",
+    "part:esc_alpha40_2",
+    "part:esc_alpha40_3"
+   ]
+  },
+  {
+   "id": "gps_holder",
+   "name": "GPS holder on the right wing pad",
+   "kind": "mount",
+   "holds": [
+    "gnss"
+   ],
+   "fastening": "Cup screwed to the existing GPS pad on the right wing with 4 M3 x 8 into its inserts; puck on one VHB pad, arrow forward (front notch)",
+   "remove_steps": [
+    "Undo 4 screws (2 mm hex key) or peel the puck out of the cup.",
+    "Unplug the GPS lead at the wing root."
+   ],
+   "tools": "2 mm hex key",
+   "time_to_remove_s": 60,
+   "time_note": "estimate [A]",
+   "connectors": [
+    {
+     "part": "gnss",
+     "connector": "JST-GH 10-pin",
+     "goes_to": "pixhawk GPS1",
+     "faces": "aft slot into the pad hole"
+    }
+   ],
+   "wiring_route": "Cable down the pad hole, inside the wing to the root, into the fuselage at the wing saddle, forward to the cassette. Keep the ESC feeds >= 100 mm away from the puck [A].",
+   "motion": null,
+   "nodes": [
+    "mount:gps_holder"
+   ],
+   "carries_nodes": [
+    "part:gnss_M9N"
+   ]
+  },
+  {
+   "id": "pitot_mount",
+   "name": "Pitot and airspeed bulkhead in the nose",
+   "kind": "mount",
+   "holds": [
+    "airspeed"
+   ],
+   "fastening": "Bulkhead bonded inside the nose cap at x -352; PT40 tube through the nose tip and the bulkhead; MS5525 board on 2 M2.5 inserts on the aft face",
+   "remove_steps": [
+    "Take the avionics cassette out.",
+    "Reach forward past F1: unplug the I2C lead, undo 2 M2.5 screws, pull the 2 silicone tubes off."
+   ],
+   "tools": "Phillips/hex for M2.5",
+   "time_to_remove_s": 300,
+   "time_note": "estimate [A], includes the cassette",
+   "connectors": [
+    {
+     "part": "airspeed",
+     "connector": "JST-GH 4-pin I2C",
+     "goes_to": "pixhawk I2C",
+     "faces": "aft, toward the hatch"
+    }
+   ],
+   "wiring_route": "I2C lead aft through the open F1 ring to the carrier.",
+   "motion": null,
+   "nodes": [
+    "mount:pitot_mount"
+   ],
+   "carries_nodes": [
+    "part:airspeed_sensor"
+   ]
+  },
+  {
+   "id": "avionics",
+   "name": "Avionics hatch (top, magnets)",
+   "kind": "hatch",
+   "fastening": "Sits on the 6 mm ledge fused into the shell; 4 magnet pairs (6.35 x 3.2) in the ledge and hatch [A count]",
+   "remove_steps": [],
+   "tools": "none",
+   "time_to_remove_s": 5,
+   "motion": {
+    "type": "lift",
+    "vector_mm": [
+     0,
+     0,
+     1
+    ],
+    "distance_mm": 80,
+    "frame": "CAD mm, x aft, y right, z up; vector_mm is a unit direction, distance_mm the travel"
+   },
+   "nodes": [
+    "hatch:avionics"
+   ]
+  },
+  {
+   "id": "battery",
+   "name": "Battery hatch (top, magnets)",
+   "kind": "hatch",
+   "fastening": "Same as the avionics hatch",
+   "remove_steps": [],
+   "tools": "none",
+   "time_to_remove_s": 5,
+   "motion": {
+    "type": "lift",
+    "vector_mm": [
+     0,
+     0,
+     1
+    ],
+    "distance_mm": 80,
+    "frame": "CAD mm, x aft, y right, z up; vector_mm is a unit direction, distance_mm the travel"
+   },
+   "nodes": [
+    "hatch:battery"
+   ]
+  }
+ ],
+ "mountsV": "d3165d3f",
+ "openings": {
+  "avionics": {
+   "kind": "top",
+   "x0": -330.0,
+   "x1": -176.0,
+   "z": -30.0,
+   "rim": 6.0,
+   "rim_end": 6.0
+  },
+  "battery": {
+   "kind": "top",
+   "x0": -164.0,
+   "x1": -3.0,
+   "z": -30.0,
+   "rim": 6.0,
+   "rim_end": 6.0
+  },
+  "belly": {
+   "kind": "bottom",
+   "x0": 38.5,
+   "x1": 186.5,
+   "z": -150.0,
+   "rim": 2.5,
+   "rim_end": 0.0
+  },
+  "tail": {
+   "kind": "plane",
+   "x0": 362.0,
+   "x1": 515.0,
+   "a": [
+    362.0,
+    -118.0
+   ],
+   "b": [
+    515.0,
+    -86.5
+   ],
+   "rim": 4.0,
+   "rim_end": 6.0
   }
  }
 }

@@ -158,7 +158,7 @@ price = 79.99
 china = 1
 duty = 0.415
 mass = 218
-size = "Ø 42 × 52 mm with the long shaft"
+size = "Ø 43 × 65 mm with the long shaft (T-Motor drawing and CAD)"
 buy = [
   { store = "UnmannedRC", link = "https://unmannedrc.com/products/at3520-long-shaft-fixed-wing-uav-motor-kv550-kv720-kv850", price = "$79.99" },
   { store = "T-Motor store", link = "https://store.tmotor.com/product/at3520-long-shaft-fixed-wing-motor.html", price = "$79.99" },
@@ -396,7 +396,7 @@ job = "Holds the battery, the flight electronics and the payload."
 why = "All parts fit with no overlaps in CAD."
 instead = ""
 source = "CAD"
-connects = [["battery", "tray"], ["pixhawk", "tray A"]]
+connects = [["mount_avionics_tray", "nose bay under the top hatch"], ["mount_battery_sled", "battery bay under the top hatch"], ["mount_belly_plate", "belly opening"], ["mount_tail_panel", "tail-cone opening"]]
 nodes = ["airframe:fuselage", "airframe:shell"]
 
 [[part]]
@@ -426,7 +426,7 @@ price = 135
 mass = 50
 size = "85 × 56 × 20 mm with the cooler"
 power_w = 7
-box = { c = [110, 0, -90], dims = [85, 56, 20] }
+box = { c = [110, 0, -87], dims = [85, 56, 20] }
 buy = [
   { store = "Adafruit: Raspberry Pi 5, 4 GB", link = "https://www.adafruit.com/product/5812", price = "$130.00" },
   { store = "Raspberry Pi Active Cooler (any reseller)", link = "https://www.raspberrypi.com/products/active-cooler/", price = "about $5" },
@@ -451,7 +451,7 @@ price = 44.95
 mass = 10
 size = "25.4 × 25.4 × 9.5 mm"
 power_w = 1
-box = { c = [150, 40, -100], dims = [25.4, 25.4, 9.5] }
+box = { c = [150, 42, -95.25], dims = [25.4, 25.4, 9.5] }
 buy = [
   { store = "Pololu", link = "https://www.pololu.com/product/4091", price = "$44.95" },
 ]
@@ -475,7 +475,7 @@ price = 291.99
 mass = 25
 size = "Lepton 11.8 × 12.7 × 7.2 mm on a 32 × 32 mm board, in a 40 × 30 × 22 mm printed case"
 power_w = 1
-box = { c = [60, -35, -126], dims = [40, 30, 22] }
+box = { c = [65, -35, -126], dims = [40, 30, 22] }
 buy = [
   { store = "GroupGets: Lepton 3.5", link = "https://groupgets.com/products/flir-lepton-3-5", price = "$172.00" },
   { store = "GroupGets: PureThermal 3 board", link = "https://groupgets.com/products/purethermal-3", price = "$119.99" },
@@ -505,7 +505,7 @@ price = 80
 mass = 60
 size = "38 × 38 × 28 mm body (Raspberry Pi drawing), C/CS lens on top"
 power_w = 1
-box = { c = [60, 30, -124], dims = [38, 38, 28] }
+box = { c = [65, 30, -124], dims = [38, 38, 28] }
 buy = [
   { store = "PiShop.us (camera $55, out of stock 18 Nov; lens about $25 not priced)", link = "https://www.pishop.us/product/raspberry-pi-global-shutter-camera/", price = "$55.00 + lens" },
 ]
@@ -562,7 +562,7 @@ price = 12.5
 mass = 5
 size = "25 × 18 mm board in a small printed sun shield"
 power_w = 0
-box = { c = [-40, 0, -150], dims = [25, 18, 12] }
+box = { c = [58, -4, -156], dims = [25, 18, 12] }
 buy = [
   { store = "Adafruit SHT45 (STEMMA QT)", link = "https://www.adafruit.com/product/5665", price = "$12.50" },
 ]
@@ -968,19 +968,204 @@ nodes = []
 
 [[part]]
 id = "hardware"
-name = "Hardware (inserts, bolts, magnets, hinges, epoxy)"
+name = "Other hardware (bolts, hinges, epoxy)"
 system = "materials"
 qty = 1
 status = "buy"
-price = 120.0
+price = 70.0
 mass = 0
 buy = []
 where = "hardware store"
-job = "Inserts, bolts, magnets, hinges and epoxy for assembly."
+job = "Bolts, hinges and epoxy for assembly. Inserts, magnets, standoffs and straps for the electronics mounts are the \"Mount hardware\" row."
 why = ""
-source = "[A] check club/lab stock"
+source = "[A] check club/lab stock; was $120 before the mount hardware got its own store-priced row (11-19)"
 connects = []
 nodes = []
+
+[[part]]
+id = "mount_hardware"
+name = "Mount hardware: thumb screws, inserts, standoffs, straps, hatch magnets"
+system = "airframe"
+qty = 1
+status = "buy"
+price = 99.15
+mass = 60
+buy = [
+  { store = "Harfington (uxcell): M3 x 12 knurled thumb screw, 5-pack (×2)", link = "https://www.harfington.com/products/p-1479356", price = "$7.77 each" },
+  { store = "Micro Fasteners WRT04: nylon retaining washer #4 (50)", link = "https://www.microfasteners.com/products/wrt04", price = "$2.40" },
+  { store = "CNC Kitchen: heat-set insert M3 x 5.7 (100)", link = "https://cnckitchen.store/products/heat-set-insert-m3-x-5-7-100-pieces", price = "$10.90" },
+  { store = "Harfington (uxcell): M3 nylon standoff kit, 260 pcs", link = "https://www.harfington.com/products/p-1498270", price = "$9.79" },
+  { store = "RaceDayQuads: RDQ Kevlar micro strap 180 x 10 mm", link = "https://www.racedayquads.com/products/rdq-180mm-kevlar-micro-battery-strap-w-woven-rubber-grip-metal-buckle-3pk", price = "$6.99" },
+  { store = "RaceDayQuads: Lumenier Kevlar battery strap 20 x 500 mm", link = "https://www.racedayquads.com/products/lumenier-indestructible-kevlar-lipo-strap-20x500mm-2pcs", price = "$10.49" },
+  { store = "Micro Fasteners SBMS3008: M3 x 8 stainless button-head screw (20)", link = "https://www.microfasteners.com/products/sbms3008", price = "$3.30" },
+  { store = "Adafruit: Adafruit 3299 M2.5 nylon screw and standoff set", link = "https://www.adafruit.com/product/3299", price = "$16.95" },
+  { store = "Total Element: 1/4 x 1/8 in N42 disc magnets (100)", link = "https://www.totalelement.com/products/1-4-x-1-8-inch-neodymium-rare-earth-permanent-disc-magnets-n42-100-pack", price = "$22.79" },
+]
+job = "Holds the electronics mounts in place so each group comes out by hand: captive thumb screws, heat-set inserts, nylon standoffs for the boards, battery straps and the hatch magnets."
+why = "Every price read on the store page on 19 Nov. Two 5-packs of thumb screws (6 needed)."
+source = "Mounts design 11-19 (data/mounts.json, MOUNTS.md); mass 60 g is our estimate [A]"
+connects = []
+nodes = []
+
+[[part]]
+id = "mount_avionics_tray"
+name = "Avionics cassette (removable tray in the nose)"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 53.0
+size = "CF-PETG, printed"
+buy = []
+job = "Holds the Cube Orange flight controller, the PM07 power module, the RC receiver, the telemetry radio and the Remote ID module so they can come out quickly, by hand where possible."
+why = "2 tongues slide down vertical grooves in 2 rail blocks (F1, F2); 2 captive M3 thumb screws through the end-wall tabs into heat-set inserts in the rail blocks. Cube carrier hard-mounted on 4 M3 nylon standoffs (the Cube isolates its IMUs inside); radios and Remote ID on hook-and-loop through deck slots; PM07 on 4 M3 standoffs on the aft wall."
+source = "cad/fab/m_avionics_cassette.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = [["pixhawk", "holds"], ["pm07", "holds"], ["rc_rx", "holds"], ["telemetry", "holds"], ["remote_id", "holds"]]
+nodes = ["mount_avionics_cassette"]
+
+[[part]]
+id = "mount_avionics_rails"
+name = "Cassette rail blocks (bonded to frames F1 and F2)"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 34.2
+size = "CF-PETG, printed"
+buy = []
+job = "Fixed part that the removable mounts screw or slide into."
+why = "Epoxy to the F1 aft face / F2 front face and to the shell, before the shell segments are joined; 1 M3 heat-set insert each"
+source = "cad/fab/m_av_rail_aft.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = []
+nodes = ["mount_av_rail_aft", "mount_av_rail_fwd"]
+
+[[part]]
+id = "mount_battery_sled"
+name = "Battery sled"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 42.5
+size = "CF-PETG, printed"
+buy = []
+job = "Holds the battery so it can come out quickly, by hand where possible."
+why = "Sled + pack sit on the carbon tray against the aft end stop (sets the CG every time), between 2 side guides; 2 straps through the tray slots at x -87.6 and -11.6"
+source = "cad/fab/m_battery_sled.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = [["battery", "holds"]]
+nodes = ["mount_battery_sled"]
+
+[[part]]
+id = "mount_battery_stop"
+name = "Battery end stop and side guides"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 12.8
+size = "CF-PETG, printed"
+buy = []
+job = "Fixed part that the removable mounts screw or slide into."
+why = "2 M3 x 8 screws + nylon nuts through the carbon tray (holes at x 33.9, y +/-30)"
+source = "cad/fab/m_battery_stop.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = []
+nodes = ["mount_battery_stop"]
+
+[[part]]
+id = "mount_belly_plate"
+name = "Belly sensor plate with the Pi deck (removable)"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 82.3
+size = "CF-PETG, printed"
+buy = []
+job = "Holds the Raspberry Pi, its 5 V regulator, the thermal camera, the colour camera, the 1610 nm sensor, the air sensor and the 850 nm channel so they can come out quickly, by hand where possible."
+why = "4 captive M3 thumb screws up into heat-set inserts in bosses on frames F3 and F4; sensors on corner posts with 1 zip tie each; Pi 5 on 4 M2.5 nylon standoffs on the deck; deck on 4 legs, M3 screws from below into inserts. Open: the 1610 nm sensor's upward diode cannot see the sky from the belly (the wing is above it); it needs a diffuser puck on top and a third payload plug, not drawn yet."
+source = "cad/fab/m_belly_plate.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = [["payload_computer", "holds"], ["payload_power", "holds"], ["thermal_cam", "holds"], ["rgb_cam", "holds"], ["spot_sensor", "holds"], ["air_sensor", "holds"], ["nir_channel", "holds"]]
+nodes = ["mount_belly_plate", "mount_belly_deck"]
+
+[[part]]
+id = "mount_tail_panel"
+name = "Tail-cone access panel (pusher ESC and servo regulator ride on it)"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 21.7
+size = "CF-PETG, printed"
+buy = []
+job = "Holds the pusher ESC and the servo regulator so they can come out quickly, by hand where possible."
+why = "4 M3 x 8 button-head screws into heat-set inserts in 4 small blocks bonded on the end ledges; the existing ESC tray and regulator mount are bonded to the panel instead of the shell floor; ESC and regulator on 2 cable ties each"
+source = "cad/fab/m_tail_panel.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = [["esc_pusher", "holds"], ["servo_reg", "holds"]]
+nodes = ["mount_tail_panel"]
+
+[[part]]
+id = "mount_tail_insert_blocks"
+name = "Tail-panel insert blocks (4, bonded)"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 3.2
+size = "CF-PETG, printed"
+buy = []
+job = "Fixed part that the removable mounts screw or slide into."
+why = "Epoxy on the end ledges of fuse_seg4"
+source = "cad/fab/m_tail_insert_block_0.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = []
+nodes = ["mount_tail_insert_block_*"]
+
+[[part]]
+id = "mount_esc_cradle"
+name = "Lift ESC cradle (one in each boom nacelle)"
+system = "airframe"
+qty = 4
+status = "print"
+price = 0
+mass = 4.4
+size = "CF-PETG, printed"
+buy = []
+job = "Holds one lift ESC so it can come out quickly, by hand where possible."
+why = "2 C-clips snap on the 30 mm boom tube; ESC on its side on the floor, 2 zip ties; nacelle halves closed with tape (never glue)"
+source = "cad/fab/m_esc_cradle.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = [["esc_lift", "holds"]]
+nodes = ["mount_esc_cradle"]
+
+[[part]]
+id = "mount_gps_holder"
+name = "GPS holder on the right wing pad"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 9.0
+size = "CF-PETG, printed"
+buy = []
+job = "Holds the GPS so it can come out quickly, by hand where possible."
+why = "Cup screwed to the existing GPS pad on the right wing with 4 M3 x 8 into its inserts; puck on one VHB pad, arrow forward (front notch)"
+source = "cad/fab/m_gps_holder.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = [["gnss", "holds"]]
+nodes = ["mount_gps_holder"]
+
+[[part]]
+id = "mount_pitot_mount"
+name = "Pitot and airspeed bulkhead in the nose"
+system = "airframe"
+qty = 1
+status = "print"
+price = 0
+mass = 23.3
+size = "CF-PETG, printed"
+buy = []
+job = "Holds the airspeed sensor so it can come out quickly, by hand where possible."
+why = "Bulkhead bonded inside the nose cap at x -352; PT40 tube through the nose tip and the bulkhead; MS5525 board on 2 M2.5 inserts on the aft face"
+source = "cad/fab/m_pitot_bulkhead.py; mass from CAD volume × density × infill [C] (cad/fab/mounts_mass.py)"
+connects = [["airspeed", "holds"]]
+nodes = ["mount_pitot_bulkhead"]
 
 [[part]]
 id = "nozzle"

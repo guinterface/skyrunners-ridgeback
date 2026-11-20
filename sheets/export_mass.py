@@ -21,6 +21,17 @@ for p in P:
     else:
         cg = list(p["cg"])
     rows.append(dict(name=p["name"], group=p["group"], kind="bought", material=None, mass_g=float(p["mass_g"]), cg=[float(v) for v in cg]))
+# printed electronics mounts (cad/fab/m_*.py, built by cad/fab/build_mounts.sh into $MOUNTS_OUT): mass from their meta, CG from their STEP
+MD = os.environ.get("MOUNTS_OUT")
+if MD:
+    from build123d import import_step
+    ctr = lambda solid: np.array([solid.center().X, solid.center().Y, solid.center().Z])
+    esc = {p["name"]: ctr(p["solid"]) for p in P if p["name"].startswith("esc_alpha40_") and p["solid"] is not None}
+    for f in sorted((Path(MD) / "meta").glob("mount_*.json")):
+        m = json.loads(f.read_text()); c = ctr(import_step(str(Path(MD) / "step" / f"{m['name']}.step")))
+        offs = [esc[k] - esc["esc_alpha40_0"] for k in sorted(esc)] if m["name"] == "mount_esc_cradle" and "esc_alpha40_0" in esc else [np.zeros(3)]
+        for o in offs:
+            rows.append(dict(name=m["name"], group="mounts", kind="print", material=m.get("material"), mass_g=float(m["mass_g"]), cg=[float(v) for v in c + o]))
 M = sum(r["mass_g"] for r in rows); cg = sum(r["mass_g"]*np.array(r["cg"]) for r in rows)/M
 print(len(rows), "rows", round(M, 1), "g, CG", np.round(cg, 1))
 import design as d

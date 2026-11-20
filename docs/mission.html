@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ridgeback mission and range</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css?v=b25570d132"></head>
+<title>Ridgeback mission and range</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css?v=a7bbe0247d"></head>
 <body class="maptable"><div class="sheet"><header class="collar"><div class="mast"><a class="home" href="index.html">Ridgeback Scout</a>
 <span class="who">SkyRunners, Stanford Student Robotics</span></div><nav><a href="index.html">Drone</a><a href="mission.html" aria-current=page>Mission and range</a><a href="calculations.html">Calculations</a><a href="buy.html">Buy list</a><a href="files.html">Sheets, code, CAD</a><button type="button" id="editToggle" class="editbtn" aria-pressed="false">Edit</button></nav></header>
 <div id="editbar" class="editbar" hidden></div>
@@ -30,12 +30,12 @@ The take-off point and plot on sheet 1 are placed for scale only; the real plot 
 <table class="plain"><thead><tr><th>Term</th><th class="num">Ours</th><th>What sets it</th></tr></thead><tbody>
 <tr><td>Operating radius: how far from the take-off point</td><td class="num">about 1 km</td><td>FAA rule 14 CFR 107.31: the pilot or an observer must see the drone at all times
 (<a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-F/part-107/subpart-B/section-107.31" target="_blank" rel="noopener">text of the rule</a>). The rule sets no distance; 1 km is how far we expect to see a 2.2 m drone reliably.</td></tr>
-<tr><td>Range: distance on one charge</td><td class="num">71 km</td><td>Loiter speed × loiter time.</td></tr>
-<tr><td>Endurance: time in the air</td><td class="num">60 min</td><td>Battery energy against drag. This is the number that matters for the mission.</td></tr>
+<tr><td>Range: distance on one charge</td><td class="num">69 km</td><td>Loiter speed × loiter time.</td></tr>
+<tr><td>Endurance: time in the air</td><td class="num">57 min</td><td>Battery energy against drag. This is the number that matters for the mission.</td></tr>
 </tbody></table></section>
 <section><h2>A field day</h2>
 <p>Water loss shows up as the difference between dawn and midday. We target three 15-minute surveys of the same 2 ha chaparral plot on one charge,
-within 1 km of the take-off point. The current estimate is 2.8 flights per charge. Before sunrise there is no sunlight, so the pre-dawn flight uses
+within 1 km of the take-off point. The current estimate is 2.7 flights per charge. Before sunrise there is no sunlight, so the pre-dawn flight uses
 only the thermal camera; the 1610 nm sensor and the colour camera start with the mid-morning flight.</p>
 <svg class="day" viewBox="0 0 900 120" role="img" aria-label="Three flights: pre-dawn, mid-morning, midday">
 <line x1="40" y1="70" x2="860" y2="70" class="axis"/>
@@ -44,9 +44,9 @@ only the thermal camera; the 1610 nm sensor and the colour camera start with the
 </svg>
 <table class="plain"><tbody>
 <tr><td>Plot</td><td>2 ha of chaparral (141 m square) plus a 50 m buffer, so 241 m square: 18 lines of 240 m, 14 m apart. That is 3.8 minutes on the lines at 19 m/s; at that speed a turn needs about 64 m radius, so lines are flown in skip order (racetrack turns), which brings it to about 7 minutes (estimate). The thermal camera's wider pixels set the line count.</td></tr>
-<tr><td>Energy per flight</td><td><span class="num">160 Wh</span>: hover, climb, 15 min survey, 1 km out and back</td></tr>
+<tr><td>Energy per flight</td><td><span class="num">165 Wh</span>: hover, climb, 15 min survey, 1 km out and back</td></tr>
 <tr><td>Usable energy per charge</td><td><span class="num">441 Wh</span>, keeping 20 % in reserve</td></tr>
-<tr><td>Flights per charge</td><td><span class="num">2.8</span>, against the 3 we target</td></tr>
+<tr><td>Flights per charge</td><td><span class="num">2.7</span>, against the 3 we target</td></tr>
 </tbody></table>
 <p class="small">Numbers from <a href="https://docs.google.com/spreadsheets/d/1EvHCUPGKqOd5r_C8Ovc0WE_cAtYYX4ChRldxYAXIioo/edit" target="_blank" rel="noopener">Sheet 04, tab Mission_Energy</a>. The plot size and flight plan come from our field-day plan (base station document, October 2026).</p></section>
 <section><h2>Sources behind the numbers</h2>

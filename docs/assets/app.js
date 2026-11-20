@@ -1,4 +1,5 @@
-// Drone explorer. Airframe = the CAD meshes. Bought parts = shapes built at each part's CAD position and size.
+// Drone explorer. Airframe = the CAD meshes. Bought parts = the maker's model (assets/models/<id>.glb) at the part's CAD position;
+// a simple shape only where no model exists. Mounts and hatches = assets/mounts.glb; "Open the hatches" moves them out along their CAD paths.
 const safeUrl = u => /^https?:\/\//i.test(String(u)) ? u : '#';   // only web links are ever rendered as links
 // Click a part (or a table row): it turns purple, the camera moves to it, lines show what it connects to.
 // Flight modes: Hover spins the lift propellers; Cruise parks them along the booms and spins the pusher.
@@ -29,9 +30,17 @@ const sun = new THREE.DirectionalLight(0xffffff, 1.8); sun.position.set(-3, 6, 2
 const root = new THREE.Group(); root.rotation.x = -Math.PI / 2; scene.add(root);   // CAD: x aft, y right, z up
 
 const meshesByPart = {}, pickables = [], base = new Map(), sizeOf = {};
-function register(mesh, pid, sys, opacity = 1) {
-  const col = new THREE.Color(data.systems[sys].color);
-  mesh.material = new THREE.MeshStandardMaterial({ color: col, roughness: 0.75, metalness: sys === 'airframe' ? 0 : 0.15, transparent: true, opacity });
+function register(mesh, pid, sys, opacity = 1, keep = false) {
+  let col;
+  if (keep && mesh.material) {                          // a maker's model: keep its own colours (cloned, so a highlight touches one mesh only)
+    const m0 = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+    mesh.material = m0.isMeshStandardMaterial ? m0.clone() : new THREE.MeshStandardMaterial({ color: m0.color || 0x888888 });
+    col = mesh.material.color.clone(); opacity *= mesh.material.opacity; mesh.material.transparent = true; mesh.material.opacity = opacity;
+    if (!mesh.geometry.attributes.normal) mesh.geometry.computeVertexNormals();
+  } else {
+    col = new THREE.Color(data.systems[sys].color);
+    mesh.material = new THREE.MeshStandardMaterial({ color: col, roughness: 0.75, metalness: sys === 'airframe' ? 0 : 0.15, transparent: true, opacity });
+  }
   base.set(mesh, { color: col.clone(), opacity });
   mesh.userData.sys = sys;
   if (pid) { mesh.userData.pid = pid; (meshesByPart[pid] ||= []).push(mesh); pickables.push(mesh); }
@@ -138,11 +147,48 @@ function builderFor(node) {
   return null;
 }
 
-// ---------- load the CAD model and swap placeholders for shapes
+// ---------- part models (official CAD where the maker publishes it; data/model_sources.json)
+const gl = new GLTFLoader();
+const modelP = {};
+const getModel = pid => data.models?.[pid] ? (modelP[pid] ||= gl.loadAsync(`assets/models/${pid}.glb?v=${data.models[pid]}`).then(g => g.scene, () => null)) : Promise.resolve(null);
+// Models are drawn in CAD axes (x along the length, z up), true size in metres. Turn the few whose CAD box lies another way.
+const ORIENT = { esc_lift: ['x', Math.PI / 2], motor_pusher: ['y', Math.PI / 2], servos: ['z', Math.PI / 2] };
+const shownBox = o => { o.updateMatrixWorld(true); const b = new THREE.Box3(); o.traverse(m => { if (m.isMesh && m.visible) b.expandByObject(m); }); return b; };
+function placeModel(scn, pid, c, s, node = '') {
+  const m = scn.clone(true), holder = new THREE.Group();
+  m.traverse(o => { if (o.isMesh && /antenna/i.test(o.material?.name || '')) o.visible = false; });   // radio antenna leaves the fuselage; not drawn inside
+  const r = ORIENT[pid]; if (r) m.rotation[r[0]] = r[1];
+  holder.add(m);
+  if (!r && !/^prop_/.test(pid)) {                       // flat boards: turn 90° about z when the model's long side lies across the CAD box
+    const ms = shownBox(holder).getSize(new THREE.Vector3());
+    if (Math.abs(s.x - s.y) > 0.15 * Math.max(s.x, s.y) && (ms.x > ms.y) !== (s.x > s.y)) m.rotation.z = Math.PI / 2;
+  }
+  if (pid === 'prop_lift' || pid === 'prop_pusher') {   // origin is the hub; spin about the shaft
+    if (pid === 'prop_pusher') holder.rotation.y = Math.PI / 2;
+    holder.userData.spin = pid === 'prop_lift' ? 'z' : 'x';
+  } else {
+    const bb = shownBox(holder), mc = bb.getCenter(new THREE.Vector3());
+    const off = mc.clone().negate();
+    if (pid === 'battery') {                              // centre the pack body (not the lead and plug) on the CAD pack; lead at the front (-x), as in the mounts design
+      const isLead = o => /wire|yellow|white_plastic|gold/i.test(o.material?.name || '');
+      const boxes = () => { holder.updateMatrixWorld(true); const bd = new THREE.Box3(), ld = new THREE.Box3(); m.traverse(o => { if (o.isMesh && o.visible) (isLead(o) ? ld : bd).expandByObject(o); }); return [bd, ld]; };
+      let [body, lead] = boxes();
+      if (!lead.isEmpty() && lead.getCenter(new THREE.Vector3()).x > body.getCenter(new THREE.Vector3()).x) { m.rotation.z += Math.PI; [body, lead] = boxes(); }
+      if (!body.isEmpty()) off.copy(body.getCenter(new THREE.Vector3()).negate());
+    }
+    if (pid === 'rgb_cam') off.z = s.z / 2 - bb.max.z;    // board at the top of its box, lens looking down out of the belly
+    m.position.add(off);
+  }
+  holder.position.copy(c); holder.userData.node = node;
+  return holder;
+}
+const MODELS = Object.fromEntries(await Promise.all(Object.keys(data.models || {}).map(async id => [id, await getModel(id)])));
+
+// ---------- load the CAD model and swap placeholders for models
 const gltf = await new GLTFLoader().loadAsync('assets/ridgeback.glb');
 root.add(gltf.scene);
 const spinning = [];
-const swaps = [];
+const swaps = [], nodeObj = {};
 gltf.scene.traverse(o => {
   if (!o.isMesh) return;
   const raw = o.name || o.parent?.name || '';            // the loader strips ':' from node names
@@ -158,11 +204,12 @@ gltf.scene.traverse(o => {
 for (const [o, node, pid, sys, [kind, axis]] of swaps) {
   o.geometry.computeBoundingBox();
   const bb = o.geometry.boundingBox, c = bb.getCenter(new THREE.Vector3()), s = bb.getSize(new THREE.Vector3());
-  const obj = builders[kind](c, s, axis);
-  obj.position.copy(c); obj.userData.node = node;
+  const model = MODELS[pid];
+  const obj = model ? placeModel(model, pid, c, s, node) : builders[kind](c, s, axis);
+  obj.position.copy(c); obj.userData.node = node; nodeObj[node] = obj;
   if (pid && !sizeOf[pid]) sizeOf[pid] = s.clone();
   root.add(obj); o.visible = false;
-  obj.traverse(m => { if (m.isMesh) register(m, pid, sys, kind === 'prop' ? 0.85 : 1); });
+  obj.traverse(m => { if (m.isMesh) register(m, pid, sys, kind === 'prop' && !model ? 0.85 : 1, !!model); });
   if (obj.userData.spin) spinning.push(obj);
 }
 
@@ -170,10 +217,79 @@ const SHAPE = { thermal_cam: 'thermal', rgb_cam: 'camera', spot_sensor: 'spot', 
 for (const p of data.parts) {
   if (!p.box || meshesByPart[p.id]) continue;
   const c = new THREE.Vector3(...p.box.c).multiplyScalar(0.001), s = new THREE.Vector3(...p.box.dims).multiplyScalar(0.001);
-  const obj = builders[SHAPE[p.id] || 'box'](c, s); obj.position.copy(c);
-  root.add(obj); obj.traverse(m => { if (m.isMesh) register(m, p.id, p.system, 1); });
+  const model = MODELS[p.id];
+  const obj = model ? placeModel(model, p.id, c, s) : builders[SHAPE[p.id] || 'box'](c, s); obj.position.copy(c);
+  root.add(obj); obj.traverse(m => { if (m.isMesh) register(m, p.id, p.system, 1, !!model); });
   sizeOf[p.id] = s;
 }
+
+// ---------- electronics mounts and hatches (assets/mounts.glb; how each is held and comes out: parts.json "mounts")
+const MOUNT = Object.fromEntries((data.mounts || []).map(m => [m.id, m]));
+const HATCH_PID = { avionics: 'fuselage', battery: 'fuselage', belly: 'mount_belly_plate', tail: 'mount_tail_panel' };
+const meshesByNode = {};
+try {
+  const mg = await gl.loadAsync(`assets/mounts.glb?v=${data.mountsV || ''}`);
+  root.add(mg.scene);
+  const ms = []; mg.scene.traverse(o => { if (o.isMesh) ms.push(o); });
+  for (const o of ms) {
+    const raw = (o.name || o.parent?.name || '').replace(/hardware$/, '');   // the loader drops ':' from node names
+    const k = raw.startsWith('mount') ? ['mount', raw.slice(5)] : raw.startsWith('hatch') ? ['hatch', raw.slice(5)] : null;
+    if (!k) continue;
+    const node = k[0] + ':' + k[1];
+    const pid = k[0] === 'mount' ? (parts['mount_' + k[1]] ? 'mount_' + k[1] : null) : HATCH_PID[k[1]];
+    register(o, pid, 'airframe', 1, true);
+    (meshesByNode[node] ||= []).push(o);
+    if (node === 'mount:esc_cradle') {                   // drawn once (right front); copy it to the other three ESCs
+      const e0 = nodeObj.esc_alpha40_0;
+      for (const n of ['esc_alpha40_1', 'esc_alpha40_2', 'esc_alpha40_3']) {
+        if (!e0 || !nodeObj[n]) continue;
+        const cp = o.clone(); o.parent.add(cp);
+        const d = nodeObj[n].position.clone().sub(e0.position);   // root (CAD) frame; the mounts scene sits in the same frame
+        cp.position.add(o.parent.worldToLocal(root.localToWorld(d.clone())).sub(o.parent.worldToLocal(root.localToWorld(new THREE.Vector3()))));
+        register(cp, pid, 'airframe', 1, true); meshesByNode[node].push(cp);
+      }
+    }
+  }
+} catch (e) { console.warn('mounts.glb not loaded', e); }
+// Each removable group = its mount and hatch meshes + the parts it carries; it moves along motion (CAD mm) after the hatches it needs.
+const topOf = m => { let g = m; while (g.parent && g.parent !== root) g = g.parent; return g; };
+const groups = {};
+function groupFor(id) {
+  if (groups[id]) return groups[id];
+  const m = MOUNT[id]; if (!m?.motion) return null;
+  const g = new THREE.Group(); g.userData.access = true; root.add(g);
+  const objs = new Set();
+  (m.nodes || []).forEach(n => (meshesByNode[n] || []).forEach(x => objs.add(x)));
+  (m.carries_nodes || []).forEach(n => { const o = nodeObj[n.replace(/^part:/, '')]; if (o) objs.add(o); });
+  (m.holds || []).forEach(pid => (meshesByPart[pid] || []).forEach(x => { const t = topOf(x); if (t !== gltf.scene) objs.add(t); }));
+  objs.forEach(o => g.attach(o));
+  const legs = []; let mv = m.motion;
+  while (mv) { legs.push(new THREE.Vector3(...mv.vector_mm).multiplyScalar(mv.distance_mm / 1000)); mv = mv.then; }
+  return (groups[id] = { g, legs, after: (m.motion.after || []).map(a => a.replace('hatch:', '')), k: 0, to: 0 });
+}
+const ACCESS_ORDER = ['avionics', 'battery', 'avionics_tray', 'battery_sled', 'belly_plate', 'tail_panel'];
+let accessOn = false, accessAnim = false;
+function setAccess(on, only = null) {
+  accessOn = on; accessAnim = true; idleFrames = 0;
+  const want = only ? new Set([only, ...(MOUNT[only]?.motion?.after || []).map(a => a.replace('hatch:', ''))]) : null;
+  ACCESS_ORDER.forEach(id => { const gr = groupFor(id); if (gr) gr.to = on && (!want || want.has(id)) ? 1 : 0; });
+  const b = document.getElementById('openhatches'); if (b) { b.setAttribute('aria-pressed', on); b.textContent = on ? 'Close the hatches' : 'Open the hatches'; }
+}
+function stepAccess(dt) {
+  let busy = false;
+  ACCESS_ORDER.forEach((id, i) => {
+    const gr = groups[id]; if (!gr) return;
+    const ready = gr.to === 1 ? gr.after.every(a => !groups[a] || groups[a].k > 0.95) : ACCESS_ORDER.slice(i + 1).every(x => !groups[x] || groups[x].k < 0.05 || !groups[x].after.includes(id));
+    if (ready && gr.k !== gr.to) { gr.k = reduce ? gr.to : Math.max(0, Math.min(1, gr.k + Math.sign(gr.to - gr.k) * dt / 1.2)); busy = true; }
+    else if (gr.k !== gr.to) busy = true;
+    let u = gr.k * gr.legs.length; const p = new THREE.Vector3();          // the legs run one after another (slide, then lift)
+    gr.legs.forEach(l => { const f = Math.max(0, Math.min(1, u)); p.addScaledVector(l, f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2); u -= 1; });
+    gr.g.position.copy(p);
+  });
+  accessAnim = busy;
+}
+document.getElementById('openhatches')?.addEventListener('click', () => setAccess(!accessOn));
+document.addEventListener('click', e => { const b = e.target.closest?.('[data-access]'); if (!b) return; setAccess(true, b.dataset.access); el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); });
 
 // ---------- camera framing and fly-to
 const all = new THREE.Box3().setFromObject(root), home = all.getCenter(new THREE.Vector3());
@@ -202,7 +318,7 @@ function select(pid, fromHash = false) {
   if (!pid) { flyTo(home, homePos.distanceTo(home)); return; }
   const p = parts[pid], pts = [];
   const ctr = m => new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3());
-  const groupsOf = id => { const seen = new Map(); (meshesByPart[id] || []).forEach(m => { let g = m; while (g.parent && g.parent !== root && g.parent !== gltf.scene) g = g.parent; seen.set(g, true); }); return [...seen.keys()]; };
+  const groupsOf = id => { const seen = new Map(); (meshesByPart[id] || []).forEach(m => { let g = m; while (g.parent && g.parent !== root && g.parent !== gltf.scene && !g.parent.userData.access) g = g.parent; seen.set(g, true); }); return [...seen.keys()]; };
   p.connects.forEach(([to]) => {
     (meshesByPart[to] || []).forEach(m => { m.material.opacity = base.get(m).opacity; });
     const targets = groupsOf(to).map(ctr);
@@ -229,6 +345,22 @@ function calcBlock(p) {
   return `<h3>The numbers behind it</h3><div class="calcbox">${lines}<p class="small">Worked out in ${links}.</p></div>`;
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch])); }
+const nameOf = id => esc((parts[id]?.name || id).split(':')[0]);
+function heldBlock(p) {
+  const ids = p.mount ? [p.mount] : (p.heldBy || []);
+  if (!ids.length) return '';
+  return '<h3>How it is held</h3>' + ids.map(id => {
+    const m = MOUNT[id]; if (!m) return '';
+    const sec = m.time_to_remove_s || 0, when = !sec ? 'time not estimated' : sec < 90 ? `about ${sec} s` : `about ${Math.round(sec / 60)} min`;
+    const con = (m.connectors || []).filter(c => p.mount || c.part === p.id);
+    return `<div class="held">${p.mount ? '' : `<p>On the <button class="link" data-go="mount_${esc(id)}">${esc(m.name.charAt(0).toLowerCase() + m.name.slice(1))}</button>.</p>`}<p>${esc(m.fastening.charAt(0).toUpperCase() + m.fastening.slice(1))}</p>`
+      + (m.remove_steps?.length && !m.fixed ? `<p><b>To take it out</b> (${when}, tools: ${esc(m.tools || 'none')}):</p><ol class="steps tight">${m.remove_steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` : '')
+      + (con.length ? `<p><b>Plugs</b></p><ul>${con.map(c => `<li>${esc(c.connector)} to ${esc(String(c.goes_to).replace(/[a-z][a-z0-9_]+/g, w => parts[w] ? parts[w].name.split(':')[0].toLowerCase() : w))}${c.faces ? `; faces the ${esc(c.faces.replace(/^the /, ''))}` : ''}</li>`).join('')}</ul>` : '')
+      + (m.wiring_route ? `<p class="small"><b>Wiring:</b> ${esc(m.wiring_route)}</p>` : '')
+      + (MOUNT[id].motion ? `<p><button type="button" class="plainbtn" data-access="${esc(id)}">Show it coming out</button></p>` : '')
+      + `<p class="small">${esc(m.time_note || '')} From the CAD (data/mounts.json).</p></div>`;
+  }).join('');
+}
 function showDetail(p) {
   if (window.RB?.partForm?.(p, document.getElementById('detail'))) return;
   const ed = !!window.RB?.isEditing?.();
@@ -239,7 +371,7 @@ function showDetail(p) {
    <dl class="meta"><div><dt>System</dt><dd><span class="key" style="--c:${p.color}"></span>${esc(p.systemName)}</dd></div><div><dt>Status</dt><dd><span data-f="status">${esc(p.status.charAt(0).toUpperCase() + p.status.slice(1))}</span></dd></div>${p.order ? `<div><dt>Bought?</dt><dd><span class="ostate s-${p.order.state.replace(' ', '-')}" data-order="${p.order.key}" data-state="${p.order.state}">${p.order.label}</span>${p.order.date ? `<span class="small"> ${esc(p.order.date)}${p.order.by ? ' by ' + esc(p.order.by) : ''}</span>` : ''}</dd></div>` : ''}<div><dt>Quantity</dt><dd><span data-f="qty">${p.qty}</span></dd></div>${price || ed ? `<div><dt>Price</dt><dd><span data-f="price">${price || '$0 (bundled or printed)'}</span></dd></div>` : ''}<div><dt>Mass</dt><dd><span data-f="mass">${p.mass}</span> g each</dd></div>${p.power_w ? `<div><dt>Power</dt><dd><span data-f="power_w">${p.power_w}</span> W</dd></div>` : ''}</dl>
    ${p.size || sizeOf[p.id] ? `<p class="size"><b>Size</b> <span data-f="size">${esc(p.size || '')}</span>${sizeOf[p.id] ? `${p.size ? '. ' : ''}Drawn at its CAD size: ${[sizeOf[p.id].x, sizeOf[p.id].y, sizeOf[p.id].z].map(v => Math.round(v * 1000)).join(' × ')} mm (outlined).` : ''}</p>` : ''}
    <h3>What it does</h3><p data-f="job">${esc(p.job)}</p><h3>Why we chose it</h3><p data-f="why">${esc(p.why)}</p>${p.without || ed ? `<h3>Without it</h3><p data-f="without">${esc(p.without || '')}</p>` : ''}${p.refs?.length || ed ? '<h3>Evidence</h3><ul class="refs">' + (p.refs || []).map((r, i) => `<li data-ref="${i}"><a href="${esc(safeUrl(r.link))}" target="_blank" rel="noopener">${esc(r.cite)}</a>: ${esc(r.says || '')}</li>`).join('') + '</ul>' + (ed ? '<p data-add="ref"></p>' : '') : ''}${calcBlock(p)}
-   <h3>Connects to</h3>${conn}<h3>Where to buy</h3>${buy}${ed ? '<p data-add="buy"></p>' : ''}
+   ${heldBlock(p)}<h3>Connects to</h3>${conn}<h3>Where to buy</h3>${buy}${ed ? '<p data-add="buy"></p>' : ''}
    ${p.instead || ed ? `<h3>Considered instead</h3><p data-f="instead">${esc(p.instead || '')}</p>` : ''}${p.source || ed ? `<p class="small">Numbers from: <span data-f="source">${esc(p.source || '')}</span></p>` : ''}
    <p class="small"><a href="#row-${p.id}">Show in the parts table</a> · <a href="${esc(p.edit)}" target="_blank" rel="noopener">Edit this part</a> (data/parts.toml, line ${p.editLine})</p>`;
   document.querySelectorAll('#detail [data-go]').forEach(b => b.addEventListener('click', () => select(b.dataset.go)));
@@ -287,10 +419,11 @@ new IntersectionObserver(es => { onScreen = es[0].isIntersecting; }).observe(el)
 controls.addEventListener('change', () => { idleFrames = 0; });
 renderer.setAnimationLoop(() => {
   if (!onScreen || document.hidden) { clock.getDelta(); return; }
-  const moving = mode !== 'still' || selected || fly || idleFrames < 3;
+  const moving = mode !== 'still' || selected || fly || accessAnim || idleFrames < 3;
   if (!moving) { clock.getDelta(); return; }
   idleFrames++;
   const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+  if (accessAnim) stepAccess(dt);
   for (const p of spinning) {
     if (p.userData.spin === 'z') {
       if (mode === 'hover') p.rotation.z += dt * 9;
