@@ -565,7 +565,10 @@ _best = _sz["best"]
 _row = lambda S_, P_: next(r for r in _sz["rows"] if abs(r["S"] - S_) < 1e-6 and r["P"] == P_)
 _r55, _r505 = _row(0.55, 6), _row(0.50, 5)
 _MC = f"'[{FN}]MASS_CG'!"
-_pay = [(VALS[f"{_MC}A{r}"], VALS[f"{_MC}G{r}"]) for r in range(93, 100) if VALS.get(f"{_MC}D{r}") == 1]
+_r0 = next(r for r in range(1, 400) if str(VALS.get(f"{_MC}A{r}", "")).startswith("Payload (not in the CAD mass)"))   # rows move when parts change
+_r1 = next(r for r in range(_r0, 400) if VALS.get(f"{_MC}A{r}") == "Totals")
+_pay = [(VALS[f"{_MC}A{r}"], VALS[f"{_MC}G{r}"]) for r in range(_r0 + 2, _r1) if VALS.get(f"{_MC}D{r}") == 1]
+assert _pay, "payload rows not found in Mass_CG"
 _payl = "; ".join(f"{E(n.split(':')[0].split(' (')[0])} {g:.0f} g" for n, g in _pay)
 _gh = lambda p, t: f'<a href="{GH}/blob/main/{p}" target="_blank" rel="noopener">{E(t)}</a>'
 SIZING = f"""<section class="calc" id="sizing"><h2>How we chose the size</h2>
@@ -577,7 +580,7 @@ SIZING = f"""<section class="calc" id="sizing"><h2>How we chose the size</h2>
 <li><b>Sweep wing area and battery together.</b> For every wing from 0.40 to 0.70 m² and every pack from 6S3P to 6S6P: mass = structure (scaled by wing area from our earlier 3.35 m design) + battery (6 × P cells of 70 g, +8 %) + the fixed parts (payload, avionics, motors, ESCs, servos, wiring). Then stall speed, loiter time and hover thrust for each of the 24 options. {_gh("analysis/mini_sizing.py", "analysis/mini_sizing.py")} (the code), {_gh("analysis/out/mini_sizing.md", "mini_sizing.md")} (the full table).</li>
 <li><b>Pick the cheapest that passes</b> (stall ≤ 15 m/s, hot-day thrust ≥ 1.5 × weight, ≥ 80 min even with 40 % more drag than expected): wing {_best['S']:.2f} m², span {_best['b']:.2f} m, 6S{_best['P']}P, predicted {_best['m']:.2f} kg and {_best['t_lo']:.0f}–{_best['t_min']:.0f} min. One size up (0.55 m², 6S6P) is too heavy to hover on a hot day ({_r55['tw_800hot']:.2f}); one pack smaller (6S5P) gives only {_r505['t_lo']:.0f} min with the extra drag.</li>
 <li><b>Draw it, then check it with the drawn numbers</b> (steps 1 to 9 below). The CAD weighs {val('m_to'):.2f} kg with the payload, but its drag, summed part by part, is C<sub>D0</sub> = {val('CD0_build'):.3f}, well above the 0.025–0.035 the sweep assumed; the motors, landing feet and stopped propellers make about 45 % of it. So today: loiter {val('tloit_sl'):.0f} min (target 80), {val('flights_pack'):.1f} flights per charge (target 3), stall {val('Vs_sl'):.1f} m/s (target 15), hot-day thrust {val('TW_hot'):.2f} × weight (needs 1.5). {sheet("03_Aerodynamics", "Drag_Buildup")}, {_gh("sheets/build_sheet.py", "sheets/build_sheet.py")} (builds every sheet).</li>
-<li><b>Next:</b> run the sweep again with the drawn drag and mass, then choose between cutting drag (motor fairings), another wing or pack, or a shorter loiter target. The sheet's options are in {sheet("04_Propulsion_Battery_Energy", "Mission_Energy")} (lower rows).</li>
+<li><b>Then the requirements changed and the loop was run again.</b> The team asked for a 1.5 kg payload, 60 min at 65 km/h, 5 km, 8 kg all-up and hover thrust at least 2 × weight, and the structure moved to carbon. Same order: payload, then energy for 60 min at 65 km/h, then battery and lift motors, then the wing from the total mass. Result: with 1.5 kg on board it weighs {_CF['team']['m']:.1f} kg (more than 8 kg), and the lightest wing that meets endurance, range and speed is {_CF['pick']['S']:.2f} m² ({_CF['pick']['b']:.2f} m span, {_CF['pick']['m']:.1f} kg). Kept at 8 kg, the payload can be at most {_CF['max8']['payload_g']:.0f} g. Today's motors give {_CF['team']['tw_sl']:.2f} × weight, short of 2, so bigger lift motors are being compared. <a href="#carbon">Carbon redesign</a>, {_gh("analysis/cf_redesign.py", "analysis/cf_redesign.py")}, {_gh("analysis/lift_motor_tw.py", "analysis/lift_motor_tw.py")}.</li>
 </ol></section>"""
 calc_body = "".join([
     '<section class="lead"><h1>Calculations</h1><p>How we chose the size of the drone, then each check of the drawn design with the equation, our numbers and where it lives in the sheets. Sea level, standard day, unless noted.</p></section>',
