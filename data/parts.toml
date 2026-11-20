@@ -641,7 +641,6 @@ source = "WREKD product page, read 19 Nov"
 connects = [["battery", "XT90 to XT60 charge lead and the 6S balance lead"]]
 nodes = []
 
-
 # ---------- materials, wiring and hardware (not drawn in 3D; their mass is part of the CAD airframe)
 
 [[part]]
@@ -1167,19 +1166,3 @@ source = "cad/fab/m_pitot_bulkhead.py; mass from CAD volume × density × infill
 connects = [["airspeed", "holds"]]
 nodes = ["mount_pitot_bulkhead"]
 
-[[part]]
-id = "nozzle"
-name = "Prusa ObXidian 0.4 nozzle (only if needed)"
-system = "materials"
-qty = 1
-status = "buy"
-price = 52.9
-mass = 0
-buy = [
-  { store = "Prusa", link = "https://www.prusa3d.com/product/prusa-nozzle-obxidian-4/", price = "$52.90" },
-]
-job = "Hardened nozzle for printing carbon-filled filament, only if the club printer lacks one."
-why = ""
-source = "[V]; only if no hardened nozzle"
-connects = []
-nodes = []
