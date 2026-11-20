@@ -393,7 +393,7 @@
  },
  "spot_sensor": {
   "method": "modelled from drawing",
-  "source_url": "data/parts.toml (our design)",
+  "source_url": "https://github.com/guinterface/skyrunners-ridgeback/blob/main/data/parts.toml",
   "file": "assets/models/spot_sensor.glb",
   "license": "own model (CC0 for this repo)",
   "dims_mm": [
@@ -411,7 +411,7 @@
  },
  "nir_channel": {
   "method": "modelled from drawing",
-  "source_url": "data/parts.toml (our design)",
+  "source_url": "https://github.com/guinterface/skyrunners-ridgeback/blob/main/data/parts.toml",
   "file": "assets/models/nir_channel.glb",
   "license": "own model (CC0 for this repo)",
   "dims_mm": [
