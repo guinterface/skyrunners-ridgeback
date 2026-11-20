@@ -1,14 +1,14 @@
 [
 {
 "group": "Aircraft",
-"name": "Battery: 6S6P pack of Molicel P50B cells",
-"qty": 36,
-"unit": 8.99,
-"line": 323.64,
-"duty": 0.0,
-"store": "Liion Wholesale",
-"link": "https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor",
-"note": "Sheet 04, Battery_Options and Mission_Energy",
+"name": "Battery: ready-made 6S6P pack of Molicel P50B cells (Upgrade Energy RED V3, 30 Ah, XT90)",
+"qty": 1,
+"unit": 479,
+"line": 479,
+"duty": 0,
+"store": "Upgrade Energy",
+"link": "https://www.upgradeenergytech.com/products/red-6s6p-30000mah-molicel-p50b",
+"note": "Sheet 04, Battery_Options and Mission_Energy. Mass 2,720 g = 36 cells × 70 g × 1.08 [A] until the store weight is read.",
 "id": "battery"
 },
 {
@@ -190,18 +190,6 @@
 "link": "https://www.harfington.com/products/p-1479356",
 "note": "Mounts design 11-19 (data/mounts.json, MOUNTS.md); mass 60 g is our estimate [A]",
 "id": "mount_hardware"
-},
-{
-"group": "Aircraft",
-"name": "Pack BMS, nickel strip, wrap",
-"qty": 1,
-"unit": 50.0,
-"line": 50.0,
-"duty": 0.0,
-"store": "any",
-"link": "",
-"note": "[A]; spot welder needed (club or lab?)",
-"id": "pack_bms"
 },
 {
 "group": "Aircraft",
@@ -430,18 +418,6 @@
 "link": "",
 "note": "[A] check club/lab stock; was $120 before the mount hardware got its own store-priced row (11-19)",
 "id": "hardware"
-},
-{
-"group": "Aircraft",
-"name": "Prusa ObXidian 0.4 nozzle (only if needed)",
-"qty": 1,
-"unit": 52.9,
-"line": 52.9,
-"duty": 0.0,
-"store": "Prusa",
-"link": "https://www.prusa3d.com/product/prusa-nozzle-obxidian-4/",
-"note": "[V]; only if no hardened nozzle",
-"id": "nozzle"
 },
 {
 "group": "Shipping and fees",

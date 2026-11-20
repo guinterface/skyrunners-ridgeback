@@ -746,13 +746,13 @@ for cd0, e, note in ((0.025, 0.80, "first sizing, low drag"), (0.035, 0.80, "fir
 # =====================================================================================================
 ws = sheet("Battery_Options", [24, 6, 7, 7, 7, 8, 8, 9, 8, 9, 8, 8, 8, 9, 8, 8, 8, 9, 9, 40])
 title(ws, "Battery choice: same equations as Aero_Cruise / Lift_Hover / Mission_Energy, one row per pack",
-      "Pack mass = cells x cell mass x 1.08 (strip, BMS, wrap [A]). Mass of everything else = Mass_CG takeoff mass without the battery. CG shift not recomputed per row.")
+      "Pack mass = cells x cell mass x 1.08 (strip, BMS, wrap [A]); pack $ = loose cells + $50 to build it. The chosen row is the ready-made pack: its mass and price come from data/parts.toml. Mass of everything else = Mass_CG takeoff mass without the battery. CG shift not recomputed per row.")
 header(ws, ["Option", "P", "Ah/cell", "Wh/cell", "g/cell", "A rating", "$/cell", "Pack g", "Pack Wh", "Mass kg", "V_s m/s", "V m/s", "P_cr W", "P_hov W (SL)",
             "Loiter min (SL)", "T/W hot", "A/cell hot hover", "Pack $", "Passes all?", "Source / note"])
-OPTS = [("Molicel P50B 6S4P", 4, 5.0, part_mass("battery"), 60, part_price("battery"), "[V] liionwholesale.com 10-31; 70 g [S]; 60 A [S]"),
-        ("Molicel P50B 6S5P", 5, 5.0, part_mass("battery"), 60, part_price("battery"), "same cell"),
-        ("Molicel P50B 6S6P (chosen)", 6, 5.0, part_mass("battery"), 60, part_price("battery"), "same cell; chosen 11-02"),
-        ("Molicel P50B 6S7P", 7, 5.0, part_mass("battery"), 60, part_price("battery"), "same cell"),
+OPTS = [("Molicel P50B 6S4P", 4, 5.0, 70, 60, 8.99, "[V] liionwholesale.com 10-31 ($8.99 a loose cell); 70 g [S]; 60 A [S]"),
+        ("Molicel P50B 6S5P", 5, 5.0, 70, 60, 8.99, "same cell"),
+        ("Molicel P50B 6S6P (chosen)", 6, 5.0, 70, 60, 8.99, "same cell; chosen 11-02. Bought ready-made (11-19): pack $ and pack g come from the battery row of data/parts.toml"),
+        ("Molicel P50B 6S7P", 7, 5.0, 70, 60, 8.99, "same cell"),
         ("Samsung 50S 6S6P", 6, 5.0, 70, 25, 6.99, "[V] imrbatteries $6.99 10-31; 25 A rated, ~20 A continuous per Mooch [S]; voltage sag vs P50B NOT FOUND → bench test"),
         ("Samsung 50E 6S6P", 6, 4.9, 69, 9.8, 6.99, "[S] 9.8 A rating: too low for hover (rejected)")]
 b0 = ws._r
@@ -761,7 +761,9 @@ for name, P, ah, g_, amp, usd, src in OPTS:
     r = ws._r
     put(ws, r, 1, name); put(ws, r, 2, P, fill=INP, fmt="0"); put(ws, r, 3, ah, fill=INP, fmt="0.0")
     put(ws, r, 4, f"=C{r}*3.6", fill=CALC, fmt="0.0"); put(ws, r, 5, g_, fill=INP, fmt="0"); put(ws, r, 6, amp, fill=INP, fmt="0.0"); put(ws, r, 7, usd, fill=INP, fmt="$0.00")
-    put(ws, r, 8, f"=6*B{r}*E{r}*1.08", fill=CALC, fmt="#,##0"); put(ws, r, 9, f"=6*B{r}*D{r}", fill=CALC, fmt="0")
+    if "chosen" in name: put(ws, r, 8, part_mass("battery"), fill=INP, fmt="#,##0")   # ready-made pack mass, data/parts.toml
+    else: put(ws, r, 8, f"=6*B{r}*E{r}*1.08", fill=CALC, fmt="#,##0")
+    put(ws, r, 9, f"=6*B{r}*D{r}", fill=CALC, fmt="0")
     put(ws, r, 10, f"=({{m_nobat_g}}+H{r})/1000", fill=CALC, fmt="0.000")
     W = f"(J{r}*{{g}})"
     put(ws, r, 11, f"=SQRT(2*{W}/({{rho_sl}}*{{S}}*{{CLmax}}))", fill=CALC, fmt="0.00")
@@ -772,7 +774,8 @@ for name, P, ah, g_, amp, usd, src in OPTS:
     put(ws, r, 15, f"=(I{r}*{{soc}}*(1-{{reserve}})-N{r}*{{t_hov}}/3600-(M{r}+{W}*{{roc_plan}}/{{eta_push}})*({{h_climb}}/{{roc_plan}})/3600)/M{r}*60", fill=KEY, fmt="0")
     put(ws, r, 16, f"=4*{{Tmax_test}}/1000*{{g}}*({{V_load}}/{{V_test}})^2*{{rho_hot}}/{{rho_test}}/{W}", fill=CALC, fmt="0.00")
     put(ws, r, 17, f"=(4*EXP({{fit_c}}+{{fit_k}}*LN(J{r}*1000/4))*SQRT({{rho_test}}/{{rho_hot}})+{{P_av}})/{{V_load}}/B{r}", fill=CALC, fmt="0.0")
-    put(ws, r, 18, f"=6*B{r}*G{r}", fill=CALC, fmt="$#,##0")
+    if "chosen" in name: put(ws, r, 18, part_price("battery"), fill=INP, fmt="$#,##0")   # ready-made pack price, data/parts.toml
+    else: put(ws, r, 18, f"=6*B{r}*G{r}+50", fill=CALC, fmt="$#,##0")   # loose cells + about $50 BMS, strip, wrap [A]
     put(ws, r, 19, f'=IF(AND(O{r}>={{req_loiter}},P{r}>={{req_tw}},K{r}<={{req_stall}},Q{r}<=F{r}),"YES","NO")', fill=KEY, bold=True)
     put(ws, r, 20, src)
     bl = "https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor" if "P50B" in name else "https://imrbatteries.com/"
@@ -840,9 +843,9 @@ EL = [
      "ALPHA ESCs have no BEC [S]", "another ≥ 5 A regulator if out of stock"),
     ("Ruko R111S Remote ID", "FAA broadcast Remote ID", part_qty("remote_id"), "BUY", part_price("remote_id"), part_url("remote_id"), part_mass("remote_id"),
      "on the FAA accepted list (RID000001939) [V 10-31], cheapest found", "Dronetag Beacon $149"),
-    ("Molicel P50B 21700 cell", "battery 6S6P (Battery_Options)", part_qty("battery"), "BUY", part_price("battery"),
+    ("Ready-made 6S6P Molicel P50B pack", "battery (Battery_Options)", part_qty("battery"), "BUY", part_price("battery"),
      part_url("battery"), part_mass("battery"),
-     "best loiter per $ that passes every rule", "Samsung 50S $6.99 (bench test first)"),
+     "best loiter per $ that passes every rule; ready-made so no first-time pack build", "build it from 36 loose cells ($324 + about $50 BMS/strip/wrap + spot welder)"),
 ]
 e0 = ws._r
 for row in EL:
@@ -898,7 +901,7 @@ header(ws, ["Item", "Qty", "Unit $", "Line $", "Store", "China? 1/0", "Duty rate
 FLY = ("power", "lift", "cruise", "control", "surfaces", "airframe", "materials")
 BOM = []
 for pp_ in sorted((p_ for p_ in _PARTS if p_["system"] in FLY and p_["price"] > 0), key=lambda p_: FLY.index(p_["system"])):
-    qty = "={bat_S}*{bat_P}" if pp_["id"] == "battery" else (0 if pp_.get("order") == "have it" else pp_["qty"])
+    qty = 0 if pp_.get("order") == "have it" else pp_["qty"]
     BOM.append((pp_["name"], qty, pp_["price"], part_store(pp_["id"]), pp_["china"], pp_["duty"], part_url(pp_["id"]),
                 pp_["source"] + ("; already ours (order: have it)" if pp_.get("order") == "have it" else ""), pp_["id"]))
 BUY = []   # everything to buy, for the website's buy list (data/buy_list.json)
@@ -976,7 +979,7 @@ text_rows(ws, [
     ["Club leftovers for ASA / TPU / PETG", 83.00, "OPEN", "need < 100 g of each", "ask in #officers or the CHIP shelf", "[A]"],
     ["Hardware and epoxy from club / lab stock", 120.00, "OPEN", "", "check the bins before ordering", "[A]"],
     ["Skip the hardened nozzle", 52.90, "OPEN", "only if the CORE One already has one (PETG-CF wears brass)", "look at the nozzle marking", "[V] price"],
-    ["Samsung 50S cells instead of Molicel P50B", f"={part_qty('battery')}*({part_price('battery')}-6.99)", "OPEN, TEST", "voltage sag under 12 A per cell must be within 0.2 V of the P50B (else hot-day T/W drops below 1.5)", "bench: one 6S pack at hover current, log voltage + temperature", "[C] doc §4l"],
+    ["Build the pack from 36 Samsung 50S cells instead of buying it ready-made", f"={part_price('battery')}-(36*6.99+50)", "OPEN, TEST", "voltage sag under 12 A per cell must be within 0.2 V of the P50B (else hot-day T/W drops below 1.5)", "bench: one 6S pack at hover current, log voltage + temperature", "[C] doc §4l"],
     ["KST DS145MG servos instead of KST X10", f"={part_qty('servos')}*({part_price('servos')}-34.99)", "NOT RECOMMENDED", "margin 1.11 over need (X10 1.60); ships from China (+duty, 10-20 days)", "", "[C] mini_servo.md"],
     ["Buy motors + props in the US (no duty)", f"=ROUND({part_qty('motor_lift')}*{part_price('motor_lift')}*0.415+{part_qty('prop_lift')}*{part_price('prop_lift')}*0.375+{part_price('motor_pusher')}*0.415,0)", "OPEN", "only IR-LOCK found; out of stock since 10-30", "check IR-LOCK / United UAV stock", "[C] mini_duty.md"],
     ["Bambu PETG-CF from the Bambu US store", "=2*(31.99-19.99)", "UNVERIFIED", "$19.99 seen in a snippet, maybe a sale", "open the page", "[S]"],

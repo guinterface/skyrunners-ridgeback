@@ -27,21 +27,20 @@ materials = { name = "Materials, wiring and hardware", color = "#7d7466" }
 
 [[part]]
 id = "battery"
-name = "Battery: 6S6P pack of Molicel P50B cells"
+name = "Battery: ready-made 6S6P pack of Molicel P50B cells (Upgrade Energy RED V3, 30 Ah, XT90)"
 system = "power"
-qty = 36
-status = "buy (36 cells, pack built by us)"
-price = 8.99
-mass = 70
-size = "36 Molicel P50B cells, each 21.7 mm wide × 70.4 mm tall, standing in a 6 × 6 block: 140 × 135 × 75 mm with nickel strip, BMS and wrap"
+qty = 1
+status = "buy (ready-made pack)"
+price = 479
+mass = 2720
+size = "Store size not read yet. Our CAD block for 36 P50B cells (6 × 6, each 21.7 mm wide × 70.4 mm tall): 140 × 135 × 75 mm with strip, BMS and wrap. Check the store size fits the battery bay before ordering."
 buy = [
-  { store = "Liion Wholesale (36 cells, $8.99 each)", link = "https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor", price = "$323.64" },
-  { store = "IMR Batteries", link = "https://imrbatteries.com/products/molicel-21700-p50b-5000mah-60a-battery", price = "$9.99 each" },
+  { store = "Upgrade Energy (RED V3 6S6P 30 Ah P50B, XT90)", link = "https://www.upgradeenergytech.com/products/red-6s6p-30000mah-molicel-p50b", price = "$479 (seen in a search listing 19 Nov; the store blocks our page reader, so open the page and confirm price and weight)" },
 ]
 job = "Powers the drone: an estimated {flights_pack} survey flights per charge. Six cells in series give 21.6 V under load; six in parallel give 30 Ah."
-why = "648 Wh in 2.72 kg. In a hot-day hover each cell carries {Icell_hot} A, against a 60 A rating. It gives {tloit_sl} min of loiter with 20 % left, or {flights_pack} survey flights per charge."
-instead = "Samsung 50S ($6.99 a cell, $72 cheaper): voltage sag at our current not measured, so it needs a bench test first. Samsung 50E: 9.8 A rating, too low. A LiPo pack of the same mass would hold about 40 % less energy."
-source = "Sheet 04, Battery_Options and Mission_Energy"
+why = "648 Wh in about 2.72 kg. In a hot-day hover each cell carries {Icell_hot} A, against a 60 A rating. It gives {tloit_sl} min of loiter with 20 % left, or {flights_pack} survey flights per charge. Bought ready-made: about the same cost as building it (cells, BMS, strip, spot welder), without a first-time pack build."
+instead = "Build it ourselves from 36 loose P50B cells: $323.64 at Liion Wholesale (https://liionwholesale.com/products/molicel-npe-inr-21700-p50b-60a-5000mah-flat-top-21700-battery-authorized-distributor) plus about $50 for BMS, nickel strip and wrap, plus a spot welder; plan and safety steps in the team's battery-build notes. Samsung 50S cells ($6.99 each) need a voltage-sag bench test first. Samsung 50E: 9.8 A rating, too low. A LiPo pack of the same mass would hold about 40 % less energy."
+source = "Sheet 04, Battery_Options and Mission_Energy. Mass 2,720 g = 36 cells × 70 g × 1.08 [A] until the store weight is read."
 connects = [["pm07", "XT90 connector, two 14 AWG wires per pole"]]
 nodes = ["battery_6S6P_P50B"]
 
@@ -642,22 +641,6 @@ connects = [["battery", "XT90 to XT60 charge lead and the 6S balance lead"]]
 nodes = []
 
 # ---------- materials, wiring and hardware (not drawn in 3D; their mass is part of the CAD airframe)
-
-[[part]]
-id = "pack_bms"
-name = "Pack BMS, nickel strip, wrap"
-system = "materials"
-qty = 1
-status = "buy"
-price = 50.0
-mass = 0
-buy = []
-where = "any"
-job = "Turns the 36 cells into one 6S6P pack: BMS board, nickel strip between cells, insulation and wrap."
-why = ""
-source = "[A]; spot welder needed (club or lab?)"
-connects = []
-nodes = []
 
 [[part]]
 id = "tubes_main"
